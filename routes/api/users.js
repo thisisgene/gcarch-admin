@@ -86,7 +86,7 @@ router.post('/login', (req, res) => {
           { expiresIn: 60 * 60 * 24 },
           (err, token) => {
             res.json({
-              succes: true,
+              success: true,
               token: 'Bearer ' + token
             })
           }
@@ -99,7 +99,7 @@ router.post('/login', (req, res) => {
   })
 })
 
-// @route   POST api/users/current
+// @route   GET api/users/current
 // @desc    return current user
 // @access  Private
 router.get(

@@ -18,10 +18,16 @@ const ProjectSchema = new Schema({
   descriptionHtml: {
     type: String
   },
-  date: {
-    type: Date,
-    default: Date.now
+  lastEdited: {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users'
+    },
+    date: {
+      type: Date
+    }
   },
+
   images: [
     {
       originalName: {

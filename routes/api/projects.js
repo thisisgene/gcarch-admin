@@ -76,15 +76,16 @@ router.post(
   }
 )
 
-// @route   GET api/projects/:id
+// @route   GET api/projects/id/:id
 // @desc    Get project by id
 // @access  Private
 router.get(
-  '/:id',
+  '/id/*/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const errors = {}
     Project.findById(req.params.id)
+      .populate('lastEdited.user', ['name'])
       .then(project => {
         if (!project) {
           errors.noprojects = 'Kein Projekt mit dieser ID.'
@@ -92,7 +93,10 @@ router.get(
         }
         res.json(project)
       })
-      .catch(err => res.status(404).json(err))
+      .catch(err => {
+        errors.project = 'Projekt nicht gefunden.'
+        return res.status(404).json(errors)
+      })
   }
 )
 
@@ -137,6 +141,10 @@ router.post(
             projectFields.importanceOnGrid = body.importanceOnGrid
           if (body.sizeOnGrid) projectFields.sizeOnGrid = body.sizeOnGrid
           if (body.isVisible) projectFields.isVisible = body.isVisible
+          projectFields.lastEdited = {
+            user: req.user,
+            date: new Date()
+          }
           console.log(projectFields)
           Project.findByIdAndUpdate(
             req.params.id,
@@ -145,6 +153,22 @@ router.post(
           ).then(project => res.json(project))
         }
       })
+      .catch(err => {
+        errors.project = 'Projekt nicht gefunden.'
+        return res.status(404).json(errors)
+      })
+  }
+)
+
+// @route   GET api/projects/delete/:id
+// @desc    Mark project as deleted.
+// @access  Private
+router.get(
+  '/delete/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Project.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true })
+      .then(project => res.json(project))
       .catch(err => {
         errors.project = 'Projekt nicht gefunden.'
         return res.status(404).json(errors)
