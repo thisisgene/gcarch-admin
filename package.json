@@ -1,11 +1,14 @@
 {
-  "name": "devconnector",
+  "name": "gc_arch_admin",
   "version": "1.0.0",
-  "description": "Social network for developers",
+  "description": "Admin for GC Architektur",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Brad Traversy",
   "license": "MIT",
