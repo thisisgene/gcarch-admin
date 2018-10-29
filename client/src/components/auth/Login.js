@@ -1,7 +1,22 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import classnames from 'classnames'
+// import { loginUser } from '../../actions/authActions'
+
 import './Forms.css'
 
 class Login extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/dashboard')
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors })
+    }
+  }
+
   constructor() {
     super()
     this.state = {
@@ -10,17 +25,18 @@ class Login extends Component {
       errors: {}
     }
   }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
   onSubmit = e => {
     e.preventDefault()
 
-    const newUser = {
+    const userData = {
       email: this.state.email,
       password: this.state.password
     }
-    console.log(newUser)
+    this.props.loginUser(userData)
   }
 
   dateSwitch() {
@@ -40,6 +56,8 @@ class Login extends Component {
   }
 
   render() {
+    const { errors } = this.state
+
     return (
       <div>
         <div className="login">
@@ -56,7 +74,9 @@ class Login extends Component {
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group">
                     <input
-                      className="form-control"
+                      className={classnames('form-control', {
+                        'is-invalid': errors.email
+                      })}
                       placeholder="E-mail Adresse"
                       name="email"
                       type="email"
@@ -65,10 +85,15 @@ class Login extends Component {
 
                       // error={errors.email}
                     />
+                    {errors.email && (
+                      <div className="invalid-feedback">{errors.email}</div>
+                    )}
                   </div>
                   <div className="form-group">
                     <input
-                      className="form-control"
+                      className={classnames('form-control', {
+                        'is-invalid': errors.password
+                      })}
                       placeholder="Passwort"
                       name="password"
                       type="password"
@@ -76,6 +101,9 @@ class Login extends Component {
                       onChange={this.onChange}
                       // error={errors.password}
                     />
+                    {errors.password && (
+                      <div className="invalid-feedback">{errors.password}</div>
+                    )}
                   </div>
                   <input
                     type="submit"
@@ -91,4 +119,19 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+})
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+// export default connect(
+//   mapStateToProps,
+//   { loginUser }
+// )(Login)
 export default Login
