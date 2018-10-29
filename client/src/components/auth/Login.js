@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Forms.css'
 
 class Login extends Component {
   constructor() {
@@ -44,15 +45,19 @@ class Login extends Component {
         <div className="login">
           <div className="container">
             <div className="row">
-              <div className="col-md-8 m-auto">
-                <h2 className="display-4 text-center">{this.dateSwitch()}</h2>
+              <div className="col-md-6 m-auto form-dark">
+                <div className="title-container">
+                  <p className="lead">{this.dateSwitch()}</p>
 
-                <p className="lead text-center">Zum Beginnen bite einloggen</p>
+                  <p className="small text-muted">
+                    Zum Beginnen bite einloggen
+                  </p>
+                </div>
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group">
                     <input
                       className="form-control"
-                      placeholder="Email Address"
+                      placeholder="E-mail Adresse"
                       name="email"
                       type="email"
                       value={this.state.email}
@@ -64,7 +69,7 @@ class Login extends Component {
                   <div className="form-group">
                     <input
                       className="form-control"
-                      placeholder="Password"
+                      placeholder="Passwort"
                       name="password"
                       type="password"
                       value={this.state.password}

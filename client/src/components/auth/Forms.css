@@ -1,0 +1,35 @@
+.container {
+  padding: 1rem;
+}
+
+.form-dark {
+  /* margin-top: 2rem; */
+  padding: 0;
+  background: #3a3a3a;
+  box-sizing: border-box;
+  max-width: 400px;
+}
+
+.title-container {
+  width: 100%;
+  padding: 1.4rem 2rem;
+  background: #333333;
+}
+
+.form-dark input:not([type='submit']) {
+  background: #333333;
+  border: none;
+  color: #ccc;
+}
+
+.form-dark input.is-invalid {
+  border: 1px solid rgba(161, 9, 9, 0.7);
+}
+
+form {
+  padding: 2rem;
+}
+
+p {
+  margin: 0;
+}
