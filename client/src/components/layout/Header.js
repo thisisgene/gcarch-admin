@@ -1,8 +1,74 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { logoutUser } from '../../actions/authActions'
 
 class Header extends Component {
+  onLogoutClick(e) {
+    e.preventDefault()
+    this.props.logoutUser()
+  }
+
   render() {
+    const { isAuthenticated, user } = this.props.auth
+
+    const authLinks = (
+      <ul className="nav justify-content-end">
+        <li className="nav-item">
+          <Link className="nav-link" to="/settings">
+            <i className="fas fa-cog" />
+          </Link>
+        </li>
+        <li className="nav-item">
+          <div className="dropdown">
+            <button
+              className="btn btn-link dropdown-toggle"
+              id="dLabel"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {user.name}
+            </button>
+            <div className="dropdown-menu" aria-labelledby="dLabel">
+              <a className="dropdown-item" href="/">
+                Action
+              </a>
+              <a className="dropdown-item" href="/">
+                Another action
+              </a>
+              <a className="dropdown-item" href="/">
+                Something else here
+              </a>
+              <div className="dropdown-divider" />
+              <a className="dropdown-item" href="/">
+                Separated link
+              </a>
+            </div>
+          </div>
+        </li>
+        <li className="nav-item">
+          <button
+            onClick={this.onLogoutClick.bind(this)}
+            className="btn btn-link"
+          >
+            <i className="fas fa-sign-out-alt" />
+          </button>
+        </li>
+      </ul>
+    )
+
+    const guestLinks = (
+      <ul className="nav justify-content-end">
+        <li className="nav-item">
+          <Link className="nav-link" to="/login">
+            <i className="fas fa-sign-in-alt" />
+          </Link>
+        </li>
+      </ul>
+    )
+
     return (
       <div>
         <nav className="navbar navbar-dark bg-dark">
@@ -16,52 +82,23 @@ class Header extends Component {
             />
             Admin
           </Link>
-          <ul className="nav justify-content-end">
-            <li className="nav-item">
-              <Link className="nav-link" to="/settings">
-                <i className="fas fa-cog" />
-              </Link>
-            </li>
-            <li className="nav-item">
-              <div className="dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  id="dLabel"
-                  href="/"
-                  data-toggle="dropdown"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  user.name
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dLabel">
-                  <a className="dropdown-item" href="/">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="/">
-                    Another action
-                  </a>
-                  <a className="dropdown-item" href="/">
-                    Something else here
-                  </a>
-                  <div className="dropdown-divider" />
-                  <a className="dropdown-item" href="/">
-                    Separated link
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/logout">
-                <i className="fas fa-sign-out-alt" />
-              </Link>
-            </li>
-          </ul>
+          {isAuthenticated ? authLinks : guestLinks}
         </nav>
       </div>
     )
   }
 }
 
-export default Header
+Header.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Header)

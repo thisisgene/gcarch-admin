@@ -2,11 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
-// import { loginUser } from '../../actions/authActions'
+import { loginUser } from '../../actions/authActions'
 
 import './Forms.css'
 
 class Login extends Component {
+  constructor() {
+    super()
+    this.state = {
+      email: '',
+      password: '',
+      errors: {}
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard')
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard')
@@ -14,15 +29,6 @@ class Login extends Component {
 
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors })
-    }
-  }
-
-  constructor() {
-    super()
-    this.state = {
-      email: '',
-      password: '',
-      errors: {}
     }
   }
 
@@ -130,8 +136,7 @@ Login.propTypes = {
   errors: PropTypes.object.isRequired
 }
 
-// export default connect(
-//   mapStateToProps,
-//   { loginUser }
-// )(Login)
-export default Login
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login)
