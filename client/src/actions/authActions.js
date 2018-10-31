@@ -49,9 +49,10 @@ export const setCurrentUser = decoded => {
   }
 }
 
-export const getAllUsers = () => dispatch => {
-  axios.get('/api/users/all')
-}
+// TODO: get all users
+// export const getAllUsers = () => dispatch => {
+//   axios.get('/api/users/all')
+// }
 
 // Log user out
 export const logoutUser = () => dispatch => {

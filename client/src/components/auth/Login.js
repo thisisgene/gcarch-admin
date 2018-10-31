@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import classnames from 'classnames'
 import { loginUser } from '../../actions/authActions'
+import TextFieldGroup from '../common/TextFieldGroup'
 
 import './Forms.css'
 
@@ -78,39 +78,22 @@ class Login extends Component {
                   </p>
                 </div>
                 <form onSubmit={this.onSubmit}>
-                  <div className="form-group">
-                    <input
-                      className={classnames('form-control', {
-                        'is-invalid': errors.email
-                      })}
-                      placeholder="E-mail Adresse"
-                      name="email"
-                      type="email"
-                      value={this.state.email}
-                      onChange={this.onChange}
-
-                      // error={errors.email}
-                    />
-                    {errors.email && (
-                      <div className="invalid-feedback">{errors.email}</div>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <input
-                      className={classnames('form-control', {
-                        'is-invalid': errors.password
-                      })}
-                      placeholder="Passwort"
-                      name="password"
-                      type="password"
-                      value={this.state.password}
-                      onChange={this.onChange}
-                      // error={errors.password}
-                    />
-                    {errors.password && (
-                      <div className="invalid-feedback">{errors.password}</div>
-                    )}
-                  </div>
+                  <TextFieldGroup
+                    placeholder="E-mail Adresse"
+                    name="email"
+                    type="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    error={errors.email}
+                  />
+                  <TextFieldGroup
+                    placeholder="Passwort"
+                    name="password"
+                    type="password"
+                    value={this.state.password}
+                    onChange={this.onChange}
+                    error={errors.password}
+                  />
                   <input
                     type="submit"
                     className="btn btn-info btn-block mt-4"

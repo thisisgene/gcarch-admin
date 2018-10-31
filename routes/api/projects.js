@@ -25,12 +25,12 @@ router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    // res.json({ msg: 'Jubidu' })
     const errors = {}
     Project.find()
       .then(projects => {
-        if (projects.length === 0) {
-          errors.noprojects = 'Noch keine Projekte.'
-          return res.status(404).json(errors.noprojects)
+        if (projects === undefined || projects.length === 0) {
+          return res.json({ noprojects: 'Noch keine Projekte.' })
         }
         res.json(projects)
       })

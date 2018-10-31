@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../actions/authActions'
+import { clearProjects } from '../../actions/projectActions'
 
 class Header extends Component {
   onLogoutClick(e) {
     e.preventDefault()
+    this.props.clearProjects()
     this.props.logoutUser()
   }
 
@@ -90,6 +92,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
+  clearProjects: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 }
@@ -100,5 +103,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { clearProjects, logoutUser }
 )(Header)
