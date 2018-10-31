@@ -80,9 +80,10 @@ router.post(
 // @desc    Get project by id
 // @access  Private
 router.get(
-  '/id/*/:id',
+  '/id/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    console.log('jasdh')
     const errors = {}
     Project.findById(req.params.id)
       .populate('lastEdited.user', ['name'])
@@ -91,6 +92,7 @@ router.get(
           errors.noprojects = 'Kein Projekt mit dieser ID.'
           return res.status(404).json(errors.noprojects)
         }
+        console.log(project)
         res.json(project)
       })
       .catch(err => {

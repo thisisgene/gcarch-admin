@@ -1,4 +1,9 @@
-import { GET_PROJECTS, PROJECT_LOADING, CLEAR_PROJECTS } from '../actions/types'
+import {
+  GET_PROJECTS,
+  PROJECT_LOADING,
+  GET_PROJECT,
+  CLEAR_PROJECTS
+} from '../actions/types'
 
 const initialState = {
   project: null,
@@ -17,6 +22,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         projects: action.payload,
+        loading: false
+      }
+    case GET_PROJECT:
+      return {
+        ...state,
+        project: action.payload,
         loading: false
       }
     case CLEAR_PROJECTS:
