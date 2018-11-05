@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 const passport = require('passport')
 const marked = require('marked')
 
@@ -83,7 +82,6 @@ router.get(
   '/id/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    console.log('jasdh')
     const errors = {}
     Project.findById(req.params.id)
       .populate('lastEdited.user', ['name'])
@@ -92,7 +90,6 @@ router.get(
           errors.noprojects = 'Kein Projekt mit dieser ID.'
           return res.status(404).json(errors.noprojects)
         }
-        console.log(project)
         res.json(project)
       })
       .catch(err => {
@@ -147,7 +144,6 @@ router.post(
             user: req.user,
             date: new Date()
           }
-          console.log(projectFields)
           Project.findByIdAndUpdate(
             req.params.id,
             { $set: projectFields },
@@ -175,5 +171,20 @@ router.get(
         errors.project = 'Projekt nicht gefunden.'
         return res.status(404).json(errors)
       })
+  }
+)
+
+// @route   POST api/projects/:id/img_upload
+// @desc    Upload images for specific project by id.
+// @access  Private
+router.post(
+  '/:id/img_upload',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    // FIXME: Files should be iterable!
+    const files = req.files
+    files.map(file => {
+      console.log(file)
+    })
   }
 )

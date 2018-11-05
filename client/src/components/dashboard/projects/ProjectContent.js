@@ -7,6 +7,7 @@ import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
 
 import Spinner from '../../common/Spinner'
+import ImageUpload from '../ImageUpload'
 
 class ProjectContent extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class ProjectContent extends Component {
             }
             onChange={this.onChange}
           />
+          <ImageUpload props={this.props} />
         </div>
       )
     } else {
