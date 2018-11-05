@@ -1,36 +1,33 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getProjectById } from '../../actions/projectActions'
+import { getProjectById } from '../../../actions/projectActions'
 
-import TextareaFieldGroup from '../common/TextareaFieldGroup'
+import TextFieldGroup from '../../common/TextFieldGroup'
+import TextareaFieldGroup from '../../common/TextareaFieldGroup'
 
-import Spinner from '../common/Spinner'
+import Spinner from '../../common/Spinner'
 
 class ProjectContent extends Component {
   constructor(props) {
-    console.log(props)
+    // console.log(props)
     super()
     this.state = {
       description: '',
+      project: {},
       errors: {}
     }
   }
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
-
-  componentWillReceiveProps(nextProps) {
-    const { project, loading } = nextProps.project
-
-    if (project && project.descriptionMarkdown) {
-      this.setState({ description: project.descriptionMarkdown })
-    } else {
-      this.setState({ description: '' })
-    }
+  componentDidMount() {
+    const id = this.props.match.params.id
+    this.props.getProjectById(id)
   }
+
   render() {
-    const { user } = this.props.auth
+    // const { user } = this.props.auth
     const { project, loading } = this.props.project
 
     let projectContent
@@ -40,9 +37,16 @@ class ProjectContent extends Component {
       projectContent = (
         <div>
           <p>{project.name}</p>
+          <TextFieldGroup
+            name="title"
+            value={project.title}
+            onChange={this.onChange}
+          />
           <TextareaFieldGroup
             name="description"
-            value={this.state.description}
+            value={
+              project.descriptionMarkdown ? project.descriptionMarkdown : ''
+            }
             onChange={this.onChange}
           />
         </div>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { getAllProjects, getProjectById } from '../../actions/projectActions'
+import { NavLink, withRouter } from 'react-router-dom'
+import { getAllProjects, getProjectById } from '../../../actions/projectActions'
 
-import Spinner from '../common/Spinner'
+import Spinner from '../../common/Spinner'
 
 class ProjectList extends Component {
   componentDidMount() {
@@ -16,9 +16,8 @@ class ProjectList extends Component {
   }
 
   render() {
-    const { user } = this.props.auth
+    // const { user } = this.props.auth
     const { projects, loading } = this.props.project
-
     let projectListContent
     // let projectContent
 
@@ -40,14 +39,15 @@ class ProjectList extends Component {
                 key={i}
                 onClick={() => this.props.getProjectById(projects[i]._id)}
               >
-                {/* <Link
+                <NavLink
                   to={{
-                    pathname: 'dashboard/project/' + projects[i]._id
+                    pathname: '/projects/' + projects[i]._id
                   }}
                   params={{ id: projects[i]._id }}
-                > */}
-                {projects[i].name}
-                {/* </Link> */}
+                  activeClassName="active"
+                >
+                  {projects[i].name}
+                </NavLink>
               </li>
             )
           }
@@ -83,7 +83,9 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(
-  mapStateToProps,
-  { getAllProjects, getProjectById }
-)(ProjectList)
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getAllProjects, getProjectById }
+  )(ProjectList)
+)

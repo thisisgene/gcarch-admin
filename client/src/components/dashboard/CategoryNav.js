@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import CategoryNav from './CategoryNav'
+import { NavLink } from 'react-router-dom'
 
 class Dashboard extends Component {
   render() {
@@ -9,8 +9,12 @@ class Dashboard extends Component {
 
     return (
       <div className="dashboard">
-        <h1>Hello</h1>
-        <CategoryNav />
+        <NavLink activeClassName="active" to="/projects">
+          Projects
+        </NavLink>
+        <NavLink activeClassName="active" to="/news">
+          News
+        </NavLink>
       </div>
     )
   }

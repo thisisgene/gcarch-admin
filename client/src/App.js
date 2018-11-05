@@ -12,13 +12,12 @@ import store from './store'
 import PrivateRoute from './components/common/PrivateRoute'
 
 import Header from './components/layout/Header'
-import Landing from './components/layout/Landing'
 import Footer from './components/layout/Footer'
 import Login from './components/auth/Login'
 import Settings from './components/auth/Settings'
 import Dashboard from './components/dashboard/Dashboard'
-import ProjectList from './components/dashboard/ProjectList'
-import ProjectContent from './components/dashboard/ProjectContent'
+import Projects from './components/dashboard/projects/Projects'
+// import News from './components/dashboard/news/News'
 
 import './App.css'
 
@@ -50,17 +49,14 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header />
-            <Route exact path="/" component={Landing} />
+            {/* <Route exact path="/" component={Landing} /> */}
+            <PrivateRoute path="/" component={Dashboard} />
             <div className="container">
               <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/settings" component={Settings} />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/projectlist" component={ProjectList} />
-              {/* <PrivateRoute
-                exact
-                path="/project/:id"
-                component={ProjectContent}
-              /> */}
+
+              <PrivateRoute path="/projects" component={Projects} />
+              {/* <PrivateRoute path="/news" component={News} /> */}
             </div>
             <Footer />
           </div>
