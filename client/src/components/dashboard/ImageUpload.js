@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { uploadImages } from '../../actions/imageActions'
 
@@ -12,17 +11,16 @@ class ImageUpload extends Component {
       id: ''
     }
   }
+
   componentDidMount() {
-    // FIXME: setState for ID
-    if (this.props.match) {
-      this.setState({ id: this.props.match.params.id })
-      console.log(this.state.id)
+    if (this.props) {
+      this.setState({ id: this.props.project._id })
     }
   }
+
   onDrop = files => {
-    this.setState({
-      files
-    })
+    console.log(files)
+    this.setState({ files: files })
     this.props.uploadImages(files, this.state.id, 'project')
   }
 
@@ -73,18 +71,19 @@ class ImageUpload extends Component {
   }
 }
 
-ImageUpload.propTypes = {
-  uploadImages: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-}
+// ImageUpload.propTypes = {
+//   uploadImages: PropTypes.func.isRequired,
+//   auth: PropTypes.object.isRequired,
+//   errors: PropTypes.object.isRequired
+// }
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
-})
+// const mapStateToProps = state => ({
+//   auth: state.auth,
+//   errors: state.errors
+// })
 
 export default connect(
-  mapStateToProps,
+  null,
   { uploadImages }
 )(ImageUpload)
+// export default ImageUpload

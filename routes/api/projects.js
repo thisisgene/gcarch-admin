@@ -174,17 +174,37 @@ router.get(
   }
 )
 
-// @route   POST api/projects/:id/img_upload
+// @route   POST api/projects/img_upload/:id
 // @desc    Upload images for specific project by id.
 // @access  Private
 router.post(
-  '/:id/img_upload',
+  '/image_upload',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    // FIXME: Files should be iterable!
-    const files = req.files
-    files.map(file => {
-      console.log(file)
-    })
+    const file = req.files.file
+    const body = req.body
+    const newImage = {
+      originalName: body.name
+    }
+    Project.findByIdAndUpdate(
+      body.id,
+      { $push: { images: newImage } },
+      { safe: true, new: true }
+    )
+      .then(project => {
+        file.mv(`public/${body.id}/${req.body.name}`, function(err) {
+          if (err) {
+            console.log(err)
+            return res.status(500).send(err)
+          }
+
+          // res.json({ file: `public/${body.id}/${req.body.name}` })
+        })
+        res.json(project)
+      })
+      .catch(err => {
+        errors.project = 'Projekt nicht gefunden.'
+        return res.status(404).json(errors)
+      })
   }
 )

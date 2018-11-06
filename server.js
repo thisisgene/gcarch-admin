@@ -16,7 +16,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // FileUpload middleware
-app.use(fileUpload())
+app.use(
+  fileUpload({
+    createParentPath: true,
+    safeFileNames: true,
+    preserveExtension: true
+  })
+)
+app.use('/public', express.static(__dirname + '/public'))
 
 // DB Config
 const db = require('./config/keys').mongoURI

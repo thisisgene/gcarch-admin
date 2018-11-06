@@ -8,6 +8,7 @@ import TextareaFieldGroup from '../../common/TextareaFieldGroup'
 
 import Spinner from '../../common/Spinner'
 import ImageUpload from '../ImageUpload'
+import ImageList from '../ImageList'
 
 class ProjectContent extends Component {
   constructor(props) {
@@ -50,42 +51,13 @@ class ProjectContent extends Component {
             }
             onChange={this.onChange}
           />
-          <ImageUpload props={this.props} />
+          <ImageUpload project={this.props.project.project} />
+          <ImageList project={this.props.project.project} />
         </div>
       )
     } else {
       projectContent = <p>Kein Projekt gewählt</p>
     }
-
-    // if (projects === null || loading) {
-    //   projectListContent = <Spinner />
-    // } else {
-    //   if (projects.noprojects) {
-    //     projectListContent = (
-    //       <div>
-    //         <p>{projects.noprojects}</p>
-    //       </div>
-    //     )
-    //   } else {
-    //     let projectList = []
-    //     for (let i = 0; i < projects.length; i++) {
-    //       if (!projects[i].isDeleted) {
-    //         projectList.push(
-    //           <li key={i}>
-    //             <Link to="/project" params={{ id: projects[i]._id }} />
-    //             {projects[i].name}
-    //           </li>
-    //         )
-    //       }
-    //     }
-    //     projectListContent = (
-    //       <div>
-    //         <p>Projekte:</p>
-    //         <ul>{projectList}</ul>
-    //       </div>
-    //     )
-    //   }
-    // }
 
     return (
       <div className="project-list container">
