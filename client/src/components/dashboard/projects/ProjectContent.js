@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProjectById } from '../../../actions/projectActions'
+import { withRouter } from 'react-router-dom'
 
 import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
@@ -52,7 +53,7 @@ class ProjectContent extends Component {
             onChange={this.onChange}
           />
           <ImageUpload project={this.props.project.project} />
-          <ImageList project={this.props.project.project} />
+          <ImageList project={this.props.project} />
         </div>
       )
     } else {

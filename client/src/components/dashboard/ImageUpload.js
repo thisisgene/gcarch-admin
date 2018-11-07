@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
 import { uploadImages } from '../../actions/imageActions'
 
 class ImageUpload extends Component {
@@ -56,7 +58,7 @@ class ImageUpload extends Component {
             }}
           </Dropzone>
         </div>
-        <aside>
+        {/* <aside>
           <h2>Dropped files</h2>
           <ul>
             {this.state.files.map(f => (
@@ -65,7 +67,7 @@ class ImageUpload extends Component {
               </li>
             ))}
           </ul>
-        </aside>
+        </aside> */}
       </div>
     )
   }
@@ -74,11 +76,13 @@ class ImageUpload extends Component {
 // ImageUpload.propTypes = {
 //   uploadImages: PropTypes.func.isRequired,
 //   auth: PropTypes.object.isRequired,
+//   project: PropTypes.object.isRequired,
 //   errors: PropTypes.object.isRequired
-// }
+//
 
 // const mapStateToProps = state => ({
 //   auth: state.auth,
+//   project: state.project,
 //   errors: state.errors
 // })
 

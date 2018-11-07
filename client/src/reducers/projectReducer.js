@@ -1,14 +1,18 @@
 import {
   GET_PROJECTS,
   PROJECT_LOADING,
+  SET_WAITING,
   GET_PROJECT,
-  CLEAR_PROJECTS
+  CLEAR_PROJECTS,
+  UPLOAD_IMAGES,
+  DELETE_IMAGE
 } from '../actions/types'
 
 const initialState = {
   project: null,
   projects: null,
-  loading: false
+  loading: false,
+  waiting: false
 }
 
 export default function(state = initialState, action) {
@@ -17,6 +21,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      }
+    case SET_WAITING:
+      return {
+        ...state,
+        waiting: true
       }
     case GET_PROJECTS:
       return {
@@ -35,6 +44,19 @@ export default function(state = initialState, action) {
         ...state,
         project: null,
         projects: null
+      }
+    case UPLOAD_IMAGES:
+      return {
+        ...state,
+        project: action.payload,
+        loading: false
+      }
+    case DELETE_IMAGE:
+      console.log(action.payload)
+      return {
+        ...state,
+        project: action.payload,
+        waiting: false
       }
     default:
       return state

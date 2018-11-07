@@ -208,3 +208,33 @@ router.post(
       })
   }
 )
+
+// @route   GET api/projects/delete_image/:id
+// @desc    Delete image by id.
+// @access  Private
+router.get(
+  '/delete_image/:projectid/:imgid',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const projectId = req.params.projectid
+    const imgId = req.params.imgid
+    // console.log(projectId)
+    Project.findById(projectId)
+      .then(project => {
+        project.images.forEach(img => {
+          if (img._id == imgId) {
+            img.isDeleted = true
+          }
+        })
+        project.save(err => {
+          if (err) res.send(err)
+          else {
+            res.json(project)
+          }
+        })
+      })
+      .catch(err => {
+        res.json(err)
+      })
+  }
+)
