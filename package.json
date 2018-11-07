@@ -4,11 +4,13 @@
   "description": "Admin for GC Architektur",
   "main": "server.js",
   "scripts": {
+    "admin-install": "npm install --prefix admin",
     "client-install": "npm install --prefix client",
     "start": "nodemon server.js",
     "server": "nodemon server.js",
+    "admin": "npm start --prefix admin",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run admin\" \"npm run client\""
   },
   "author": "Serious Pigeon",
   "license": "MIT",

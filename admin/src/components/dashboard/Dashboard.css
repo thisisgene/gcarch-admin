@@ -30,6 +30,11 @@
   border-bottom-left-radius: 7px;
   border-top-left-radius: 7px;
 }
+.category-nav--link:hover {
+  text-decoration: none;
+  color: inherit;
+  background: #555;
+}
 .category-nav > .active {
   background: #ffc350;
   color: #191919;
