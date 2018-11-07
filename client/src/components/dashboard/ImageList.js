@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { deleteImage } from '../../actions/imageActions'
 
@@ -9,8 +8,13 @@ class ImageList extends Component {
   constructor() {
     super()
     this.state = {
-      project: []
+      project: [],
+      description: ''
     }
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   onClickDelete = e => {
@@ -28,21 +32,33 @@ class ImageList extends Component {
         if (!img.isDeleted && img.isVisible) {
           let imgSrc = `/public/${project._id}/${img.originalName}`
           imageList.push(
-            <li
+            <tr
               key={img._id}
               style={waiting ? { opacity: '.5' } : { opacity: '1' }}
             >
-              <img src={imgSrc} alt="" style={{ width: '60px' }} />
-              {img.originalName}
-              <button
-                className="btn btn-link"
-                onClick={this.onClickDelete}
-                data-img_id={img._id}
-                data-project_id={project._id}
-              >
-                <i className="fa fa-minus-circle" />
-              </button>
-            </li>
+              <td>
+                <img src={imgSrc} alt="" style={{ width: '60px' }} />
+              </td>
+              <td>
+                <input
+                  name="description"
+                  className="form-control dark-input"
+                  type="text"
+                  value={this.state.description}
+                  onChange={this.onChange}
+                />
+              </td>
+              <td>
+                <button
+                  className="btn btn-link"
+                  onClick={this.onClickDelete}
+                  data-img_id={img._id}
+                  data-project_id={project._id}
+                >
+                  <i className="fa fa-minus-circle" />
+                </button>
+              </td>
+            </tr>
           )
         }
       }
@@ -52,8 +68,10 @@ class ImageList extends Component {
 
   render() {
     return (
-      <div>
-        <ul>{this.getAllImages()}</ul>
+      <div className="image-list">
+        <table className="image-table">
+          <tbody>{this.getAllImages()}</tbody>
+        </table>
       </div>
     )
   }

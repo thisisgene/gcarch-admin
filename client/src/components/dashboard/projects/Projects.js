@@ -22,7 +22,6 @@ class Projects extends Component {
           props={this.props}
           component={ProjectContent}
         />
-        {/* <ProjectContent props={this.props} /> */}
       </div>
     )
   }

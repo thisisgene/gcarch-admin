@@ -8,11 +8,19 @@ class Dashboard extends Component {
     // const { user } = this.props.auth
 
     return (
-      <div className="dashboard">
-        <NavLink activeClassName="active" to="/projects">
+      <div className="category-nav">
+        <NavLink
+          className="category-nav--link"
+          activeClassName="active"
+          to="/projects"
+        >
           Projects
         </NavLink>
-        <NavLink activeClassName="active" to="/news">
+        <NavLink
+          className="category-nav--link"
+          activeClassName="active"
+          to="/news"
+        >
           News
         </NavLink>
       </div>

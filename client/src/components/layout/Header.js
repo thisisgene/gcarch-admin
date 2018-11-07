@@ -72,7 +72,7 @@ class Header extends Component {
     )
 
     return (
-      <div>
+      <div className="header">
         <nav className="navbar navbar-dark bg-dark">
           <Link className="navbar-brand" to="/">
             <img

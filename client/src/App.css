@@ -1,4 +1,21 @@
 body {
-  background: #1e1e1e;
+  background: #2e3034;
   color: white;
+}
+
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.header .navbar {
+  background: #36373c !important;
+}
+
+.footer {
+  background: #36373c !important;
 }

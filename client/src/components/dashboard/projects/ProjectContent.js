@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProjectById } from '../../../actions/projectActions'
-import { withRouter } from 'react-router-dom'
 
 import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
@@ -13,7 +12,6 @@ import ImageList from '../ImageList'
 
 class ProjectContent extends Component {
   constructor(props) {
-    // console.log(props)
     super()
     this.state = {
       description: '',
@@ -29,6 +27,8 @@ class ProjectContent extends Component {
     this.props.getProjectById(id)
   }
 
+  // FIXME: Input onChange and value .. use redux-form !?
+
   render() {
     // const { user } = this.props.auth
     const { project, loading } = this.props.project
@@ -38,35 +38,30 @@ class ProjectContent extends Component {
       projectContent = <Spinner />
     } else if (project) {
       projectContent = (
-        <div>
-          <p>{project.name}</p>
-          <TextFieldGroup
-            name="title"
-            value={project.title}
-            onChange={this.onChange}
-          />
-          <TextareaFieldGroup
-            name="description"
-            value={
-              project.descriptionMarkdown ? project.descriptionMarkdown : ''
-            }
-            onChange={this.onChange}
-          />
-          <ImageUpload project={this.props.project.project} />
-          <ImageList project={this.props.project} />
+        <div className="project-content-container">
+          <div className="project-text">
+            <TextFieldGroup
+              name="title"
+              value={project.title}
+              onChange={this.onChange}
+            />
+            <TextareaFieldGroup
+              name="description"
+              value={this.state.description}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="project-images">
+            <ImageUpload project={this.props.project.project} />
+            <ImageList project={this.props.project} />
+          </div>
         </div>
       )
     } else {
       projectContent = <p>Kein Projekt gewählt</p>
     }
 
-    return (
-      <div className="project-list container">
-        <div className="row">
-          <div className="col-md-12">{projectContent}</div>
-        </div>
-      </div>
-    )
+    return <div className="project-content container">{projectContent}</div>
   }
 }
 

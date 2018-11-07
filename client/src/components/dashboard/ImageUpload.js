@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 
 import { uploadImages } from '../../actions/imageActions'
 
@@ -37,6 +36,7 @@ class ImageUpload extends Component {
       <div>
         <div className="dropzone">
           <Dropzone
+            className={'dropzone-inner'}
             accept="image/*"
             onDrop={this.onDrop}
             onFileDialogCancel={this.onCancel}
@@ -52,9 +52,18 @@ class ImageUpload extends Component {
                 return 'This file is authorized'
               }
               if (isDragReject) {
-                return 'This file is not authorized'
+                return (
+                  <p className="small">
+                    Ungültiges Format. Nur Bilddateien erlaubt.
+                  </p>
+                )
               }
-              return 'Try dropping some files.'
+              return (
+                <p>
+                  <i className="dropzone-image fa fa-image" /> Bilder hier
+                  hochladen.
+                </p>
+              )
             }}
           </Dropzone>
         </div>

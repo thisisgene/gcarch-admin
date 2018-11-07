@@ -37,7 +37,7 @@ class ProjectList extends Component {
             projectList.push(
               <li
                 key={i}
-                onClick={() => this.props.getProjectById(projects[i]._id)}
+                //
               >
                 <NavLink
                   to={{
@@ -45,6 +45,7 @@ class ProjectList extends Component {
                   }}
                   params={{ id: projects[i]._id }}
                   activeClassName="active"
+                  onClick={() => this.props.getProjectById(projects[i]._id)}
                 >
                   {projects[i].name}
                 </NavLink>
@@ -54,7 +55,23 @@ class ProjectList extends Component {
         }
         projectListContent = (
           <div>
-            <p>Projekte:</p>
+            <select className="custom-select dark-input">
+              <option value="1">Training</option>
+              <option value="2">Paining</option>
+            </select>
+            <div className="input-group dark-group">
+              <input
+                type="text"
+                className="form-control dark-input"
+                placeholder="Neues Projekt"
+              />
+              <div className="input-group-append dark-append">
+                <button className="btn btn-outline-secondary" type="button">
+                  <i className="fa fa-plus-circle" />
+                </button>
+              </div>
+            </div>
+
             <ul>{projectList}</ul>
           </div>
         )
