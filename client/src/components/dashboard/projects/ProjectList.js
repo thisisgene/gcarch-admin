@@ -17,12 +17,12 @@ class ProjectList extends Component {
 
   render() {
     // const { user } = this.props.auth
-    const { projects, loading } = this.props.project
+    const { projects } = this.props.project
     let projectListContent
     // let projectContent
 
-    if (projects === null || loading) {
-      projectListContent = <Spinner />
+    if (projects === null) {
+      projectListContent = <p>Noch keine Projekte.</p>
     } else {
       if (projects.noprojects) {
         projectListContent = (
@@ -55,6 +55,16 @@ class ProjectList extends Component {
         }
         projectListContent = (
           <div>
+            <ul>{projectList}</ul>
+          </div>
+        )
+      }
+    }
+
+    return (
+      <div className="project-list container">
+        <div className="row">
+          <div className="col-md-12">
             <select className="custom-select dark-input">
               <option value="1">Training</option>
               <option value="2">Paining</option>
@@ -71,17 +81,8 @@ class ProjectList extends Component {
                 </button>
               </div>
             </div>
-
-            <ul>{projectList}</ul>
+            {projectListContent}
           </div>
-        )
-      }
-    }
-
-    return (
-      <div className="project-list container">
-        <div className="row">
-          <div className="col-md-12">{projectListContent}</div>
         </div>
       </div>
     )
