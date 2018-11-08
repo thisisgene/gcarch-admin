@@ -10,32 +10,23 @@ const User = require('../../models/User')
 // Load input validation
 const validateProjectInput = require('../../validation/project')
 
-// @route   GET api/projects/test
-// @desc    Tests projects route
-// @access  Public
-router.get('/test', (req, res) => res.json({ msg: 'Projects Works' }))
-
 module.exports = router
 
 // @route   GET api/projects
 // @desc    Get all projects
-// @access  Private
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    // res.json({ msg: 'Jubidu' })
-    const errors = {}
-    Project.find()
-      .then(projects => {
-        if (projects === undefined || projects.length === 0) {
-          return res.json({ noprojects: 'Noch keine Projekte.' })
-        }
-        res.json(projects)
-      })
-      .catch(err => res.status(404).json(err))
-  }
-)
+// @access  Public
+router.get('/', (req, res) => {
+  // res.json({ msg: 'Jubidu' })
+  const errors = {}
+  Project.find()
+    .then(projects => {
+      if (projects === undefined || projects.length === 0) {
+        return res.json({ noprojects: 'Noch keine Projekte.' })
+      }
+      res.json(projects)
+    })
+    .catch(err => res.status(404).json(err))
+})
 
 // @route   POST api/projects
 // @desc    Create a project
@@ -77,27 +68,23 @@ router.post(
 
 // @route   GET api/projects/id/:id
 // @desc    Get project by id
-// @access  Private
-router.get(
-  '/id/:id',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const errors = {}
-    Project.findById(req.params.id)
-      .populate('lastEdited.user', ['name'])
-      .then(project => {
-        if (!project) {
-          errors.noprojects = 'Kein Projekt mit dieser ID.'
-          return res.status(404).json(errors.noprojects)
-        }
-        res.json(project)
-      })
-      .catch(err => {
-        errors.project = 'Projekt nicht gefunden.'
-        return res.status(404).json(errors)
-      })
-  }
-)
+// @access  Public
+router.get('/id/:id', (req, res) => {
+  const errors = {}
+  Project.findById(req.params.id)
+    .populate('lastEdited.user', ['name'])
+    .then(project => {
+      if (!project) {
+        errors.noprojects = 'Kein Projekt mit dieser ID.'
+        return res.status(404).json(errors.noprojects)
+      }
+      res.json(project)
+    })
+    .catch(err => {
+      errors.project = 'Projekt nicht gefunden.'
+      return res.status(404).json(errors)
+    })
+})
 
 // @route   POST api/projects/update/:id
 // @desc    Update project by id.

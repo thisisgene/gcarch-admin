@@ -39,7 +39,7 @@ class Projects extends Component {
               >
                 <NavLink
                   to={{
-                    pathname: '/admin/projects/' + projects[i]._id
+                    pathname: '/user/projects/' + projects[i]._id
                   }}
                   params={{ id: projects[i]._id }}
                   activeClassName="active"

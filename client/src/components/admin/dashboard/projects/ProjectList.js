@@ -14,10 +14,6 @@ class ProjectList extends Component {
     this.props.getAllProjects()
   }
 
-  onClick = id => {
-    console.log(id)
-  }
-
   render() {
     // const { user } = this.props.auth
     const { projects } = this.props.project
