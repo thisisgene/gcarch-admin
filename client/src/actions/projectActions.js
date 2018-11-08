@@ -17,7 +17,6 @@ export const getAllProjects = () => dispatch => {
         type: GET_PROJECTS,
         payload: res.data
       })
-      // console.log(res.data)
     })
     .catch(err =>
       dispatch({
@@ -29,7 +28,6 @@ export const getAllProjects = () => dispatch => {
 
 // Get project by ID
 export const getProjectById = id => dispatch => {
-  console.log(id)
   dispatch(setProjectLoading())
   axios
     .get('/api/projects/id/' + id)

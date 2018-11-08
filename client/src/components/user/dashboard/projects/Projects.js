@@ -1,34 +1,29 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
+import { Route, NavLink } from 'react-router-dom'
+
+import Spinner from '../../common/Spinner'
+
 import {
   getAllProjects,
   getProjectById
 } from '../../../../actions/projectActions'
 
-// import Spinner from '../../common/Spinner'
-
-class ProjectList extends Component {
+// import './projects.css'
+class Projects extends Component {
   componentDidMount() {
     this.props.getAllProjects()
   }
-
-  onClick = id => {
-    console.log(id)
-  }
-
   render() {
-    // const { user } = this.props.auth
     const { projects } = this.props.project
-    let projectListContent
-    // let projectContent
+    let projectContent
 
     if (projects === null) {
-      projectListContent = <p>Noch keine Projekte.</p>
+      projectContent = <Spinner />
     } else {
       if (projects.noprojects) {
-        projectListContent = (
+        projectContent = (
           <div>
             <p>{projects.noprojects}</p>
           </div>
@@ -56,7 +51,7 @@ class ProjectList extends Component {
             )
           }
         }
-        projectListContent = (
+        projectContent = (
           <div>
             <ul>{projectList}</ul>
           </div>
@@ -64,35 +59,11 @@ class ProjectList extends Component {
       }
     }
 
-    return (
-      <div className="project-list container">
-        <div className="row">
-          <div className="col-md-12">
-            <select className="custom-select dark-input">
-              <option value="1">Training</option>
-              <option value="2">Paining</option>
-            </select>
-            <div className="input-group dark-group">
-              <input
-                type="text"
-                className="form-control dark-input"
-                placeholder="Neues Projekt"
-              />
-              <div className="input-group-append dark-append">
-                <button className="btn btn-outline-secondary" type="button">
-                  <i className="fa fa-plus-circle" />
-                </button>
-              </div>
-            </div>
-            {projectListContent}
-          </div>
-        </div>
-      </div>
-    )
+    return <div className="projects">{projectContent}</div>
   }
 }
 
-ProjectList.propTypes = {
+Projects.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
@@ -104,9 +75,9 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    { getAllProjects, getProjectById }
-  )(ProjectList)
-)
+export default connect(
+  mapStateToProps,
+  { getAllProjects, getProjectById }
+)(Projects)
+
+// export default Projects

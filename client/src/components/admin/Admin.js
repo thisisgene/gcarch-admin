@@ -9,11 +9,11 @@ import Header from './layout/Header'
 import Footer from './layout/Footer'
 import Login from './auth/Login'
 import Settings from './auth/Settings'
-import CategoryNav from './dashboard/CategoryNav'
-import Projects from './dashboard/projects/Projects'
+import Dashboard from './dashboard/Dashboard'
+
 // import News from './dashboard/news/News'
 
-// import './Forms.css'
+import './Admin.css'
 
 class Admin extends Component {
   constructor() {
@@ -26,25 +26,15 @@ class Admin extends Component {
   }
 
   render() {
-    const { isAuthenticated, user } = this.props.auth
+    const { isAuthenticated } = this.props.auth
 
     const authRoutes = (
-      <div>
+      <div className="Admin">
         <Header />
-        {/* <Route exact path="/" component={Landing} /> */}
-
         <Route exact path="/admin/login" component={Login} />
         <Switch>
           <PrivateRoute exact path="/admin/settings" component={Settings} />
-
-          <div className="dashboard">
-            <CategoryNav />
-
-            <div className="dashboard-content">
-              <PrivateRoute path="/admin/projects" component={Projects} />
-              {/* <PrivateRoute path="/admin/news" component={News} /> */}
-            </div>
-          </div>
+          <PrivateRoute path="/admin" component={Dashboard} />
         </Switch>
         <Footer />
       </div>
