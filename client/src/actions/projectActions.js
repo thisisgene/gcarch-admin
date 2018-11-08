@@ -29,6 +29,7 @@ export const getAllProjects = () => dispatch => {
 
 // Get project by ID
 export const getProjectById = id => dispatch => {
+  console.log(id)
   dispatch(setProjectLoading())
   axios
     .get('/api/projects/id/' + id)

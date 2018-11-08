@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
 
-import { uploadImages } from '../../actions/imageActions'
+import { uploadImages } from '../../../actions/imageActions'
 
 class ImageUpload extends Component {
   constructor() {

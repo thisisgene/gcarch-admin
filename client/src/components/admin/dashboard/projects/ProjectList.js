@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
-import { getAllProjects, getProjectById } from '../../../actions/projectActions'
+import {
+  getAllProjects,
+  getProjectById
+} from '../../../../actions/projectActions'
 
 import Spinner from '../../common/Spinner'
 
@@ -41,7 +44,7 @@ class ProjectList extends Component {
               >
                 <NavLink
                   to={{
-                    pathname: '/projects/' + projects[i]._id
+                    pathname: '/admin/projects/' + projects[i]._id
                   }}
                   params={{ id: projects[i]._id }}
                   activeClassName="active"

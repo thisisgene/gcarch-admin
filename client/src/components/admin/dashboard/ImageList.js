@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { deleteImage } from '../../actions/imageActions'
+import { deleteImage } from '../../../actions/imageActions'
 
 class ImageList extends Component {
   constructor() {

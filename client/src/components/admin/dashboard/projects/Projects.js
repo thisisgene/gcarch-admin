@@ -5,10 +5,13 @@ import { Route } from 'react-router-dom'
 
 import ProjectList from './ProjectList'
 import ProjectContent from './ProjectContent'
-import { getAllProjects, getProjectById } from '../../../actions/projectActions'
+import {
+  getAllProjects,
+  getProjectById
+} from '../../../../actions/projectActions'
 
 import './projects.css'
-
+// TODO: If single project (props.project.project) exists -> Redirect to project view.
 class Projects extends Component {
   componentDidMount() {
     // console.log(this.props)
@@ -18,7 +21,7 @@ class Projects extends Component {
       <div className="projects">
         <ProjectList />
         <Route
-          path="/projects/:id"
+          path="/admin/projects/:id"
           props={this.props}
           component={ProjectContent}
         />

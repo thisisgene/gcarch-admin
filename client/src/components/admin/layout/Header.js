@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { logoutUser } from '../../actions/authActions'
-import { clearProjects } from '../../actions/projectActions'
+import { logoutUser } from '../../../actions/authActions'
+import { clearProjects } from '../../../actions/projectActions'
 
 class Header extends Component {
   onLogoutClick(e) {
@@ -18,7 +18,7 @@ class Header extends Component {
     const authLinks = (
       <ul className="nav justify-content-end">
         <li className="nav-item">
-          <Link className="nav-link" to="/settings">
+          <Link className="nav-link" to="/admin/settings">
             <i className="fas fa-cog" />
           </Link>
         </li>
@@ -64,7 +64,7 @@ class Header extends Component {
     const guestLinks = (
       <ul className="nav justify-content-end">
         <li className="nav-item">
-          <Link className="nav-link" to="/login">
+          <Link className="nav-link" to="/admin/login">
             <i className="fas fa-sign-in-alt" />
           </Link>
         </li>
@@ -74,7 +74,7 @@ class Header extends Component {
     return (
       <div className="header">
         <nav className="navbar navbar-dark bg-dark">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/admin/">
             <img
               // src="/docs/4.1/assets/brand/bootstrap-solid.svg"
               width="30"

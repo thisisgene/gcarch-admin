@@ -12,14 +12,14 @@ class Dashboard extends Component {
         <NavLink
           className="category-nav--link"
           activeClassName="active"
-          to="/projects"
+          to="/admin/projects"
         >
           Projects
         </NavLink>
         <NavLink
           className="category-nav--link"
           activeClassName="active"
-          to="/news"
+          to="/admin/news"
         >
           News
         </NavLink>
