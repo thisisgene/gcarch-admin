@@ -40,16 +40,20 @@ class ProjectContent extends Component {
       projectContent = (
         <div className="project-content-container">
           <div className="project-text">
-            <TextFieldGroup
-              name="title"
-              value={project.title}
-              onChange={this.onChange}
-            />
-            <TextareaFieldGroup
-              name="description"
-              value={this.state.description}
-              onChange={this.onChange}
-            />
+            <div className="project-text--title">
+              <TextFieldGroup
+                name="title"
+                value={project.title}
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="project-text--description">
+              <TextareaFieldGroup
+                name="description"
+                value={this.state.description}
+                onChange={this.onChange}
+              />
+            </div>
           </div>
           <div className="project-images">
             <ImageUpload project={this.props.project.project} />

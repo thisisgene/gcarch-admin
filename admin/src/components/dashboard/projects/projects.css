@@ -50,6 +50,21 @@
   padding-right: 1rem;
   border-right: 1px solid #444;
   width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.project-text--description {
+  flex-grow: 2;
+  height: 100%;
+}
+.project-text--description .form-group {
+  height: 100%;
+}
+.project-text--description .form-group textarea {
+  height: 100%;
+  border: none;
 }
 
 .project-images {
