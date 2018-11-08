@@ -10,10 +10,19 @@ import Projects from './dashboard/projects/Projects'
 import Project from './dashboard/projects/Project'
 
 class User extends Component {
+  constructor() {
+    super()
+    this.state = {
+      auth: false
+    }
+  }
+  componentDidMount() {
+    this.setState({ auth: this.props.auth.isAuthenticated })
+  }
   render() {
     return (
       <div>
-        <Header />
+        <Header auth={this.state.auth} />
 
         <Route exact path="/user" component={Landing} />
         <Route exact path="/user/projects" component={Projects} />
