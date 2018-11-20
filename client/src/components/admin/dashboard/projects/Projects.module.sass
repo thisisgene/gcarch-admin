@@ -3,7 +3,7 @@
   flex-direction: row
   align-items: stretch
   flex: 1
-
+  position: relative
 
 .projects > * 
   flex: 1
@@ -89,3 +89,21 @@ textarea
 .image-table tbody tr td input 
   margin: 0
 
+
+.cheatsheet
+  position: absolute
+  z-index: 2
+  height: 90%
+  width: auto
+  top: 0
+  right: -10px
+  transform-origin: top right
+  transform: scale(.05)
+
+  transition: transform 400ms ease-in-out
+  &:hover
+    transform: scale(1)
+
+  img
+    height: 100%
+  

@@ -5,6 +5,8 @@ import { Route } from 'react-router-dom'
 
 import ProjectList from './ProjectList'
 import ProjectContent from './ProjectContent'
+import ProjectLayoutCheatsheet from './ProjectLayoutCheatsheet'
+
 import {
   getAllProjects,
   getProjectById
@@ -26,6 +28,7 @@ class Projects extends Component {
           props={this.props}
           component={ProjectContent}
         />
+        <ProjectLayoutCheatsheet />
       </div>
     )
   }
