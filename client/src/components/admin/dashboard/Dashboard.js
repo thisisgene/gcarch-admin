@@ -6,13 +6,15 @@ import PrivateRoute from '../common/PrivateRoute'
 import CategoryNav from './CategoryNav'
 import Projects from './projects/Projects'
 
+import styles from './Dashboard.module.sass'
+
 class Dashboard extends Component {
   render() {
     return (
-      <div className="dashboard">
+      <div className={styles['dashboard']}>
         <CategoryNav />
 
-        <div className="dashboard-content">
+        <div className={styles['dashboard-content']}>
           <PrivateRoute path="/admin/projects" component={Projects} />
           {/* <PrivateRoute path="/admin/news" component={News} /> */}
         </div>

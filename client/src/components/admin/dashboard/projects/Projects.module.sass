@@ -1,0 +1,91 @@
+.projects 
+  display: flex
+  flex-direction: row
+  align-items: stretch
+  flex: 1
+
+
+.projects > * 
+  flex: 1
+
+
+.project-list 
+  max-width: 270px
+  padding: 0 1rem
+  border-right: 1px solid #444
+
+
+.project-list ul 
+  margin-top: 1rem
+  text-align: right
+
+
+.project-list ul li 
+  margin-bottom: 0.3rem
+
+.project-list ul li a 
+  color: #fff
+  padding: 5px 10px
+
+.project-list ul li a.active 
+  background: #51545b
+  font-style: italic
+
+.project-content 
+  flex-grow: 3
+  width: 100%
+  padding: 0 1rem
+  display: flex
+  justify-content: center
+
+.project-content-container 
+  flex: 1
+  padding: 0
+  display: flex
+  flex-direction: row
+  height: 100%
+
+
+.project-text 
+  padding-right: 1rem
+  border-right: 1px solid #444
+  width: 50%
+  display: flex
+  flex-direction: column
+  align-items: stretch
+
+
+.project-text-description 
+  flex-grow: 2
+  height: 100%
+
+.project-text-description * 
+  height: 100%
+
+textarea 
+  height: 100%
+  border: none
+
+
+.project-images 
+  padding-left: 1rem
+  width: 50%
+
+
+.image-table 
+  width: 100%
+
+.image-table tbody tr 
+  border-bottom: 1px solid #555
+
+.image-table tbody tr:hover 
+  background: #555
+
+.image-table tbody tr td 
+  padding: 4px 10px
+  border: 1px dashed #aaa
+
+
+.image-table tbody tr td input 
+  margin: 0
+

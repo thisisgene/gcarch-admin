@@ -3,22 +3,24 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
+import styles from './Dashboard.module.sass'
+
 class Dashboard extends Component {
   render() {
     // const { user } = this.props.auth
 
     return (
-      <div className="category-nav">
+      <div className={styles['category-nav']}>
         <NavLink
-          className="category-nav--link"
-          activeClassName="active"
+          className={styles['category-nav--link']}
+          activeClassName={styles['active']}
           to="/admin/projects"
         >
           Projects
         </NavLink>
         <NavLink
-          className="category-nav--link"
-          activeClassName="active"
+          className={styles['category-nav--link']}
+          activeClassName={styles['active']}
           to="/admin/news"
         >
           News

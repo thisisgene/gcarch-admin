@@ -15,6 +15,8 @@ import Dashboard from './dashboard/Dashboard'
 
 import './Admin.css'
 
+import styles from './dashboard/Dashboard.module.sass'
+
 class Admin extends Component {
   constructor() {
     super()
@@ -42,7 +44,7 @@ class Admin extends Component {
     const guestRoutes = (
       <div>
         <Header />
-        <div className="dashboard">
+        <div className={styles['dashboard']}>
           <Login />
         </div>
         <Footer />

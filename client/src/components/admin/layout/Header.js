@@ -5,6 +5,12 @@ import { connect } from 'react-redux'
 import { logoutUser } from '../../../actions/authActions'
 import { clearProjects } from '../../../actions/projectActions'
 
+import Logo from '../common/logo_white.svg'
+
+import cx from 'classnames'
+import styles from './Header.module.sass'
+import globalStyles from '../common/Bootstrap.module.css'
+
 class Header extends Component {
   onLogoutClick(e) {
     e.preventDefault()
@@ -16,44 +22,27 @@ class Header extends Component {
     const { isAuthenticated, user } = this.props.auth
 
     const authLinks = (
-      <ul className="nav justify-content-end">
-        <li className="nav-item">
-          <Link className="nav-link" to="/admin/settings">
+      <ul className={cx(globalStyles.nav, globalStyles['justify-content-end'])}>
+        <li className={globalStyles['nav-item']}>
+          <Link className={globalStyles['nav-link']} to="/admin/settings">
             <i className="fas fa-cog" />
           </Link>
         </li>
-        <li className="nav-item">
-          <div className="dropdown">
-            <button
-              className="btn btn-link dropdown-toggle"
-              id="dLabel"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {user.name}
-            </button>
-            <div className="dropdown-menu" aria-labelledby="dLabel">
-              <a className="dropdown-item" href="/">
-                Action
-              </a>
-              <a className="dropdown-item" href="/">
-                Another action
-              </a>
-              <a className="dropdown-item" href="/">
-                Something else here
-              </a>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item" href="/">
-                Separated link
-              </a>
-            </div>
-          </div>
+        <li className={globalStyles['nav-item']}>
+          <button
+            className={cx(globalStyles.btn, globalStyles['btn-link'])}
+            id="dLabel"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {user.name}
+          </button>
         </li>
-        <li className="nav-item">
+        <li className={globalStyles['nav-item']}>
           <button
             onClick={this.onLogoutClick.bind(this)}
-            className="btn btn-link"
+            className={cx(globalStyles.btn, globalStyles['btn-link'])}
           >
             <i className="fas fa-sign-out-alt" />
           </button>
@@ -62,9 +51,9 @@ class Header extends Component {
     )
 
     const guestLinks = (
-      <ul className="nav justify-content-end">
-        <li className="nav-item">
-          <Link className="nav-link" to="/admin/login">
+      <ul className={cx(globalStyles.nav, globalStyles['justify-content-end'])}>
+        <li className={globalStyles['nav-item']}>
+          <Link className={globalStyles['nav-link']} to="/admin/login">
             <i className="fas fa-sign-in-alt" />
           </Link>
         </li>
@@ -72,17 +61,25 @@ class Header extends Component {
     )
 
     return (
-      <div className="header">
-        <nav className="navbar navbar-dark bg-dark">
-          <Link className="navbar-brand" to="/admin/">
+      <div className={styles['header']}>
+        <nav
+          className={cx(
+            globalStyles.navbar,
+            globalStyles['navbar-dark'],
+            globalStyles['bg-dark']
+          )}
+        >
+          <Link className={globalStyles['navbar-brand']} to="/admin/">
             <img
-              // src="/docs/4.1/assets/brand/bootstrap-solid.svg"
-              width="30"
+              src={Logo}
               height="30"
-              className="d-inline-block align-top"
+              className={cx(
+                globalStyles['d-inline-block'],
+                globalStyles['align-top']
+              )}
               alt=""
             />
-            Admin
+            <span>Admin</span>
           </Link>
           {isAuthenticated ? authLinks : guestLinks}
         </nav>

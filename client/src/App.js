@@ -13,9 +13,6 @@ import NotFound from './components/NotFound'
 import User from './components/user/User'
 import Admin from './components/admin/Admin'
 
-import './components/admin/common/common.css'
-import './components/admin/dashboard/Dashboard.css'
-
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth

@@ -4,6 +4,11 @@ import { withRouter } from 'react-router-dom'
 
 import { deleteImage } from '../../../actions/imageActions'
 
+import cx from 'classnames'
+import globalStyles from '../common/Bootstrap.module.css'
+import commonStyles from '../common/Common.module.sass'
+import styles from './projects/Projects.module.sass'
+
 class ImageList extends Component {
   constructor() {
     super()
@@ -42,15 +47,39 @@ class ImageList extends Component {
               <td>
                 <input
                   name="description"
-                  className="form-control dark-input"
+                  className={cx(
+                    globalStyles['form-control'],
+                    commonStyles['dark-input']
+                  )}
                   type="text"
                   value={this.state.description}
                   onChange={this.onChange}
                 />
               </td>
               <td>
+                {/* <div className="radio">
+                  <label> */}
+                <input
+                  type="radio"
+                  name="optcover"
+                  className={globalStyles['form-control']}
+                />
+                {/* </label>
+                </div> */}
+              </td>
+              <td>
+                {/* <div className="checkbox">
+                  <label> */}
+                <input
+                  type="checkbox"
+                  className={globalStyles['form-control']}
+                />
+                {/* </label>
+                </div> */}
+              </td>
+              <td>
                 <button
-                  className="btn btn-link"
+                  className={cx(globalStyles['btn'], globalStyles['btn-link'])}
                   onClick={this.onClickDelete}
                   data-img_id={img._id}
                   data-project_id={project._id}
@@ -68,8 +97,8 @@ class ImageList extends Component {
 
   render() {
     return (
-      <div className="image-list">
-        <table className="image-table">
+      <div className={styles['image-list']}>
+        <table className={styles['image-table']}>
           <tbody>{this.getAllImages()}</tbody>
         </table>
       </div>

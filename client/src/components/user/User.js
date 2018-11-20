@@ -9,6 +9,8 @@ import Landing from './dashboard/Landing'
 import Projects from './dashboard/projects/Projects'
 import Project from './dashboard/projects/Project'
 
+import styles from './User.module.sass'
+
 class User extends Component {
   constructor() {
     super()
@@ -20,15 +22,22 @@ class User extends Component {
     this.setState({ auth: this.props.auth.isAuthenticated })
   }
   render() {
+    const background_img =
+      'https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+
     return (
-      <div>
+      <div className={styles.user}>
+        <div
+          className={styles.background}
+          style={{ backgroundImage: `url(${background_img}` }}
+        />
         <Header auth={this.state.auth} />
 
         <Route exact path="/user" component={Landing} />
-        <Route exact path="/user/projects" component={Projects} />
+        <Route exact path="/user/projekte" component={Projects} />
         <Route
           exact
-          path="/user/projects/:id"
+          path="/user/projekte/:id"
           props={this.props}
           component={Project}
         />

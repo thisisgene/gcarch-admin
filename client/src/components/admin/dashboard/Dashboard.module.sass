@@ -1,0 +1,53 @@
+.dashboard 
+  padding: 0 0.4rem 0.5rem
+  flex-grow: 2
+  display: flex
+  flex-direction: column
+
+
+.category-nav 
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: center
+  -webkit-transform: translateY(50%)
+  transform: translateY(50%)
+
+
+  &--link 
+    background: #636468
+    padding: 0.2rem 2rem
+    border-right: 1px solid #1f1f1f
+    color: #fff
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5)
+
+    &:last-child 
+      border-right: none
+      border-bottom-right-radius: 7px
+      border-top-right-radius: 7px
+
+    &:first-child 
+      border-bottom-left-radius: 7px
+      border-top-left-radius: 7px
+
+    &:hover 
+      text-decoration: none
+      color: inherit
+      background: #555
+
+  .active 
+    background: #ffc350
+    color: #191919
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5)
+
+
+.dashboard-content 
+  background: #36373c
+  border-radius: 8px
+  border: 1px solid #232323
+  box-shadow: inset 0 0 1px #555
+  padding: 3rem 1rem 2rem
+  flex-grow: 2
+  display: flex
+  justify-content: center
+

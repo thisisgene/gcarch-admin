@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 
 import { uploadImages } from '../../../actions/imageActions'
 
+import commonStyles from '../common/Common.module.sass'
+
 class ImageUpload extends Component {
   constructor() {
     super()
@@ -34,9 +36,9 @@ class ImageUpload extends Component {
   render() {
     return (
       <div>
-        <div className="dropzone">
+        <div className={commonStyles['dropzone']}>
           <Dropzone
-            className={'dropzone-inner'}
+            className={commonStyles['dropzone-inner']}
             accept="image/*"
             onDrop={this.onDrop}
             onFileDialogCancel={this.onCancel}

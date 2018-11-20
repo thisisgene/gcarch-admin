@@ -7,7 +7,10 @@ import {
   getProjectById
 } from '../../../../actions/projectActions'
 
-// import Spinner from '../../common/Spinner'
+import cx from 'classnames'
+import globalStyles from '../../common/Bootstrap.module.css'
+import commonStyles from '../../common/Common.module.sass'
+import styles from './Projects.module.sass'
 
 class ProjectList extends Component {
   componentDidMount() {
@@ -43,7 +46,7 @@ class ProjectList extends Component {
                     pathname: '/admin/projects/' + projects[i]._id
                   }}
                   params={{ id: projects[i]._id }}
-                  activeClassName="active"
+                  activeClassName={styles['active']}
                   onClick={() => this.props.getProjectById(projects[i]._id)}
                 >
                   {projects[i].name}
@@ -61,21 +64,46 @@ class ProjectList extends Component {
     }
 
     return (
-      <div className="project-list container">
-        <div className="row">
-          <div className="col-md-12">
-            <select className="custom-select dark-input">
+      <div className={cx(styles['project-list'], globalStyles.container)}>
+        <div className={globalStyles['row']}>
+          <div className={globalStyles['col-md-12']}>
+            <select
+              className={cx(
+                globalStyles['custom-select'],
+                commonStyles['custom-select'],
+                commonStyles['dark-input']
+              )}
+            >
               <option value="1">Training</option>
               <option value="2">Paining</option>
             </select>
-            <div className="input-group dark-group">
+            <div
+              className={cx(
+                globalStyles['input-group'],
+                commonStyles['dark-group']
+              )}
+            >
               <input
                 type="text"
-                className="form-control dark-input"
+                className={cx(
+                  globalStyles['form-control'],
+                  commonStyles['dark-input']
+                )}
                 placeholder="Neues Projekt"
               />
-              <div className="input-group-append dark-append">
-                <button className="btn btn-outline-secondary" type="button">
+              <div
+                className={cx(
+                  globalStyles['input-group-append'],
+                  commonStyles['dark-append']
+                )}
+              >
+                <button
+                  className={cx(
+                    globalStyles['btn'],
+                    globalStyles['btn-outline-secondary']
+                  )}
+                  type="button"
+                >
                   <i className="fa fa-plus-circle" />
                 </button>
               </div>

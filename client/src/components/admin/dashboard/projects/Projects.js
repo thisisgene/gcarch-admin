@@ -10,7 +10,8 @@ import {
   getProjectById
 } from '../../../../actions/projectActions'
 
-import './projects.css'
+import styles from './Projects.module.sass'
+
 // TODO: If single project (props.project.project) exists -> Redirect to project view.
 class Projects extends Component {
   componentDidMount() {
@@ -18,7 +19,7 @@ class Projects extends Component {
   }
   render() {
     return (
-      <div className="projects">
+      <div className={styles['projects']}>
         <ProjectList />
         <Route
           path="/admin/projects/:id"

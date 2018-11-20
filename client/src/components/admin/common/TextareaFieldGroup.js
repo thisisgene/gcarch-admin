@@ -1,6 +1,9 @@
 import React from 'react'
-import classnames from 'classnames'
 import PropTypes from 'prop-types'
+
+import cx from 'classnames'
+import globalStyles from './Bootstrap.module.css'
+import commonStyles from './Common.module.sass'
 
 const TextareaFieldGroup = ({
   name,
@@ -12,19 +15,23 @@ const TextareaFieldGroup = ({
   disabled
 }) => {
   return (
-    <div className="form-group">
+    <div className={globalStyles['form-group']}>
       <textarea
-        className={classnames('form-control', {
-          'is-invalid': error
-        })}
+        className={cx(globalStyles['form-control'], commonStyles['textarea'])}
         placeholder={placeholder}
         name={name}
         value={value}
         onChange={onChange}
         disabled={disabled}
       />
-      {info && <small className="form-text text-muted">{info}</small>}
-      {error && <div className="invalid-feedback">{error}</div>}
+      {info && (
+        <small
+          className={cx(globalStyles['form-text'], globalStyles['text-muted'])}
+        >
+          {info}
+        </small>
+      )}
+      {error && <div className={globalStyles['invalid-feedback']}>{error}</div>}
     </div>
   )
 }

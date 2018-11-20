@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Route, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import Spinner from '../../common/Spinner'
+import ProjectPreview from './ProjectPreview'
+
+import cx from 'classnames'
+import styles from './Project.module.sass'
+import gridStyles from './ProjectGrid.module.sass'
 
 import {
   getAllProjects,
@@ -33,33 +38,41 @@ class Projects extends Component {
         for (let i = 0; i < projects.length; i++) {
           if (!projects[i].isDeleted) {
             projectList.push(
-              <li
+              <div
+                className={cx(
+                  gridStyles['grid-item'],
+                  gridStyles[`grid-item--${i}`]
+                )}
                 key={i}
                 //
               >
                 <NavLink
                   to={{
-                    pathname: '/user/projects/' + projects[i]._id
+                    pathname: '/user/projekte/' + projects[i]._id
                   }}
                   params={{ id: projects[i]._id }}
                   activeClassName="active"
                   onClick={() => this.props.getProjectById(projects[i]._id)}
                 >
-                  {projects[i].name}
+                  <ProjectPreview project={projects[i]} position={i} />
                 </NavLink>
-              </li>
+              </div>
             )
           }
         }
         projectContent = (
           <div>
-            <ul>{projectList}</ul>
+            <div className={gridStyles['grid']}>{projectList}</div>
           </div>
         )
       }
     }
 
-    return <div className="projects">{projectContent}</div>
+    return (
+      <div className={styles.projects}>
+        <div className={styles['project-grid']}>{projectContent}</div>
+      </div>
+    )
   }
 }
 

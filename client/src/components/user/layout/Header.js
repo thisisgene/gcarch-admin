@@ -1,21 +1,46 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+
+import Logo from '../common/logo_white.svg'
+
+import styles from './Header.module.sass'
 
 export default class Header extends Component {
   render() {
     // NOTE: Does link to admin make sense?
-    const toAdmin = this.props.auth ? <Link to="../admin">To Admin</Link> : ''
+    // const toAdmin = this.props.auth ? (
+    //   <NavLink to="../admin">To Admin</NavLink>
+    // ) : (
+    //   ''
+    // )
 
     return (
-      <div>
-        <Link to="/user">
-          <h1>GC Architektur</h1>
-        </Link>
-        <Link to="/user/projects">Projekte</Link>
-        <Link to="/user/news">Aktuell</Link>
-        <Link to="/user/team">Team</Link>
-        <Link to="/user/contact">Kontakt</Link>
-        {toAdmin}
+      <div className={styles.header}>
+        <div className={styles.logo}>
+          <NavLink to="/user">
+            <img
+              src={Logo}
+              height="30"
+              className="d-inline-block align-top"
+              alt=""
+            />
+          </NavLink>
+        </div>
+        <div className={styles['menu-container']}>
+          <NavLink activeClassName={styles.active} to="/user/aktuell">
+            Aktuell
+          </NavLink>
+          <NavLink activeClassName={styles.active} to="/user/projekte">
+            Projekte
+          </NavLink>
+          <NavLink activeClassName={styles.active} to="/user/team">
+            Team
+          </NavLink>
+          <NavLink activeClassName={styles.active} to="/user/kontakt">
+            Kontakt
+          </NavLink>
+          {/* {toAdmin} */}
+        </div>
       </div>
     )
   }

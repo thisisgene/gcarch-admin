@@ -10,6 +10,10 @@ import Spinner from '../../common/Spinner'
 import ImageUpload from '../ImageUpload'
 import ImageList from '../ImageList'
 
+import cx from 'classnames'
+import globalStyles from '../../common/Bootstrap.module.css'
+import styles from './Projects.module.sass'
+
 class ProjectContent extends Component {
   constructor(props) {
     super()
@@ -38,16 +42,16 @@ class ProjectContent extends Component {
       projectContent = <Spinner />
     } else if (project) {
       projectContent = (
-        <div className="project-content-container">
-          <div className="project-text">
-            <div className="project-text--title">
+        <div className={styles['project-content-container']}>
+          <div className={styles['project-text']}>
+            <div className={styles['project-text-title']}>
               <TextFieldGroup
                 name="title"
                 value={project.title}
                 onChange={this.onChange}
               />
             </div>
-            <div className="project-text--description">
+            <div className={styles['project-text-description']}>
               <TextareaFieldGroup
                 name="description"
                 value={this.state.description}
@@ -55,7 +59,7 @@ class ProjectContent extends Component {
               />
             </div>
           </div>
-          <div className="project-images">
+          <div className={styles['project-images']}>
             <ImageUpload project={this.props.project.project} />
             <ImageList project={this.props.project} />
           </div>
@@ -65,7 +69,11 @@ class ProjectContent extends Component {
       projectContent = <p>Kein Projekt gewählt</p>
     }
 
-    return <div className="project-content container">{projectContent}</div>
+    return (
+      <div className={cx(styles['project-content'], globalStyles.container)}>
+        {projectContent}
+      </div>
+    )
   }
 }
 
