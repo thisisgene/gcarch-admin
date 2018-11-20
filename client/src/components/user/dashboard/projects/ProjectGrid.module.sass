@@ -7,17 +7,16 @@ $itemBaseHeight: $gridWidth / 6 / 1.5
 
 .grid
   width: $gridWidth
-  margin: 0 auto
+  margin: 1rem auto
   padding: 2px
-  background: white
   display: grid
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr
-  // grid-template-rows: repeat(auto-fill, $itemBaseHeight)
   grid-auto-rows: $itemBaseHeight
+  grid-gap: 4px
+  
   .grid-item
-    // height: $itemBaseHeight
+    position: relative
     background: #ddd
-    border: 2px solid white
     box-sizing: border-box
     width: 100%
     overflow: hidden
@@ -25,11 +24,37 @@ $itemBaseHeight: $gridWidth / 6 / 1.5
     justify-content: center
     align-items: center
     
-    p
-      font-size: 3rem
-      color: #aaa
+    .img-tag-container
+      opacity: 0
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      background: rgba(white, .7)
+      transition: opacity 200ms ease-in-out
+      .img-tag
+        background: #fff
+        position: absolute
+        bottom: 0
+        left: 0
+        width: 100%
+        padding: .3rem 1rem
+        color: #111
+        font-size: .7rem
+        z-index: 2
+
+        .img-name
+          text-transform: uppercase
+          font-weight: bold
+
+
+
+    &:hover
+      .img-tag-container
+        opacity: 1
+
     img
-      // width: 100%
       height: 100%
 
     &--1
