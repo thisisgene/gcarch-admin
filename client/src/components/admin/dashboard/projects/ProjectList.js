@@ -13,6 +13,11 @@ import commonStyles from '../../common/Common.module.sass'
 import styles from './Projects.module.sass'
 
 class ProjectList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   componentDidMount() {
     this.props.getAllProjects()
   }
@@ -103,6 +108,7 @@ class ProjectList extends Component {
                     globalStyles['btn-outline-secondary']
                   )}
                   type="button"
+                  onClick={this.addProject}
                 >
                   <i className="fa fa-plus-circle" />
                 </button>

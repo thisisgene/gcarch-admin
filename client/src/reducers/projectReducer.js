@@ -5,7 +5,9 @@ import {
   GET_PROJECT,
   CLEAR_PROJECTS,
   UPLOAD_IMAGES,
-  DELETE_IMAGE
+  DELETE_IMAGE,
+  GET_GRID_TOPTEN,
+  SET_GRID_POSITION
 } from '../actions/types'
 
 const initialState = {
@@ -53,6 +55,18 @@ export default function(state = initialState, action) {
       }
     case DELETE_IMAGE:
       console.log(action.payload)
+      return {
+        ...state,
+        project: action.payload,
+        waiting: false
+      }
+    case GET_GRID_TOPTEN:
+      return {
+        ...state,
+        topten: action.payload,
+        waiting: false
+      }
+    case SET_GRID_POSITION:
       return {
         ...state,
         project: action.payload,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import Logo from '../common/logo_white.svg'
+import Logo from '../common/logo.svg'
 
 import styles from './Header.module.sass'
 

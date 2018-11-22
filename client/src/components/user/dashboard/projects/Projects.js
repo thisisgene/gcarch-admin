@@ -14,20 +14,22 @@ import {
   getAllProjects,
   getProjectById
 } from '../../../../actions/projectActions'
+import { getGridTopTen } from '../../../../actions/imageActions'
 
 // import './projects.css'
 class Projects extends Component {
   componentDidMount() {
     this.props.getAllProjects()
+    this.props.getGridTopTen()
   }
   render() {
-    const { projects } = this.props.project
+    const { projects, topten } = this.props.project
     let projectContent
 
-    if (projects === null) {
+    if (projects === null || topten === undefined) {
       projectContent = <Spinner />
     } else {
-      if (projects.noprojects) {
+      if (projects.noprojects || topten.length === 0) {
         projectContent = (
           <div>
             <p>{projects.noprojects}</p>
@@ -35,8 +37,14 @@ class Projects extends Component {
         )
       } else {
         let projectList = []
-        for (let i = 0; i < projects.length; i++) {
-          if (!projects[i].isDeleted) {
+        for (let i = 0; i < topten.length; i++) {
+          console.log(i, topten[i].position)
+          if (
+            topten[i].isTaken &&
+            topten[i].position != null &&
+            topten[i].position !== '-'
+          ) {
+            console.log(topten[i].isTaken, topten[i].projectName)
             projectList.push(
               <div
                 className={cx(
@@ -48,13 +56,16 @@ class Projects extends Component {
               >
                 <NavLink
                   to={{
-                    pathname: '/user/projekte/' + projects[i]._id
+                    pathname: '/user/projekte/' + topten[i].projectId
                   }}
-                  params={{ id: projects[i]._id }}
+                  params={{ id: topten[i].projectId }}
                   activeClassName="active"
-                  onClick={() => this.props.getProjectById(projects[i]._id)}
+                  onClick={() => this.props.getProjectById(topten[i].projectId)}
                 >
-                  <ProjectPreview project={projects[i]} position={i} />
+                  <ProjectPreview
+                    project={topten[i]}
+                    position={topten[i].position}
+                  />
                 </NavLink>
               </div>
             )
@@ -79,18 +90,21 @@ class Projects extends Component {
 Projects.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
+  getGridTopTen: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  topten: PropTypes.object
 }
 
 const mapStateToProps = state => ({
   project: state.project,
+  topten: state.topten,
   auth: state.auth
 })
 
 export default connect(
   mapStateToProps,
-  { getAllProjects, getProjectById }
+  { getAllProjects, getProjectById, getGridTopTen }
 )(Projects)
 
 // export default Projects

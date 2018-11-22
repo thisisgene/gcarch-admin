@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { deleteImage } from '../../../actions/imageActions'
+import { setGridPosition } from '../../../actions/imageActions'
+
+import SelectFieldGroup from '../common/SelectFieldGroup'
 
 import cx from 'classnames'
 import globalStyles from '../common/Bootstrap.module.css'
@@ -10,16 +13,32 @@ import commonStyles from '../common/Common.module.sass'
 import styles from './projects/Projects.module.sass'
 
 class ImageList extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       project: [],
-      description: ''
+      description: '',
+      name: '',
+      values: [],
+      value: '',
+      positions: props.positions
     }
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  onChange = (i, e) => {
+    let values = [...this.state.values]
+    values[i] = e.target.value
+    this.setState({ values })
+  }
+
+  updatePosition = (projectId, projectName, imageId, imgName, i, e) => {
+    this.props.setGridPosition(
+      projectId,
+      projectName,
+      imageId,
+      imgName,
+      e.target.value
+    )
   }
 
   onClickDelete = e => {
@@ -31,10 +50,14 @@ class ImageList extends Component {
 
   getAllImages() {
     let imageList = []
-    if (this.props.project) {
+    if (this.props.project.project) {
       const { project, waiting } = this.props.project
-      for (let img of project.images) {
-        if (!img.isDeleted && img.isVisible) {
+
+      for (let [i, img] of project.images.entries()) {
+        if (!img.isDeleted) {
+          let options = ['-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+          this.props.positions[i] = img.gridPosition
+
           let imgSrc = `/public/${project._id}/${img.originalName}`
           imageList.push(
             <tr
@@ -46,36 +69,43 @@ class ImageList extends Component {
               </td>
               <td>
                 <input
-                  name="description"
+                  name={`description_${i}`}
                   className={cx(
                     globalStyles['form-control'],
                     commonStyles['dark-input']
                   )}
                   type="text"
-                  value={this.state.description}
-                  onChange={this.onChange}
+                  value={this.state[`description_${i}`]}
+                  onChange={this.onChange.bind(this, i)}
                 />
               </td>
               <td>
-                {/* <div className="radio">
-                  <label> */}
+                <SelectFieldGroup
+                  name={`placeInGrid_${i}`}
+                  onChange={this.updatePosition.bind(
+                    this,
+                    project._id,
+                    project.name,
+                    img._id,
+                    img.originalName,
+                    i
+                  )}
+                  options={options}
+                  value={this.props.positions[i]}
+                />
+              </td>
+              <td>
                 <input
                   type="radio"
                   name="optcover"
                   className={globalStyles['form-control']}
                 />
-                {/* </label>
-                </div> */}
               </td>
               <td>
-                {/* <div className="checkbox">
-                  <label> */}
                 <input
                   type="checkbox"
                   className={globalStyles['form-control']}
                 />
-                {/* </label>
-                </div> */}
               </td>
               <td>
                 <button
@@ -106,20 +136,14 @@ class ImageList extends Component {
   }
 }
 
-// ImageList.propTypes = {
-//   deleteImages: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired,
-//   project: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-// }
-
-// const mapStateToProps = state => ({
-//   auth: state.auth,
-//   project: state.project,
-//   errors: state.errors
-// })
+const mapStateToProps = state => ({
+  auth: state.auth,
+  project: state.project,
+  // positions: state.positions,
+  errors: state.errors
+})
 
 export default connect(
-  null,
-  { deleteImage }
-)(withRouter(ImageList))
+  mapStateToProps,
+  { deleteImage, setGridPosition }
+)(ImageList)

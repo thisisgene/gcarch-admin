@@ -61,7 +61,11 @@ class ProjectContent extends Component {
           </div>
           <div className={styles['project-images']}>
             <ImageUpload project={this.props.project.project} />
-            <ImageList project={this.props.project} />
+            <ImageList
+              project={this.props.project}
+              positions={[]}
+              test="test"
+            />
           </div>
         </div>
       )

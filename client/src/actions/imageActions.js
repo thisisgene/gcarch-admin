@@ -1,5 +1,12 @@
 import axios from 'axios'
-import { SET_WAITING, GET_ERRORS, UPLOAD_IMAGES, DELETE_IMAGE } from './types'
+import {
+  SET_WAITING,
+  GET_ERRORS,
+  UPLOAD_IMAGES,
+  DELETE_IMAGE,
+  GET_GRID_TOPTEN,
+  SET_GRID_POSITION
+} from './types'
 
 export const uploadImages = (files, id, category) => dispatch => {
   switch (category) {
@@ -40,6 +47,56 @@ export const deleteImage = (projectid, imgid) => dispatch => {
     .then(res => {
       dispatch({
         type: DELETE_IMAGE,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    )
+}
+
+export const getGridTopTen = () => dispatch => {
+  axios
+    .get('/api/projects/get_project_grid')
+    .then(res => {
+      dispatch({
+        type: GET_GRID_TOPTEN,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    )
+}
+
+export const setGridPosition = (
+  projectId,
+  projectName,
+  imageId,
+  imageName,
+  position
+) => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    projectId: projectId,
+    projectName: projectName,
+    imageId: imageId,
+    imageName: imageName,
+    position: position
+  }
+  console.log(projectId)
+  axios
+    .post('/api/projects/set_grid_position', data)
+    .then(res => {
+      console.log(res.data)
+      dispatch({
+        type: SET_GRID_POSITION,
         payload: res.data
       })
     })

@@ -49,8 +49,12 @@ const ProjectSchema = new Schema({
         type: Number
       },
       isCover: {
-        // If 'true', will show up on project page. (Only one image per project.)
+        // If 'true', will show up as Project page background. (Only one image per project.)
         type: Boolean
+      },
+      gridPosition: {
+        // Declares positioning on the projects grid (Top 10 only). Multiple images per project possible.
+        type: String
       },
       isVisible: {
         type: Boolean,
