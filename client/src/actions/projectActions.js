@@ -4,6 +4,8 @@ import {
   PROJECT_LOADING,
   CLEAR_PROJECTS,
   GET_ERRORS,
+  GET_PROJECTS_AFTER_TEN,
+  GET_GRID_TOPTEN,
   GET_PROJECT
 } from './types'
 
@@ -41,6 +43,40 @@ export const getProjectById = id => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err
+      })
+    )
+}
+
+export const getProjectsAfterTen = () => dispatch => {
+  axios
+    .get('/api/projects/get_projects_after_ten')
+    .then(res => {
+      dispatch({
+        type: GET_PROJECTS_AFTER_TEN,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    )
+}
+
+export const getGridTopTen = () => dispatch => {
+  axios
+    .get('/api/projects/get_project_grid')
+    .then(res => {
+      dispatch({
+        type: GET_GRID_TOPTEN,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
       })
     )
 }

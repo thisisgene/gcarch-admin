@@ -12,24 +12,27 @@ import gridStyles from './ProjectGrid.module.sass'
 
 import {
   getAllProjects,
-  getProjectById
+  getProjectsAfterTen,
+  getProjectById,
+  getGridTopTen
 } from '../../../../actions/projectActions'
-import { getGridTopTen } from '../../../../actions/imageActions'
 
 // import './projects.css'
 class Projects extends Component {
   componentDidMount() {
     this.props.getAllProjects()
+    this.props.getProjectsAfterTen()
     this.props.getGridTopTen()
   }
   render() {
-    const { projects, topten } = this.props.project
+    const { projects, toptenProjects, afterTenProjects } = this.props.project
+
     let projectContent
 
-    if (projects === null || topten === undefined) {
+    if (projects === null || toptenProjects === undefined) {
       projectContent = <Spinner />
     } else {
-      if (projects.noprojects || topten.length === 0) {
+      if (projects.noprojects || toptenProjects.length === 0) {
         projectContent = (
           <div>
             <p>{projects.noprojects}</p>
@@ -37,38 +40,80 @@ class Projects extends Component {
         )
       } else {
         let projectList = []
-        for (let i = 0; i < topten.length; i++) {
-          console.log(i, topten[i].position)
-          if (
-            topten[i].isTaken &&
-            topten[i].position != null &&
-            topten[i].position !== '-'
-          ) {
-            console.log(topten[i].isTaken, topten[i].projectName)
-            projectList.push(
-              <div
-                className={cx(
-                  gridStyles['grid-item'],
-                  gridStyles[`grid-item--${i}`]
-                )}
-                key={i}
-                //
-              >
-                <NavLink
-                  to={{
-                    pathname: '/user/projekte/' + topten[i].projectId
-                  }}
-                  params={{ id: topten[i].projectId }}
-                  activeClassName="active"
-                  onClick={() => this.props.getProjectById(topten[i].projectId)}
+        for (let i = 0; i < toptenProjects.length; i++) {
+          if (toptenProjects[i].images.length > 0) {
+            for (let image of toptenProjects[i].images) {
+              if (
+                image.gridPosition &&
+                image.isDeleted === false &&
+                image.isVisible &&
+                image.gridPosition !== '-' &&
+                image.gridPosition !== null
+              ) {
+                projectList.push(
+                  <div
+                    className={cx(
+                      gridStyles['grid-item'],
+                      gridStyles[`grid-item--${image.gridPosition}`]
+                    )}
+                    key={image.gridPosition}
+                    //
+                  >
+                    <NavLink
+                      to={{
+                        pathname: '/user/projekte/' + toptenProjects[i]._id
+                      }}
+                      params={{ id: toptenProjects[i]._id }}
+                      activeClassName="active"
+                      onClick={() =>
+                        this.props.getProjectById(toptenProjects[i]._id)
+                      }
+                    >
+                      <ProjectPreview
+                        project={toptenProjects[i]}
+                        image={image}
+                        position={image.gridPosition}
+                      />
+                    </NavLink>
+                  </div>
+                )
+              }
+            }
+          }
+        }
+        if (afterTenProjects !== undefined && afterTenProjects.length > 0) {
+          let rank = 11
+          for (let i = 0; i < afterTenProjects.length; i++) {
+            let project = afterTenProjects[i]
+            if (project.images.length > 0) {
+              let image = project.images[0]
+              projectList.push(
+                <div
+                  className={cx(
+                    gridStyles['grid-item'],
+                    gridStyles[`grid-item--${rank}`]
+                  )}
+                  key={rank}
+                  //
                 >
-                  <ProjectPreview
-                    project={topten[i]}
-                    position={topten[i].position}
-                  />
-                </NavLink>
-              </div>
-            )
+                  <NavLink
+                    to={{
+                      pathname: '/user/projekte/' + project._id
+                    }}
+                    params={{ id: project._id }}
+                    activeClassName="active"
+                    onClick={() => this.props.getProjectById(project._id)}
+                  >
+                    <ProjectPreview
+                      project={project}
+                      image={image}
+                      position={rank}
+                    />
+                  </NavLink>
+                </div>
+              )
+              rank++
+            }
           }
         }
         projectContent = (
@@ -89,6 +134,7 @@ class Projects extends Component {
 
 Projects.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
+  getProjectsAfterTen: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
   getGridTopTen: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
@@ -98,13 +144,12 @@ Projects.propTypes = {
 
 const mapStateToProps = state => ({
   project: state.project,
-  topten: state.topten,
   auth: state.auth
 })
 
 export default connect(
   mapStateToProps,
-  { getAllProjects, getProjectById, getGridTopTen }
+  { getAllProjects, getProjectsAfterTen, getProjectById, getGridTopTen }
 )(Projects)
 
 // export default Projects

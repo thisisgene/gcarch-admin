@@ -6,6 +6,7 @@ import {
   CLEAR_PROJECTS,
   UPLOAD_IMAGES,
   DELETE_IMAGE,
+  GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
   SET_GRID_POSITION
 } from '../actions/types'
@@ -54,16 +55,21 @@ export default function(state = initialState, action) {
         loading: false
       }
     case DELETE_IMAGE:
-      console.log(action.payload)
       return {
         ...state,
         project: action.payload,
         waiting: false
       }
+    case GET_PROJECTS_AFTER_TEN:
+      return {
+        ...state,
+        afterTenProjects: action.payload,
+        waiting: false
+      }
     case GET_GRID_TOPTEN:
       return {
         ...state,
-        topten: action.payload,
+        toptenProjects: action.payload,
         waiting: false
       }
     case SET_GRID_POSITION:

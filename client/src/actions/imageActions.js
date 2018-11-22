@@ -4,7 +4,6 @@ import {
   GET_ERRORS,
   UPLOAD_IMAGES,
   DELETE_IMAGE,
-  GET_GRID_TOPTEN,
   SET_GRID_POSITION
 } from './types'
 
@@ -47,23 +46,6 @@ export const deleteImage = (projectid, imgid) => dispatch => {
     .then(res => {
       dispatch({
         type: DELETE_IMAGE,
-        payload: res.data
-      })
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: {}
-      })
-    )
-}
-
-export const getGridTopTen = () => dispatch => {
-  axios
-    .get('/api/projects/get_project_grid')
-    .then(res => {
-      dispatch({
-        type: GET_GRID_TOPTEN,
         payload: res.data
       })
     })

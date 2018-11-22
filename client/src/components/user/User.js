@@ -29,7 +29,7 @@ class User extends Component {
       <div className={styles.user}>
         <div
           className={styles.background}
-          style={{ backgroundImage: `url(${background_img}` }}
+          // style={{ backgroundImage: `url(${background_img}` }}
         />
         <Header auth={this.state.auth} />
 

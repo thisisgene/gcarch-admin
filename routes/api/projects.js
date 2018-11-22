@@ -208,11 +208,22 @@ router.get(
     // console.log(projectId)
     Project.findById(projectId)
       .then(project => {
+        let topTenOnGrid = false
         project.images.forEach(img => {
           if (img._id == imgId) {
             img.isDeleted = true
+            img.gridPosition = '-'
+          }
+          if (
+            img.isDeleted == false &&
+            img.gridPosition &&
+            img.gridPosition !== '-' &&
+            img.gridPosition !== null
+          ) {
+            topTenOnGrid = true
           }
         })
+        project.topTenOnGrid = topTenOnGrid
         project.save(err => {
           if (err) res.send(err)
           else {
@@ -226,16 +237,22 @@ router.get(
   }
 )
 
-// @route   GET api/projects/get_project_grid
-// @desc    Get a list of the top ten grid positions
+// @route   GET api/projects/get_project_after_ten
+// @desc    Get all projects after rank 10
 // @access  Public
-router.get('/get_project_grid', (req, res) => {
-  ProjectGridPosition.find()
-    .sort('position')
-    .then(positions => {
-      res.json(positions)
-    })
-    .catch(err => res.send(err))
+router.get('/get_projects_after_ten', async (req, res) => {
+  const query = { $or: [{ topTenOnGrid: false }, { topTenOnGrid: null }] }
+  let projects = await getProjectsByQuery(query)
+  res.json(projects)
+})
+
+// @route   GET api/projects/get_project_grid
+// @desc    Get all project of the top 10
+// @access  Public
+router.get('/get_project_grid', async (req, res) => {
+  const query = { topTenOnGrid: true }
+  let projects = await getProjectsByQuery(query)
+  res.json(projects)
 })
 
 const getProjectById = async id => {
@@ -243,6 +260,9 @@ const getProjectById = async id => {
 }
 const getProjectByQuery = async query => {
   return Project.findOne(query)
+}
+const getProjectsByQuery = async query => {
+  return Project.find(query)
 }
 
 const updateRank = async (project, imageId, position) => {
@@ -255,7 +275,12 @@ const updateRank = async (project, imageId, position) => {
       if (img._id == imageId) {
         img.gridPosition = position
       }
-      if (img.gridPosition !== '-') {
+      if (
+        img.isDeleted == false &&
+        img.gridPosition &&
+        img.gridPosition !== '-' &&
+        img.gridPosition !== null
+      ) {
         topTenOnGrid = true
       }
     })
@@ -266,17 +291,19 @@ const updateRank = async (project, imageId, position) => {
 
 const UpdateIfDifferentProject = async (project, compareId, body) => {
   if (project._id.equals(compareId)) {
-    console.log('samsu')
     return project
   } else {
-    console.log('nu samsu', project.name)
     let topTenOnGrid = false
     project.images.forEach(img => {
       if (img.gridPosition == body.position) {
-        console.log('found:', img.originalName)
         img.gridPosition = '-'
       }
-      if (img.gridPosition !== '-') {
+      if (
+        img.isDeleted == false &&
+        img.gridPosition &&
+        img.gridPosition !== '-' &&
+        img.gridPosition !== null
+      ) {
         topTenOnGrid = true
       }
     })
@@ -293,10 +320,10 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     let project = await getProjectById(req.body.projectId)
-
-    let formerRankProject = await Project.findOne({
+    const query = {
       'images.gridPosition': req.body.position
-    })
+    }
+    let formerRankProject = await getProjectByQuery(query)
 
     project = await updateRank(project, req.body.imageId, req.body.position)
 
