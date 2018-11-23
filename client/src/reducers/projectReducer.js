@@ -9,7 +9,8 @@ import {
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
   SET_GRID_POSITION,
-  SET_BACKGROUND_IMAGE
+  SET_BACKGROUND_IMAGE,
+  SET_IMAGE_VISIBILITY
 } from '../actions/types'
 
 const initialState = {
@@ -80,6 +81,12 @@ export default function(state = initialState, action) {
         waiting: false
       }
     case SET_BACKGROUND_IMAGE:
+      return {
+        ...state,
+        project: action.payload,
+        waiting: false
+      }
+    case SET_IMAGE_VISIBILITY:
       return {
         ...state,
         project: action.payload,

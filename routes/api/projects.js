@@ -360,3 +360,23 @@ router.post(
       .catch(err => res.json(err))
   }
 )
+
+router.post(
+  '/set_image_visibility',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    console.log(req.body.state)
+    let project = await getProjectById(req.body.projectId)
+    project.images.forEach(img => {
+      if (img._id.equals(req.body.imageId)) {
+        img.isVisible = req.body.state
+      }
+    })
+    project
+      .save()
+      .then(project => {
+        res.json(project)
+      })
+      .catch(err => res.json(err))
+  }
+)

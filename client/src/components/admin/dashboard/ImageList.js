@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom'
 import { deleteImage } from '../../../actions/imageActions'
 import {
   setGridPosition,
-  setBackgroundImage
+  setBackgroundImage,
+  setImageVisibility
 } from '../../../actions/imageActions'
 
 import SelectFieldGroup from '../common/SelectFieldGroup'
@@ -29,8 +30,10 @@ class ImageList extends Component {
   }
 
   onChange = (i, e) => {
+    const target = e.target
     let values = [...this.state.values]
-    values[i] = e.target.value
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    values[i] = value
     this.setState({ values })
   }
 
@@ -47,6 +50,10 @@ class ImageList extends Component {
   onRadioClick = (projectId, imageId) => {
     this.props.setBackgroundImage(projectId, imageId)
   }
+  onCheckboxClick = (projectId, imageId, e) => {
+    console.log(e.target.checked)
+    this.props.setImageVisibility(projectId, imageId, e.target.checked)
+  }
 
   onClickDelete = e => {
     const data = e.currentTarget.dataset
@@ -59,11 +66,10 @@ class ImageList extends Component {
     let imageList = []
     if (this.props.project.project) {
       const { project, waiting } = this.props.project
+      let options = ['-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
       for (let [i, img] of project.images.entries()) {
         if (!img.isDeleted) {
-          let options = ['-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-          this.props.positions[i] = img.gridPosition
           let imgSrc = `/public/${project._id}/${img.originalName}`
           imageList.push(
             <tr
@@ -97,7 +103,7 @@ class ImageList extends Component {
                     i
                   )}
                   options={options}
-                  value={this.props.positions[i]}
+                  value={img.gridPosition}
                 />
               </td>
               <td>
@@ -107,13 +113,24 @@ class ImageList extends Component {
                   className={globalStyles['form-control']}
                   onClick={this.onRadioClick.bind(this, project._id, img._id)}
                   onChange={this.onChange.bind(this, `radio_${i}`)}
-                  checked={img._id === project.backgroundImage._id}
+                  checked={
+                    project.backgroundImage &&
+                    img._id === project.backgroundImage._id
+                  }
                 />
               </td>
               <td>
                 <input
+                  name="visibility"
                   type="checkbox"
                   className={globalStyles['form-control']}
+                  onClick={this.onCheckboxClick.bind(
+                    this,
+                    project._id,
+                    img._id
+                  )}
+                  onChange={this.onChange.bind(this, `check_${i}`)}
+                  defaultChecked={img.isVisible}
                 />
               </td>
               <td>
@@ -154,5 +171,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deleteImage, setGridPosition, setBackgroundImage }
+  { deleteImage, setGridPosition, setBackgroundImage, setImageVisibility }
 )(ImageList)

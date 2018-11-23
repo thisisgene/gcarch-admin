@@ -5,7 +5,8 @@ import {
   UPLOAD_IMAGES,
   DELETE_IMAGE,
   SET_GRID_POSITION,
-  SET_BACKGROUND_IMAGE
+  SET_BACKGROUND_IMAGE,
+  SET_IMAGE_VISIBILITY
 } from './types'
 
 export const uploadImages = (files, id, category) => dispatch => {
@@ -13,7 +14,6 @@ export const uploadImages = (files, id, category) => dispatch => {
     case 'project':
       files.map(file => {
         let formData = new FormData()
-        console.log(file.size)
         formData.append('file', file)
         formData.append('name', file.name)
         formData.append('size', file.size)
@@ -73,11 +73,9 @@ export const setGridPosition = (
     imageName: imageName,
     position: position
   }
-  console.log(projectId)
   axios
     .post('/api/projects/set_grid_position', data)
     .then(res => {
-      console.log(res.data)
       dispatch({
         type: SET_GRID_POSITION,
         payload: res.data
@@ -100,9 +98,31 @@ export const setBackgroundImage = (projectId, imageId) => dispatch => {
   axios
     .post('/api/projects/set_background_image', data)
     .then(res => {
-      console.log(res.data)
       dispatch({
         type: SET_BACKGROUND_IMAGE,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    )
+}
+
+export const setImageVisibility = (projectId, imageId, state) => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    projectId: projectId,
+    imageId: imageId,
+    state: state
+  }
+  axios
+    .post('/api/projects/set_image_visibility', data)
+    .then(res => {
+      dispatch({
+        type: SET_IMAGE_VISIBILITY,
         payload: res.data
       })
     })

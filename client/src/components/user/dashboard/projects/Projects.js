@@ -26,10 +26,14 @@ class Projects extends Component {
   }
   render() {
     const { projects, toptenProjects, afterTenProjects } = this.props.project
-
+    let top10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     let projectContent
 
-    if (projects === null || toptenProjects === undefined) {
+    if (
+      projects === null ||
+      toptenProjects === undefined ||
+      afterTenProjects === undefined
+    ) {
       projectContent = <Spinner />
     } else {
       if (projects.noprojects || toptenProjects.length === 0) {
@@ -77,16 +81,31 @@ class Projects extends Component {
                     </NavLink>
                   </div>
                 )
+                let rankInt = parseInt(image.gridPosition)
+                let index = top10.indexOf(rankInt)
+                if (index > -1) {
+                  top10.splice(index, 1)
+                }
               }
             }
           }
         }
+        console.log(top10)
+
         if (afterTenProjects !== undefined && afterTenProjects.length > 0) {
-          let rank = 11
+          let past10rank = 11
+          let rank
           for (let i = 0; i < afterTenProjects.length; i++) {
             let project = afterTenProjects[i]
             if (project.images.length > 0) {
               let image = project.images[0]
+              if (top10.length > 0) {
+                rank = top10[0]
+                top10.splice(0, 1)
+              } else {
+                rank = past10rank
+                past10rank++
+              }
               projectList.push(
                 <div
                   className={cx(
@@ -112,7 +131,6 @@ class Projects extends Component {
                   </NavLink>
                 </div>
               )
-              rank++
             }
           }
         }
