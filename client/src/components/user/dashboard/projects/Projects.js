@@ -24,11 +24,62 @@ class Projects extends Component {
     this.props.getProjectsAfterTen()
     this.props.getGridTopTen()
   }
+
+  fillRemainingRanks = (top10, afterTenProjects, projectList) => {
+    let past10rank = 11
+    let rank
+    for (let i = 0; i < afterTenProjects.length; i++) {
+      let project = afterTenProjects[i]
+      if (project.images.length > 0) {
+        let imageIndex = 0
+        while (imageIndex < project.images.length) {
+          let image = project.images[imageIndex]
+          if (image.isVisible && !image.isDeleted) {
+            if (top10.length > 0) {
+              rank = top10[0]
+              top10.splice(0, 1)
+            } else {
+              rank = past10rank
+              past10rank++
+            }
+            projectList.push(
+              <div
+                className={cx(
+                  gridStyles['grid-item'],
+                  gridStyles[`grid-item--${rank}`]
+                )}
+                key={rank}
+              >
+                <NavLink
+                  to={{
+                    pathname: '/user/projekte/' + project._id
+                  }}
+                  params={{ id: project._id }}
+                  activeClassName="active"
+                  onClick={() => this.props.getProjectById(project._id)}
+                >
+                  <ProjectPreview
+                    project={project}
+                    image={image}
+                    position={rank}
+                  />
+                </NavLink>
+              </div>
+            )
+
+            break
+          }
+          imageIndex++
+        }
+      }
+    }
+  }
+
   render() {
     const { projects, toptenProjects, afterTenProjects } = this.props.project
     let top10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     let projectContent
-
+    let projectList = []
     if (
       projects === null ||
       toptenProjects === undefined ||
@@ -36,14 +87,15 @@ class Projects extends Component {
     ) {
       projectContent = <Spinner />
     } else {
-      if (projects.noprojects || toptenProjects.length === 0) {
+      if (projects.noprojects) {
         projectContent = (
           <div>
             <p>{projects.noprojects}</p>
           </div>
         )
+      } else if (toptenProjects.length > 1) {
+        this.fillRemainingRanks(top10, afterTenProjects, projectList)
       } else {
-        let projectList = []
         for (let i = 0; i < toptenProjects.length; i++) {
           if (toptenProjects[i].images.length > 0) {
             for (let image of toptenProjects[i].images) {
@@ -93,46 +145,7 @@ class Projects extends Component {
         console.log(top10)
 
         if (afterTenProjects !== undefined && afterTenProjects.length > 0) {
-          let past10rank = 11
-          let rank
-          for (let i = 0; i < afterTenProjects.length; i++) {
-            let project = afterTenProjects[i]
-            if (project.images.length > 0) {
-              let image = project.images[0]
-              if (top10.length > 0) {
-                rank = top10[0]
-                top10.splice(0, 1)
-              } else {
-                rank = past10rank
-                past10rank++
-              }
-              projectList.push(
-                <div
-                  className={cx(
-                    gridStyles['grid-item'],
-                    gridStyles[`grid-item--${rank}`]
-                  )}
-                  key={rank}
-                  //
-                >
-                  <NavLink
-                    to={{
-                      pathname: '/user/projekte/' + project._id
-                    }}
-                    params={{ id: project._id }}
-                    activeClassName="active"
-                    onClick={() => this.props.getProjectById(project._id)}
-                  >
-                    <ProjectPreview
-                      project={project}
-                      image={image}
-                      position={rank}
-                    />
-                  </NavLink>
-                </div>
-              )
-            }
-          }
+          this.fillRemainingRanks(top10, afterTenProjects, projectList)
         }
         projectContent = (
           <div>
