@@ -48,7 +48,7 @@ const ProjectSchema = new Schema({
         // Positioning inside project view.
         type: Number
       },
-      isCover: {
+      isBackground: {
         // If 'true', will show up as Project page background. (Only one image per project.)
         type: Boolean
       },
@@ -66,6 +66,9 @@ const ProjectSchema = new Schema({
       }
     }
   ],
+  backgroundImage: {
+    type: Object
+  },
   topTenOnGrid: {
     type: Boolean
   },

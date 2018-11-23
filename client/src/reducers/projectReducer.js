@@ -8,7 +8,8 @@ import {
   DELETE_IMAGE,
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
-  SET_GRID_POSITION
+  SET_GRID_POSITION,
+  SET_BACKGROUND_IMAGE
 } from '../actions/types'
 
 const initialState = {
@@ -73,6 +74,12 @@ export default function(state = initialState, action) {
         waiting: false
       }
     case SET_GRID_POSITION:
+      return {
+        ...state,
+        project: action.payload,
+        waiting: false
+      }
+    case SET_BACKGROUND_IMAGE:
       return {
         ...state,
         project: action.payload,

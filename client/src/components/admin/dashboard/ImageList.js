@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { deleteImage } from '../../../actions/imageActions'
-import { setGridPosition } from '../../../actions/imageActions'
+import {
+  setGridPosition,
+  setBackgroundImage
+} from '../../../actions/imageActions'
 
 import SelectFieldGroup from '../common/SelectFieldGroup'
 
@@ -41,6 +44,10 @@ class ImageList extends Component {
     )
   }
 
+  onRadioClick = (projectId, imageId) => {
+    this.props.setBackgroundImage(projectId, imageId)
+  }
+
   onClickDelete = e => {
     const data = e.currentTarget.dataset
     const imgid = data.img_id
@@ -57,7 +64,6 @@ class ImageList extends Component {
         if (!img.isDeleted) {
           let options = ['-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
           this.props.positions[i] = img.gridPosition
-
           let imgSrc = `/public/${project._id}/${img.originalName}`
           imageList.push(
             <tr
@@ -76,7 +82,7 @@ class ImageList extends Component {
                   )}
                   type="text"
                   value={this.state[`description_${i}`]}
-                  onChange={this.onChange.bind(this, i)}
+                  onChange={this.onChange.bind(this, `description_${i}`)}
                 />
               </td>
               <td>
@@ -99,6 +105,9 @@ class ImageList extends Component {
                   type="radio"
                   name="optcover"
                   className={globalStyles['form-control']}
+                  onClick={this.onRadioClick.bind(this, project._id, img._id)}
+                  onChange={this.onChange.bind(this, `radio_${i}`)}
+                  checked={img._id === project.backgroundImage._id}
                 />
               </td>
               <td>
@@ -145,5 +154,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deleteImage, setGridPosition }
+  { deleteImage, setGridPosition, setBackgroundImage }
 )(ImageList)

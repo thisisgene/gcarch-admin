@@ -4,7 +4,8 @@ import {
   GET_ERRORS,
   UPLOAD_IMAGES,
   DELETE_IMAGE,
-  SET_GRID_POSITION
+  SET_GRID_POSITION,
+  SET_BACKGROUND_IMAGE
 } from './types'
 
 export const uploadImages = (files, id, category) => dispatch => {
@@ -79,6 +80,29 @@ export const setGridPosition = (
       console.log(res.data)
       dispatch({
         type: SET_GRID_POSITION,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    )
+}
+
+export const setBackgroundImage = (projectId, imageId) => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    projectId: projectId,
+    imageId: imageId
+  }
+  axios
+    .post('/api/projects/set_background_image', data)
+    .then(res => {
+      console.log(res.data)
+      dispatch({
+        type: SET_BACKGROUND_IMAGE,
         payload: res.data
       })
     })

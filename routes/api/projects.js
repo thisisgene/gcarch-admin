@@ -5,7 +5,6 @@ const marked = require('marked')
 
 // Load project model
 const Project = require('../../models/Project')
-const ProjectGridPosition = require('../../models/ProjectGrid')
 
 // Load input validation
 const validateProjectInput = require('../../validation/project')
@@ -336,146 +335,28 @@ router.post(
       formerRankProject.save()
     }
 
-    project.save().then(project => res.json(project))
+    project
+      .save()
+      .then(project => res.json(project))
+      .catch(err => res.json(err))
   }
 )
 
-/// ******* OLD **********
-
-// router.post(
-//   '/set_grid_position',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     const errors = {}
-//     let projectHasTop10Rank = false
-
-//     Project.findById(req.body.projectId).then(currentProject => {
-//       let updatedProject = currentProject
-//       ProjectGridPosition.findOne({ position: req.body.position }).then(
-//         gridPosition => {
-//           // Mark the previous position of the image as empty.
-//           ProjectGridPosition.findOne({ imageId: req.body.imageId })
-//             .then(oldPos => {
-//               if (err) {
-//                 console.log(err)
-//               } else {
-//                 oldPos.projectName = ''
-//                 oldPos.projectId = ''
-//                 oldPos.imageName = ''
-//                 oldPos.imageId = ''
-//                 oldPos.isTaken = false
-//                 oldPos.save()
-//               }
-//             })
-//             .then(() => {})
-//             .catch(err => res.status(400).json(err))
-
-//           if (req.body.position != '-') {
-//             currentProject.topTenOnGrid = true
-
-//             // Set the gridPosition inside the image.
-//             currentProject.images.forEach(img => {
-//               if (img._id == req.body.imageId) {
-//                 img.gridPosition = req.body.position
-//               }
-//             })
-//             currentProject.save(err => {
-//               if (err) res.json(err)
-//               else {
-//                 updatedProject = currentProject
-//               }
-//             })
-
-//             if (gridPosition) {
-//               if (gridPosition.projectId) {
-//                 Project.findById(gridPosition.projectId)
-//                   .then(project => {
-//                     console.log(project.name)
-//                     project.images.forEach(img => {
-//                       if (img.gridPosition == req.body.position) {
-//                         console.log(img.originalName)
-//                         img.gridPosition = '-'
-//                       }
-//                       if (img.gridPosition != '-' || img.gridPosition != null) {
-//                         projectHasTop10Rank = true
-//                         console.log('yeah')
-//                       }
-//                     })
-
-//                     project.topTenOnGrid = projectHasTop10Rank
-//                     console.log('project has top 10 rank:', projectHasTop10Rank)
-
-//                     project.save(err => {
-//                       if (err) {
-//                         res.json(err)
-//                       } else {
-//                         if (project == currentProject) {
-//                           updatedProject = currentProject
-//                         }
-//                       }
-//                     })
-//                   })
-//                   .catch(err => res.json(err))
-//               }
-//               gridPosition.projectId = req.body.projectId
-//               gridPosition.projectName = req.body.projectName
-//               gridPosition.imageId = req.body.imageId
-//               gridPosition.imageName = req.body.imageName
-//               gridPosition.isTaken = true
-//               gridPosition.save()
-//               console.log('we did it')
-//               res.json(updatedProject)
-//             } else {
-//               const newPosFields = {
-//                 projectId: req.body.projectId,
-//                 projectName: req.body.projectName,
-//                 imageId: req.body.imageId,
-//                 imageName: req.body.imageName,
-//                 position: req.body.position,
-//                 isTaken: true
-//               }
-//               new ProjectGridPosition(newPosFields)
-//                 .save()
-//                 .then(() => {
-//                   currentProject.save().then(() => {
-//                     res.json(currentProject)
-//                   })
-//                 })
-
-//                 .catch(err => res.json(err))
-//             }
-//           } else {
-//             currentProject.topTenOnGrid = false
-
-//             currentProject.images.forEach(img => {
-//               if (img._id == req.body.imageId) {
-//                 img.gridPosition = req.body.position
-//               }
-//               // let projectHasTop10Rank = false
-//               if (img.gridPosition != '-' && img.gridPosition != null) {
-//                 projectHasTop10Rank = true
-//                 console.log('yeah', img.gridPosition)
-//               }
-//             })
-//             currentProject.topTenOnGrid = projectHasTop10Rank
-//             console.log('project has top 10 rank:', projectHasTop10Rank)
-
-//             currentProject.save(err => {
-//               if (err) res.json(err)
-//               ProjectGridPosition.findOne({ imageId: req.body.imageId }).then(
-//                 newPos => {
-//                   newPos.isTaken = false
-//                   newPos.save().then(() => {
-//                     currentProject.save().then(() => {
-//                       res.json(currentProject)
-//                     })
-//                   })
-//                 }
-//               )
-//             })
-//           }
-//         }
-//       )
-//     })
-//   }
-// )
+router.post(
+  '/set_background_image',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    let project = await getProjectById(req.body.projectId)
+    project.images.forEach(img => {
+      if (img._id.equals(req.body.imageId)) {
+        project.backgroundImage = img
+      }
+    })
+    project
+      .save()
+      .then(project => {
+        res.json(project)
+      })
+      .catch(err => res.json(err))
+  }
+)
