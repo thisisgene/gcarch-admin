@@ -109,7 +109,7 @@ class ImageList extends Component {
               <td>
                 <input
                   type="radio"
-                  name="optcover"
+                  name={`optcover_${i}`}
                   className={globalStyles['form-control']}
                   onClick={this.onRadioClick.bind(this, project._id, img._id)}
                   onChange={this.onChange.bind(this, `radio_${i}`)}

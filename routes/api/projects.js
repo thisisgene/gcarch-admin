@@ -173,6 +173,7 @@ router.post(
       originalName: body.name
     }
     Project.findByIdAndUpdate(
+      // FIXME: If project has no background image, make first image to upload the background image!
       body.id,
       { $push: { images: newImage } },
       { safe: true, new: true }
@@ -183,8 +184,6 @@ router.post(
             console.log(err)
             return res.status(500).send(err)
           }
-
-          // res.json({ file: `public/${body.id}/${req.body.name}` })
         })
         res.json(project)
       })
@@ -365,7 +364,6 @@ router.post(
   '/set_image_visibility',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    console.log(req.body.state)
     let project = await getProjectById(req.body.projectId)
     project.images.forEach(img => {
       if (img._id.equals(req.body.imageId)) {
