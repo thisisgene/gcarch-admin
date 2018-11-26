@@ -33,10 +33,10 @@ router.get('/', (req, res) => {
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  async (req, res) => {
     const body = req.body
-
-    const { errors, isValid } = validateProjectInput(body)
+    console.log(body.name)
+    const { errors, isValid } = await validateProjectInput(body)
 
     // Check validation
     if (!isValid) {
@@ -44,24 +44,24 @@ router.post(
     }
 
     // Check if project.name already exists
-    Project.findOne({ name: body.name }).then(project => {
-      if (project) {
-        errors.name = 'Ein Projekt mit diesem Namen existiert bereits.'
-        return res.status(400).json(errors)
-      } else {
-        // Get fields
-        const projectFields = {}
-        if (body.name) {
-          projectFields.name = body.name
-          projectFields.title = body.name
-          projectFields.handle = body.name.replace(/\s/g, '_')
-        }
-        new Project(projectFields)
-          .save()
-          .then(project => res.json(project))
-          .catch(err => res.json(err))
+    const project = await Project.findOne({ name: body.name })
+    if (project) {
+      errors.name = 'Ein Projekt mit diesem Namen existiert bereits.'
+      return res.status(400).json(errors)
+    } else {
+      // Get fields
+      const projectFields = {}
+      if (body.name) {
+        projectFields.name = body.name
+        // projectFields.title = body.name
+        // projectFields.handle = body.name.replace(/\s/g, '_')
       }
-    })
+      const newProject = new Project(projectFields)
+      newProject.save(async project => {
+        const projects = await Project.find()
+        res.json(projects)
+      })
+    }
   }
 )
 

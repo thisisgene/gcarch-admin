@@ -4,32 +4,34 @@
   align-items: stretch
   flex: 1
   position: relative
-
 .projects > * 
   flex: 1
-
+  
 
 .project-list 
   max-width: 270px
   padding: 0 1rem
   border-right: 1px solid #444
+  display: flex
 
+  .project-list-container
+    overflow-y: auto
+    max-height: 95%
+    padding-right: 1rem
+  ul
+    margin-top: 1rem
+    text-align: right
 
-.project-list ul 
-  margin-top: 1rem
-  text-align: right
+    li 
+      margin-bottom: 0.3rem
 
+      a 
+        color: #fff
+        padding: 5px 10px
 
-.project-list ul li 
-  margin-bottom: 0.3rem
-
-.project-list ul li a 
-  color: #fff
-  padding: 5px 10px
-
-.project-list ul li a.active 
-  background: #51545b
-  font-style: italic
+        &.active 
+          background: #51545b
+          font-style: italic
 
 .project-content 
   flex-grow: 3

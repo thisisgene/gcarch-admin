@@ -4,8 +4,11 @@ import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import {
   getAllProjects,
-  getProjectById
+  getProjectById,
+  createProject
 } from '../../../../actions/projectActions'
+
+import TextInputButtonGroup from '../../common/TextInputButtonGroup'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
@@ -15,11 +18,21 @@ import styles from './Projects.module.sass'
 class ProjectList extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      name: ''
+    }
   }
 
   componentDidMount() {
     this.props.getAllProjects()
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  onClick = e => {
+    this.props.createProject(this.state.name)
+    this.setState({ name: '' })
   }
 
   render() {
@@ -72,7 +85,7 @@ class ProjectList extends Component {
       <div className={cx(styles['project-list'], globalStyles.container)}>
         <div className={globalStyles['row']}>
           <div className={globalStyles['col-md-12']}>
-            <select
+            {/* <select
               className={cx(
                 globalStyles['custom-select'],
                 commonStyles['custom-select'],
@@ -81,40 +94,20 @@ class ProjectList extends Component {
             >
               <option value="1">Training</option>
               <option value="2">Paining</option>
-            </select>
-            <div
-              className={cx(
-                globalStyles['input-group'],
-                commonStyles['dark-group']
-              )}
-            >
-              <input
-                type="text"
-                className={cx(
-                  globalStyles['form-control'],
-                  commonStyles['dark-input']
-                )}
-                placeholder="Neues Projekt"
-              />
-              <div
-                className={cx(
-                  globalStyles['input-group-append'],
-                  commonStyles['dark-append']
-                )}
-              >
-                <button
-                  className={cx(
-                    globalStyles['btn'],
-                    globalStyles['btn-outline-secondary']
-                  )}
-                  type="button"
-                  onClick={this.addProject}
-                >
-                  <i className="fa fa-plus-circle" />
-                </button>
-              </div>
+            </select> */}
+
+            <TextInputButtonGroup
+              type="text"
+              name="name"
+              value={this.state.name}
+              placeholder="Neues Projekt"
+              onChange={this.onChange}
+              onClick={this.onClick}
+            />
+
+            <div className={styles['project-list-container']}>
+              {projectListContent}
             </div>
-            {projectListContent}
           </div>
         </div>
       </div>
@@ -125,6 +118,7 @@ class ProjectList extends Component {
 ProjectList.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
+  createProject: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }
@@ -137,6 +131,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { getAllProjects, getProjectById }
+    { getAllProjects, getProjectById, createProject }
   )(ProjectList)
 )

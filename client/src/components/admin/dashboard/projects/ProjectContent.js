@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getProjectById } from '../../../../actions/projectActions'
+import {
+  getProjectById
+  // updateProjectContent
+} from '../../../../actions/projectActions'
 
 import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
@@ -20,18 +23,27 @@ class ProjectContent extends Component {
     this.state = {
       description: '',
       project: {},
-      errors: {}
+      errors: {},
+      timeout: 0
     }
   }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
+
+  onKeyUp = e => {
+    let value = e.target.value
+    clearTimeout(this.state.timeout)
+    this.state.timeout = setTimeout(() => {
+      console.log(value)
+    }, 1000)
+  }
+
   componentDidMount() {
     const id = this.props.match.params.id
     this.props.getProjectById(id)
   }
-
-  // FIXME: Input onChange and value .. use redux-form !?
 
   render() {
     // const { user } = this.props.auth
@@ -56,6 +68,7 @@ class ProjectContent extends Component {
                 name="description"
                 value={this.state.description}
                 onChange={this.onChange}
+                onKeyUp={this.onKeyUp}
               />
             </div>
           </div>
@@ -83,6 +96,7 @@ class ProjectContent extends Component {
 
 ProjectContent.propTypes = {
   getProjectById: PropTypes.func.isRequired,
+  // updateProjectContent: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }

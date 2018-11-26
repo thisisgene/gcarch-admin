@@ -12,6 +12,7 @@ const TextareaFieldGroup = ({
   error,
   info,
   onChange,
+  onKeyUp,
   disabled
 }) => {
   return (
@@ -22,6 +23,7 @@ const TextareaFieldGroup = ({
         name={name}
         value={value}
         onChange={onChange}
+        onKeyUp={onKeyUp}
         disabled={disabled}
       />
       {info && (

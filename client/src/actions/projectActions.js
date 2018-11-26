@@ -1,7 +1,9 @@
 import axios from 'axios'
 import {
+  CREATE_PROJECT,
   GET_PROJECTS,
   PROJECT_LOADING,
+  SET_WAITING,
   CLEAR_PROJECTS,
   CLEAR_CURRENT_PROJECT,
   GET_ERRORS,
@@ -9,6 +11,20 @@ import {
   GET_GRID_TOPTEN,
   GET_PROJECT
 } from './types'
+
+// Create project
+export const createProject = name => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    name: name
+  }
+  axios.post('/api/projects', data).then(res => {
+    dispatch({
+      type: CREATE_PROJECT,
+      payload: res.data
+    })
+  })
+}
 
 // Get all projects
 export const getAllProjects = () => dispatch => {
@@ -99,5 +115,11 @@ export const clearCurrentProject = () => {
   console.log('clear project')
   return {
     type: CLEAR_CURRENT_PROJECT
+  }
+}
+
+export const setWaiting = () => {
+  return {
+    type: SET_WAITING
   }
 }

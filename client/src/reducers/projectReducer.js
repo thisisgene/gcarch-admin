@@ -1,4 +1,5 @@
 import {
+  CREATE_PROJECT,
   GET_PROJECTS,
   PROJECT_LOADING,
   SET_WAITING,
@@ -32,6 +33,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         waiting: true
+      }
+    case CREATE_PROJECT:
+      return {
+        ...state,
+        projects: action.payload,
+        waiting: false
       }
     case GET_PROJECTS:
       return {
