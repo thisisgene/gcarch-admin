@@ -89,54 +89,35 @@ router.get('/id/:id', (req, res) => {
 // @desc    Update project by id.
 // @access  Private
 router.post(
-  '/update/:id',
+  '/update',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const body = req.body
 
-    const { errors, isValid } = validateProjectInput(body)
-
-    // Check validation
-    if (!isValid) {
-      return res.status(400).json(errors)
-    }
-
-    // Check if project.name already exists
-    Project.findById(req.params.id)
-      .then(project => {
-        if (!project) {
-          errors.project = 'Projekt nicht gefunden.'
-          return res.status(400).json(errors)
-        } else {
-          // Get fields
-          const projectFields = {}
-          if (body.name) projectFields.name = body.name
-          if (body.title) projectFields.title = body.title
-          if (body.handle) projectFields.handle = body.handle
-          if (body.descriptionMarkdown) {
-            projectFields.descriptionMarkdown = body.descriptionMarkdown
-            projectFields.descriptionHtml = marked(body.descriptionMarkdown)
-          }
-          if (body.topTenOnGrid) projectFields.topTenOnGrid = body.topTenOnGrid
-          if (body.positionOnGrid)
-            projectFields.positionOnGrid = body.positionOnGrid
-          if (body.typeOfFormatOnGrid)
-            projectFields.typeOfFormatOnGrid = body.typeOfFormatOnGrid
-          if (body.importanceOnGrid)
-            projectFields.importanceOnGrid = body.importanceOnGrid
-          if (body.sizeOnGrid) projectFields.sizeOnGrid = body.sizeOnGrid
-          if (body.isVisible) projectFields.isVisible = body.isVisible
-          projectFields.lastEdited = {
-            user: req.user,
-            date: new Date()
-          }
-          Project.findByIdAndUpdate(
-            req.params.id,
-            { $set: projectFields },
-            { new: true }
-          ).then(project => res.json(project))
-        }
+    const projectFields = {}
+    if (body.name) projectFields.name = body.name
+    if (body.title) projectFields.title = body.title
+    if (body.handle) projectFields.handle = body.handle
+    if (body.descriptionMarkdown) {
+      projectFields.descriptionMarkdown = body.descriptionMarkdown
+      projectFields.descriptionHtml = marked(body.descriptionMarkdown, {
+        sanitize: true
       })
+    }
+    if (body.topTenOnGrid) projectFields.topTenOnGrid = body.topTenOnGrid
+    if (body.positionOnGrid) projectFields.positionOnGrid = body.positionOnGrid
+    if (body.typeOfFormatOnGrid)
+      projectFields.typeOfFormatOnGrid = body.typeOfFormatOnGrid
+    if (body.importanceOnGrid)
+      projectFields.importanceOnGrid = body.importanceOnGrid
+    if (body.sizeOnGrid) projectFields.sizeOnGrid = body.sizeOnGrid
+    if (body.isVisible) projectFields.isVisible = body.isVisible
+    projectFields.lastEdited = {
+      user: req.user,
+      date: new Date()
+    }
+    Project.findByIdAndUpdate(body.id, { $set: projectFields }, { new: true })
+      .then(project => res.json(project))
       .catch(err => {
         errors.project = 'Projekt nicht gefunden.'
         return res.status(404).json(errors)

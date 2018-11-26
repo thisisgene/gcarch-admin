@@ -17,9 +17,24 @@ class Project extends Component {
     if (loading) {
       projectContent = <Spinner />
     } else if (project) {
+      let imageArray = []
+      for (let image of project.images) {
+        imageArray.push(
+          <img
+            key={image._id}
+            src={`/public/${project._id}/${image.originalName}`}
+            alt=""
+          />
+        )
+      }
       projectContent = (
         <div className="project-content-container">
-          <p>{project.name}</p>
+          <h1>{project.name}</h1>
+          <div
+            className="project-content"
+            dangerouslySetInnerHTML={{ __html: project.descriptionHtml }}
+          />
+          <div className="imageContainer">{imageArray}</div>
         </div>
       )
     } else {

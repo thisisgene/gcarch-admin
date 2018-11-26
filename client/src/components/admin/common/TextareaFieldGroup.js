@@ -7,6 +7,7 @@ import commonStyles from './Common.module.sass'
 
 const TextareaFieldGroup = ({
   name,
+  className,
   placeholder,
   value,
   error,
@@ -18,7 +19,11 @@ const TextareaFieldGroup = ({
   return (
     <div className={globalStyles['form-group']}>
       <textarea
-        className={cx(globalStyles['form-control'], commonStyles['textarea'])}
+        className={cx(
+          globalStyles['form-control'],
+          commonStyles['textarea'],
+          className
+        )}
         placeholder={placeholder}
         name={name}
         value={value}
@@ -41,7 +46,7 @@ const TextareaFieldGroup = ({
 TextareaFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   info: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func.isRequired,

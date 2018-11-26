@@ -1,9 +1,11 @@
 import axios from 'axios'
 import {
   CREATE_PROJECT,
+  UPDATE_PROJECT_CONTENT,
   GET_PROJECTS,
   PROJECT_LOADING,
   SET_WAITING,
+  SET_DYNAMIC_SAVE,
   CLEAR_PROJECTS,
   CLEAR_CURRENT_PROJECT,
   GET_ERRORS,
@@ -21,6 +23,20 @@ export const createProject = name => dispatch => {
   axios.post('/api/projects', data).then(res => {
     dispatch({
       type: CREATE_PROJECT,
+      payload: res.data
+    })
+  })
+}
+
+export const updateProjectContent = (description, id) => dispatch => {
+  dispatch(setDynamicSave())
+  const data = {
+    id: id,
+    descriptionMarkdown: description
+  }
+  axios.post('/api/projects/update', data).then(res => {
+    dispatch({
+      type: UPDATE_PROJECT_CONTENT,
       payload: res.data
     })
   })
@@ -121,5 +137,10 @@ export const clearCurrentProject = () => {
 export const setWaiting = () => {
   return {
     type: SET_WAITING
+  }
+}
+export const setDynamicSave = () => {
+  return {
+    type: SET_DYNAMIC_SAVE
   }
 }

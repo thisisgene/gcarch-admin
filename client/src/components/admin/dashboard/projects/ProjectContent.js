@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-  getProjectById
-  // updateProjectContent
+  getProjectById,
+  updateProjectContent
 } from '../../../../actions/projectActions'
 
 import TextFieldGroup from '../../common/TextFieldGroup'
@@ -18,11 +18,11 @@ import globalStyles from '../../common/Bootstrap.module.css'
 import styles from './Projects.module.sass'
 
 class ProjectContent extends Component {
-  constructor(props) {
+  constructor() {
     super()
     this.state = {
-      description: '',
       project: {},
+      description: '',
       errors: {},
       timeout: 0
     }
@@ -32,11 +32,12 @@ class ProjectContent extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  onKeyUp = e => {
-    let value = e.target.value
+  onKeyUp = (id, e) => {
+    this.setState({ writing: true })
     clearTimeout(this.state.timeout)
     this.state.timeout = setTimeout(() => {
-      console.log(value)
+      this.props.updateProjectContent(this.state.description, id)
+      this.setState({ writing: false })
     }, 1000)
   }
 
@@ -45,35 +46,44 @@ class ProjectContent extends Component {
     this.props.getProjectById(id)
   }
 
+  componentWillReceiveProps(nextProps) {
+    // FIXME: Only update once when loaded initially
+    if (nextProps.project.project) {
+      const project = nextProps.project.project
+      this.setState({ description: project.descriptionMarkdown })
+    }
+  }
+
   render() {
-    // const { user } = this.props.auth
-    const { project, loading } = this.props.project
+    const { project, loading, dynamicSave } = this.props.project
 
     let projectContent
     if (loading) {
       projectContent = <Spinner />
     } else if (project) {
+      // TODO: Make project name updateable
       projectContent = (
         <div className={styles['project-content-container']}>
           <div className={styles['project-text']}>
             <div className={styles['project-text-title']}>
               <TextFieldGroup
                 name="title"
-                value={project.title}
+                value={project.name}
                 onChange={this.onChange}
               />
             </div>
             <div className={styles['project-text-description']}>
               <TextareaFieldGroup
+                className={dynamicSave ? styles['dynamic-save'] : ''}
                 name="description"
                 value={this.state.description}
                 onChange={this.onChange}
-                onKeyUp={this.onKeyUp}
+                onKeyUp={this.onKeyUp.bind(this, project._id)}
               />
             </div>
           </div>
           <div className={styles['project-images']}>
-            <ImageUpload project={this.props.project.project} />
+            <ImageUpload project={project} />
             <ImageList
               project={this.props.project}
               positions={[]}
@@ -96,7 +106,7 @@ class ProjectContent extends Component {
 
 ProjectContent.propTypes = {
   getProjectById: PropTypes.func.isRequired,
-  // updateProjectContent: PropTypes.func.isRequired,
+  updateProjectContent: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }
@@ -108,5 +118,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProjectById }
+  { getProjectById, updateProjectContent }
 )(ProjectContent)

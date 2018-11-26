@@ -3,6 +3,7 @@ import {
   GET_PROJECTS,
   PROJECT_LOADING,
   SET_WAITING,
+  SET_DYNAMIC_SAVE,
   GET_PROJECT,
   CLEAR_PROJECTS,
   CLEAR_CURRENT_PROJECT,
@@ -12,7 +13,8 @@ import {
   GET_GRID_TOPTEN,
   SET_GRID_POSITION,
   SET_BACKGROUND_IMAGE,
-  SET_IMAGE_VISIBILITY
+  SET_IMAGE_VISIBILITY,
+  UPDATE_PROJECT_CONTENT
 } from '../actions/types'
 
 const initialState = {
@@ -34,10 +36,22 @@ export default function(state = initialState, action) {
         ...state,
         waiting: true
       }
+    case SET_DYNAMIC_SAVE:
+      return {
+        ...state,
+        dynamicSave: true
+      }
     case CREATE_PROJECT:
       return {
         ...state,
         projects: action.payload,
+        description: action.payload.descriptionMarkdown,
+        waiting: false
+      }
+    case UPDATE_PROJECT_CONTENT:
+      return {
+        ...state,
+        project: action.payload,
         waiting: false
       }
     case GET_PROJECTS:
@@ -47,9 +61,11 @@ export default function(state = initialState, action) {
         loading: false
       }
     case GET_PROJECT:
+      console.log('reducer project:', action.payload)
       return {
         ...state,
         project: action.payload,
+        description: action.payload.descriptionMarkdown,
         loading: false
       }
     case CLEAR_PROJECTS:

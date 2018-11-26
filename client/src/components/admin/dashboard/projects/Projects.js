@@ -26,6 +26,7 @@ class Projects extends Component {
         <Route
           path="/admin/projects/:id"
           props={this.props}
+          description={this.props.description}
           component={ProjectContent}
         />
         <ProjectLayoutCheatsheet />
