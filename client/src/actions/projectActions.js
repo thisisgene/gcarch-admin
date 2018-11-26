@@ -3,6 +3,7 @@ import {
   GET_PROJECTS,
   PROJECT_LOADING,
   CLEAR_PROJECTS,
+  CLEAR_CURRENT_PROJECT,
   GET_ERRORS,
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
@@ -91,5 +92,12 @@ export const setProjectLoading = () => {
 export const clearProjects = () => {
   return {
     type: CLEAR_PROJECTS
+  }
+}
+// Clear current project
+export const clearCurrentProject = () => {
+  console.log('clear project')
+  return {
+    type: CLEAR_CURRENT_PROJECT
   }
 }

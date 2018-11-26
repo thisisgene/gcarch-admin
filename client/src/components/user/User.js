@@ -19,20 +19,28 @@ class User extends Component {
     }
   }
   componentDidMount() {
-    this.setState({ auth: this.props.auth.isAuthenticated })
+    this.setState({
+      auth: this.props.auth.isAuthenticated
+    })
   }
   render() {
-    const background_img =
-      'https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-
+    const { project } = this.props.project
+    let backgroundImg = ''
+    if (project && project.backgroundImage) {
+      backgroundImg =
+        project &&
+        `/public/${project._id}/${project.backgroundImage.originalName}`
+    }
     return (
       <div className={styles.user}>
         <div
           className={styles.background}
-          // style={{ backgroundImage: `url(${background_img}` }}
+          style={{
+            backgroundImage:
+              backgroundImg != '' ? `url(${backgroundImg}` : 'none'
+          }}
         />
         <Header auth={this.state.auth} />
-
         <Route exact path="/user" component={Landing} />
         <Route exact path="/user/projekte" component={Projects} />
         <Route
@@ -43,6 +51,7 @@ class User extends Component {
         />
       </div>
     )
+    // return <div>hallo</div>
   }
 }
 

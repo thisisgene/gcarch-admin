@@ -6,6 +6,9 @@ import { NavLink } from 'react-router-dom'
 import Spinner from '../../common/Spinner'
 import ProjectPreview from './ProjectPreview'
 
+import store from '../../../../store'
+import { clearCurrentProject } from '../../../../actions/projectActions'
+
 import cx from 'classnames'
 import styles from './Project.module.sass'
 import gridStyles from './ProjectGrid.module.sass'
@@ -17,12 +20,15 @@ import {
   getGridTopTen
 } from '../../../../actions/projectActions'
 
+// if (this.props.project.project) {
+
 // import './projects.css'
 class Projects extends Component {
   componentDidMount() {
     this.props.getAllProjects()
     this.props.getProjectsAfterTen()
     this.props.getGridTopTen()
+    store.dispatch(clearCurrentProject())
   }
 
   fillRemainingRanks = (top10, afterTenProjects, projectList) => {

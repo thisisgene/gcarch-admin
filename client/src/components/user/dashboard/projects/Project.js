@@ -12,15 +12,11 @@ class Project extends Component {
   }
   render() {
     const { project, loading } = this.props.project
-
     let projectContent
 
     if (loading) {
       projectContent = <Spinner />
     } else if (project) {
-      if (project.backgroundImage) {
-        console.log('background-image: ', project.backgroundImage._id)
-      }
       projectContent = (
         <div className="project-content-container">
           <p>{project.name}</p>

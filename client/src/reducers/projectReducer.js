@@ -4,6 +4,7 @@ import {
   SET_WAITING,
   GET_PROJECT,
   CLEAR_PROJECTS,
+  CLEAR_CURRENT_PROJECT,
   UPLOAD_IMAGES,
   DELETE_IMAGE,
   GET_PROJECTS_AFTER_TEN,
@@ -49,6 +50,11 @@ export default function(state = initialState, action) {
         ...state,
         project: null,
         projects: null
+      }
+    case CLEAR_CURRENT_PROJECT:
+      return {
+        ...state,
+        project: null
       }
     case UPLOAD_IMAGES:
       return {
