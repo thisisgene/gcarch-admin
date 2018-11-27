@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getAllProjects, getProjectById } from '../../actions/projectActions'
 
 import Header from './layout/Header'
 import Landing from './dashboard/Landing'
-import Projects from './dashboard/projects/Projects'
-import Project from './dashboard/projects/Project'
+import MainContent from './layout/MainContent'
 
 import styles from './User.module.sass'
 
@@ -22,6 +21,7 @@ class User extends Component {
     this.setState({
       auth: this.props.auth.isAuthenticated
     })
+    this.props.getAllProjects()
   }
   render() {
     const { project } = this.props.project
@@ -41,14 +41,10 @@ class User extends Component {
           }}
         />
         <Header auth={this.state.auth} />
-        <Route exact path="/user" component={Landing} />
-        <Route exact path="/user/projekte" component={Projects} />
-        <Route
-          exact
-          path="/user/projekte/:id"
-          props={this.props}
-          component={Project}
-        />
+        <Switch>
+          <Route exact path="/user" project={project} component={Landing} />
+          <MainContent />
+        </Switch>
       </div>
     )
     // return <div>hallo</div>

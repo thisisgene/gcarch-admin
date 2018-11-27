@@ -12,6 +12,7 @@ import TextareaFieldGroup from '../../common/TextareaFieldGroup'
 import Spinner from '../../common/Spinner'
 import ImageUpload from '../ImageUpload'
 import ImageList from '../ImageList'
+import Sidebar from './Sidebar'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
@@ -35,10 +36,12 @@ class ProjectContent extends Component {
   onKeyUp = (id, e) => {
     this.setState({ writing: true })
     clearTimeout(this.state.timeout)
-    this.state.timeout = setTimeout(() => {
-      this.props.updateProjectContent(this.state.description, id)
-      this.setState({ writing: false })
-    }, 1000)
+    this.setState({
+      timeout: setTimeout(() => {
+        this.props.updateProjectContent(this.state.description, id)
+        this.setState({ writing: false })
+      }, 1000)
+    })
   }
 
   componentDidMount() {
@@ -89,6 +92,9 @@ class ProjectContent extends Component {
               positions={[]}
               test="test"
             />
+          </div>
+          <div className={styles['project-sidebar']}>
+            <Sidebar project={this.props.project} />
           </div>
         </div>
       )

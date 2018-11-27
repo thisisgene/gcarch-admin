@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {
   CREATE_PROJECT,
+  UPDATE_PROJECT,
   UPDATE_PROJECT_CONTENT,
   GET_PROJECTS,
   PROJECT_LOADING,
@@ -11,7 +12,8 @@ import {
   GET_ERRORS,
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
-  GET_PROJECT
+  GET_PROJECT,
+  SET_HOME_PROJECT
 } from './types'
 
 // Create project
@@ -23,6 +25,20 @@ export const createProject = name => dispatch => {
   axios.post('/api/projects', data).then(res => {
     dispatch({
       type: CREATE_PROJECT,
+      payload: res.data
+    })
+  })
+}
+
+export const updateProject = (id, content, type) => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    id: id
+  }
+  data[type] = content
+  axios.post('/api/projects/update', data).then(res => {
+    dispatch({
+      type: UPDATE_PROJECT,
       payload: res.data
     })
   })
@@ -114,6 +130,25 @@ export const getGridTopTen = () => dispatch => {
     )
 }
 
+// SET HOME PROJECT
+export const setHomeProject = id => dispatch => {
+  dispatch(setWaiting())
+  axios
+    .get(`/api/projects/set_home_project/${id}`)
+    .then(res =>
+      dispatch({
+        type: SET_HOME_PROJECT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    )
+}
+
 // Project loading
 export const setProjectLoading = () => {
   return {
@@ -128,7 +163,6 @@ export const clearProjects = () => {
 }
 // Clear current project
 export const clearCurrentProject = () => {
-  console.log('clear project')
   return {
     type: CLEAR_CURRENT_PROJECT
   }

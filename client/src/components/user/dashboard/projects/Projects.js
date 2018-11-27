@@ -7,7 +7,6 @@ import Spinner from '../../common/Spinner'
 import ProjectPreview from './ProjectPreview'
 
 import store from '../../../../store'
-import { clearCurrentProject } from '../../../../actions/projectActions'
 
 import cx from 'classnames'
 import styles from './Project.module.sass'
@@ -17,7 +16,8 @@ import {
   getAllProjects,
   getProjectsAfterTen,
   getProjectById,
-  getGridTopTen
+  getGridTopTen,
+  clearCurrentProject
 } from '../../../../actions/projectActions'
 
 // if (this.props.project.project) {
@@ -25,7 +25,7 @@ import {
 // import './projects.css'
 class Projects extends Component {
   componentDidMount() {
-    this.props.getAllProjects()
+    // this.props.getAllProjects()
     this.props.getProjectsAfterTen()
     this.props.getGridTopTen()
     store.dispatch(clearCurrentProject())
@@ -154,7 +154,7 @@ class Projects extends Component {
           this.fillRemainingRanks(top10, afterTenProjects, projectList)
         }
         projectContent = (
-          <div>
+          <div className={styles['grid-container']}>
             <div className={gridStyles['grid']}>{projectList}</div>
           </div>
         )

@@ -14,7 +14,9 @@ import {
   SET_GRID_POSITION,
   SET_BACKGROUND_IMAGE,
   SET_IMAGE_VISIBILITY,
-  UPDATE_PROJECT_CONTENT
+  UPDATE_PROJECT,
+  UPDATE_PROJECT_CONTENT,
+  SET_HOME_PROJECT
 } from '../actions/types'
 
 const initialState = {
@@ -48,6 +50,12 @@ export default function(state = initialState, action) {
         description: action.payload.descriptionMarkdown,
         waiting: false
       }
+    case UPDATE_PROJECT:
+      return {
+        ...state,
+        project: action.payload,
+        waiting: false
+      }
     case UPDATE_PROJECT_CONTENT:
       return {
         ...state,
@@ -61,12 +69,17 @@ export default function(state = initialState, action) {
         loading: false
       }
     case GET_PROJECT:
-      console.log('reducer project:', action.payload)
       return {
         ...state,
         project: action.payload,
         description: action.payload.descriptionMarkdown,
         loading: false
+      }
+    case SET_HOME_PROJECT:
+      return {
+        ...state,
+        projects: action.payload,
+        waiting: false
       }
     case CLEAR_PROJECTS:
       return {

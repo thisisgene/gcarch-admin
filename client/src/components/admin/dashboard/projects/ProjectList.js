@@ -5,7 +5,8 @@ import { NavLink, withRouter } from 'react-router-dom'
 import {
   getAllProjects,
   getProjectById,
-  createProject
+  createProject,
+  setHomeProject
 } from '../../../../actions/projectActions'
 
 import TextInputButtonGroup from '../../common/TextInputButtonGroup'
@@ -34,7 +35,9 @@ class ProjectList extends Component {
     this.props.createProject(this.state.name)
     this.setState({ name: '' })
   }
-
+  onRadioClick = id => {
+    this.props.setHomeProject(id)
+  }
   render() {
     // const { user } = this.props.auth
     const { projects } = this.props.project
@@ -53,29 +56,59 @@ class ProjectList extends Component {
       } else {
         let projectList = []
         for (let i = 0; i < projects.length; i++) {
-          if (!projects[i].isDeleted) {
+          let project = projects[i]
+          if (!project.isDeleted) {
             projectList.push(
-              <li
+              <tr
                 key={i}
                 //
               >
-                <NavLink
-                  to={{
-                    pathname: '/admin/projects/' + projects[i]._id
-                  }}
-                  params={{ id: projects[i]._id }}
-                  activeClassName={styles['active']}
-                  onClick={() => this.props.getProjectById(projects[i]._id)}
-                >
-                  {projects[i].name}
-                </NavLink>
-              </li>
+                <td>
+                  <button
+                    className={cx(
+                      globalStyles['btn'],
+                      globalStyles['btn-link']
+                    )}
+                    onClick={this.onClickDelete}
+                    // data-img_id={img._id}
+                    // data-project_id={project._id}
+                  >
+                    <i className="fa fa-minus-circle" />
+                  </button>
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name={`optHomepage`}
+                    // className={globalStyles['form-control']}
+                    onClick={this.onRadioClick.bind(this, project._id)}
+                    // onChange={this.onChange.bind(this, `radio_${i}`)}
+                    defaultChecked={project.isHomePage}
+                  />
+                  {/* <input type="radio" name="opt" /> */}
+                </td>
+                <td>
+                  <NavLink
+                    to={{
+                      pathname: '/admin/projects/' + project._id
+                    }}
+                    params={{ id: project._id }}
+                    activeClassName={styles['active']}
+                    onClick={() => this.props.getProjectById(project._id)}
+                  >
+                    {project.name}
+                  </NavLink>
+                </td>
+              </tr>
             )
           }
         }
         projectListContent = (
-          <div>
-            <ul>{projectList}</ul>
+          <div className={styles['table-container']}>
+            <table className={styles['table-body']}>
+              <thead />
+              <tbody>{projectList}</tbody>
+            </table>
           </div>
         )
       }
@@ -104,7 +137,20 @@ class ProjectList extends Component {
               onChange={this.onChange}
               onClick={this.onClick}
             />
-
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <i className="far fa-trash-alt" />
+                  </th>
+                  <th>
+                    <i className="fas fa-home" />
+                  </th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody />
+            </table>
             <div className={styles['project-list-container']}>
               {projectListContent}
             </div>
@@ -119,6 +165,7 @@ ProjectList.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
   createProject: PropTypes.func.isRequired,
+  setHomeProject: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }
@@ -131,6 +178,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { getAllProjects, getProjectById, createProject }
+    { getAllProjects, getProjectById, createProject, setHomeProject }
   )(ProjectList)
 )

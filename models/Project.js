@@ -66,6 +66,10 @@ const ProjectSchema = new Schema({
       }
     }
   ],
+  isHomePage: {
+    type: Boolean,
+    default: false
+  },
   backgroundImage: {
     type: Object
   },

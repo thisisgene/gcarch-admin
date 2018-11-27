@@ -10,21 +10,44 @@
 
 .project-list 
   max-width: 270px
-  padding: 0 1rem
+  padding: 0
   border-right: 1px solid #444
   display: flex
 
   .project-list-container
     overflow-y: auto
-    max-height: 95%
-    padding-right: 1rem
-  ul
+    max-height: calc(95% - 20px)
+    width: 100%
+    // padding-right: 1rem
+  table
     margin-top: 1rem
-    text-align: right
+    text-align: center
+    width: 100%
 
-    li 
+    // &.table-body
+    //   height: 100px
+    //   overflow-y: auto
+    thead
+      border-bottom: 1px solid #aaa
+    th
+      font-size: .8rem
+   
+    tr
       margin-bottom: 0.3rem
 
+      &:hover
+        background: rgba(#aaa, .1)
+
+      td
+        text-align: center
+        line-height: 1
+        padding: 0 1rem
+        &:first-child
+          padding: 0
+        &:last-child
+          padding: 0
+          text-align: right
+        
       a 
         color: #fff
         padding: 5px 10px

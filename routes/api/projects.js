@@ -17,7 +17,7 @@ module.exports = router
 router.get('/', (req, res) => {
   // res.json({ msg: 'Jubidu' })
   const errors = {}
-  Project.find()
+  Project.find({ isDeleted: false })
     .then(projects => {
       if (projects === undefined || projects.length === 0) {
         return res.json({ noprojects: 'Noch keine Projekte.' })
@@ -93,7 +93,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const body = req.body
-
+    console.log(body)
     const projectFields = {}
     if (body.name) projectFields.name = body.name
     if (body.title) projectFields.title = body.title
@@ -111,7 +111,7 @@ router.post(
     if (body.importanceOnGrid)
       projectFields.importanceOnGrid = body.importanceOnGrid
     if (body.sizeOnGrid) projectFields.sizeOnGrid = body.sizeOnGrid
-    if (body.isVisible) projectFields.isVisible = body.isVisible
+    if (body.isVisible !== undefined) projectFields.isVisible = body.isVisible
     projectFields.lastEdited = {
       user: req.user,
       date: new Date()
@@ -174,6 +174,28 @@ router.post(
       })
   }
 )
+// @route   GET api/projects/set_home_project/:id
+// @desc    Set project to be displayed on home screen
+// @access  Private
+router.get(
+  '/set_home_project/:projectid',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    Project.findOneAndUpdate({ isHomePage: true }, { isHomePage: false }).then(
+      async () => {
+        const project = await getProjectById(req.params.projectid)
+        if (project) {
+          project.isHomePage = true
+          project.save(async () => {
+            const projects = await getProjectsByQuery({ isDeleted: false })
+            console.log(projects)
+            res.json(projects)
+          })
+        }
+      }
+    )
+  }
+)
 
 // @route   GET api/projects/delete_image/:id
 // @desc    Delete image by id.
@@ -222,6 +244,7 @@ router.get(
 router.get('/get_projects_after_ten', async (req, res) => {
   const query = { $or: [{ topTenOnGrid: false }, { topTenOnGrid: null }] }
   let projects = await getProjectsByQuery(query)
+  console.log(projects)
   res.json(projects)
 })
 
@@ -229,7 +252,7 @@ router.get('/get_projects_after_ten', async (req, res) => {
 // @desc    Get all project of the top 10
 // @access  Public
 router.get('/get_project_grid', async (req, res) => {
-  const query = { topTenOnGrid: true }
+  const query = { topTenOnGrid: true, isVisible: true }
   let projects = await getProjectsByQuery(query)
   res.json(projects)
 })

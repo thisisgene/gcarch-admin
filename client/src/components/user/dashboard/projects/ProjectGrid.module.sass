@@ -1,9 +1,14 @@
-$gridWidth: 60vw
-$itemBaseHeight: $gridWidth / 6 / 1.5
+$gridWidth: calc(100vw - 540px)
+$itemBaseHeight: calc(calc(100vw - 540px) / 6 / 1.5)
 
-@media(max-width: 900px)
-  $gridWidth: 100vw
 
+@keyframes glowing
+  0%
+    background-color: rgba(#ddd, .1)
+  50%
+    background-color: rgba(#ddd, 1)
+  100%
+    background-color: rgba(#ddd, .1)
 
 .grid
   width: $gridWidth
@@ -13,17 +18,27 @@ $itemBaseHeight: $gridWidth / 6 / 1.5
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr
   grid-auto-rows: $itemBaseHeight
   grid-gap: 4px
+  @media(max-width: 1080px)
+    width: calc(100vw - 310px)
+    grid-auto-rows: calc(calc(100vw - 310px) / 6 / 1.5)
+
   
   .grid-item
     position: relative
-    background: #ddd
+    // background: #eee
     box-sizing: border-box
     width: 100%
+    height: 100%
     overflow: hidden
     display: flex
     justify-content: center
     align-items: center
+    // animation: glowing 1000ms ease-in-out infinite
     
+    a
+      width: 100%
+      height: 100%
+
     .img-tag-container
       opacity: 0
       position: absolute
@@ -51,34 +66,53 @@ $itemBaseHeight: $gridWidth / 6 / 1.5
     &:hover
       .img-tag-container
         opacity: 1
-
-    img
+    .img-container
+      width: 100%
       height: 100%
+      display: flex
+    img
+      object-fit: cover
+      object-position: center
+      // max-height: 100%
+      max-width: 100%
+      opacity: 0
+      transition: opacity 1000ms ease-in-out
+
+    .loaded
+      opacity: 1
 
     &--1
       grid-column: 1 / 5
       grid-row: 1 / 5
+      animation-delay: 50ms
     &--2
       grid-column-start: 5
       grid-column-end: column6-end
       grid-row: 1 / 3
+      animation-delay: 100ms
     &--3
       grid-column: 1 / 3
       grid-row: 5 / 7
+      animation-delay: 150ms
     &--4
       grid-column: 3 / 5
       grid-row: 5 / 7
+      animation-delay: 200ms
     &--5
       grid-column-start: 5
       grid-column-end: column6-end
       grid-row: 3 / 7
+      animation-delay: 250ms
     &--6
       grid-column: 1 / 4
       grid-row: 7 / 10
+      animation-delay: 300ms
     &--7
+      
       grid-column-start: 4
       grid-column-end: column6-end
       grid-row: 7 / 10
+      animation-delay: 350ms
     &--8
       grid-column: 1 / 3
       grid-row: 10 / 12
