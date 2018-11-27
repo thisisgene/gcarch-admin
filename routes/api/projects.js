@@ -150,8 +150,9 @@ router.post(
   (req, res) => {
     const file = req.files.file
     const body = req.body
+    const imgName = body.name.replace(/ /g, '_')
     const newImage = {
-      originalName: body.name
+      originalName: imgName
     }
     Project.findByIdAndUpdate(
       // FIXME: If project has no background image, make first image to upload the background image!
@@ -160,7 +161,7 @@ router.post(
       { safe: true, new: true }
     )
       .then(project => {
-        file.mv(`public/${body.id}/${req.body.name}`, function(err) {
+        file.mv(`public/${body.id}/${imgName}`, function(err) {
           if (err) {
             console.log(err)
             return res.status(500).send(err)

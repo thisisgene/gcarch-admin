@@ -2,4 +2,12 @@
 Todo:
   ☐ Implement News
   ☐ Force 'logout' when Token expired.
+
+  Admin:
+    ☐ Delete projects
+    ☐ Remove images from db image files from server
+
+  User:
+    ☐ Change Menu color depending on background
+
   
