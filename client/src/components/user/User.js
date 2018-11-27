@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getAllProjects, getProjectById } from '../../actions/projectActions'
@@ -63,7 +63,9 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(
-  mapStateToProps,
-  { getAllProjects, getProjectById }
-)(User)
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getAllProjects, getProjectById }
+  )(User)
+)
