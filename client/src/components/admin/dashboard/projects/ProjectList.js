@@ -6,7 +6,8 @@ import {
   getAllProjects,
   getProjectById,
   createProject,
-  setHomeProject
+  setHomeProject,
+  deleteProject
 } from '../../../../actions/projectActions'
 
 import TextInputButtonGroup from '../../common/TextInputButtonGroup'
@@ -37,6 +38,9 @@ class ProjectList extends Component {
   }
   onRadioClick = id => {
     this.props.setHomeProject(id)
+  }
+  onClickDelete = id => {
+    this.props.deleteProject(id)
   }
   render() {
     // const { user } = this.props.auth
@@ -69,7 +73,7 @@ class ProjectList extends Component {
                       globalStyles['btn'],
                       globalStyles['btn-link']
                     )}
-                    onClick={this.onClickDelete}
+                    onClick={this.onClickDelete.bind(this, project._id)}
                     // data-img_id={img._id}
                     // data-project_id={project._id}
                   >
@@ -166,6 +170,7 @@ ProjectList.propTypes = {
   getProjectById: PropTypes.func.isRequired,
   createProject: PropTypes.func.isRequired,
   setHomeProject: PropTypes.func.isRequired,
+  deleteProject: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }
@@ -178,6 +183,12 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { getAllProjects, getProjectById, createProject, setHomeProject }
+    {
+      getAllProjects,
+      getProjectById,
+      createProject,
+      setHomeProject,
+      deleteProject
+    }
   )(ProjectList)
 )

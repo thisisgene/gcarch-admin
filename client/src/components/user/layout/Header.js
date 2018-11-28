@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import Logo from '../common/logo.svg'
+import LogoS from '../common/logo.svg'
+import LogoW from '../common/logo_white.svg'
 
 import styles from './Header.module.sass'
 
@@ -19,7 +20,7 @@ export default class Header extends Component {
         <div className={styles.logo}>
           <NavLink to="/user">
             <img
-              src={Logo}
+              src={LogoW}
               height="30"
               className="d-inline-block align-top"
               alt=""

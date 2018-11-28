@@ -34,6 +34,7 @@ class Projects extends Component {
   fillRemainingRanks = (top10, afterTenProjects, projectList) => {
     let past10rank = 11
     let rank
+    // if (afterTenProjects)
     for (let i = 0; i < afterTenProjects.length; i++) {
       let project = afterTenProjects[i]
       if (project.images.length > 0) {
@@ -99,9 +100,10 @@ class Projects extends Component {
             <p>{projects.noprojects}</p>
           </div>
         )
-      } else if (toptenProjects.length > 1) {
+      } else if (afterTenProjects.length > 1) {
         this.fillRemainingRanks(top10, afterTenProjects, projectList)
       } else {
+        console.log('now')
         for (let i = 0; i < toptenProjects.length; i++) {
           if (toptenProjects[i].images.length > 0) {
             for (let image of toptenProjects[i].images) {

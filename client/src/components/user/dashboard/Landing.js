@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import store from '../../../store'
-import { clearCurrentProject } from '../../../actions/projectActions'
+import {
+  clearCurrentProject,
+  setUserBackground
+} from '../../../actions/projectActions'
 
 import cx from 'classnames'
 import styles from './Landing.module.sass'
@@ -75,5 +78,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { setUserBackground }
 )(Landing)

@@ -16,7 +16,9 @@ import {
   SET_IMAGE_VISIBILITY,
   UPDATE_PROJECT,
   UPDATE_PROJECT_CONTENT,
-  SET_HOME_PROJECT
+  SET_HOME_PROJECT,
+  SET_USER_BACKGROUND,
+  DELETE_PROJECT
 } from '../actions/types'
 
 const initialState = {
@@ -92,6 +94,11 @@ export default function(state = initialState, action) {
         ...state,
         project: null
       }
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        projects: action.payload
+      }
     case UPLOAD_IMAGES:
       return {
         ...state,
@@ -133,6 +140,11 @@ export default function(state = initialState, action) {
         ...state,
         project: action.payload,
         waiting: false
+      }
+    case SET_USER_BACKGROUND:
+      return {
+        ...state,
+        background: action.payload
       }
     default:
       return state

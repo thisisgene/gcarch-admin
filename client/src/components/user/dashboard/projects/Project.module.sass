@@ -1,5 +1,54 @@
-.projects
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700')
 
-  .project-grid
-    width: 100%
-    // height: 100vh
+.project-content-container
+  font-family: 'Lato', 'Helvetica Neue', sans-serif
+  background: white
+  padding: 0 1rem
+  width: 100%
+  color: white
+  position: relative
+  top: 0
+
+  .placeholder
+    opacity: 0
+
+  .project-info
+    // mix-blend-mode: color-burn
+    // color: black
+    margin-left: 2rem
+    position: fixed
+    top: 1rem
+    // &.fixed
+    //   position: fixed
+    //   top: 1rem
+    .project-title
+      text-transform: uppercase
+      font:
+        size: 1.6rem
+        weight: bold
+      margin: 0
+
+    .project-location
+      font-size: .8rem
+
+  .project-content
+    margin-top: 100vh
+
+    .project-description
+      color: #111111
+      padding: 2rem
+      margin-bottom: 1rem     
+      column-count: 2 
+      line-height: 1.3
+      text-align: justify
+      font-size: .9rem
+
+    .image-container
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      .project-img
+        width: 100%
+        margin-bottom: 1rem
+        opacity: 1

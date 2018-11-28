@@ -13,7 +13,9 @@ import {
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
   GET_PROJECT,
-  SET_HOME_PROJECT
+  DELETE_PROJECT,
+  SET_HOME_PROJECT,
+  SET_USER_BACKGROUND
 } from './types'
 
 // Create project
@@ -149,6 +151,24 @@ export const setHomeProject = id => dispatch => {
     )
 }
 
+// delete project
+export const deleteProject = id => dispatch => {
+  axios
+    .get(`/api/projects/delete/${id}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    )
+}
+
 // Project loading
 export const setProjectLoading = () => {
   return {
@@ -176,5 +196,16 @@ export const setWaiting = () => {
 export const setDynamicSave = () => {
   return {
     type: SET_DYNAMIC_SAVE
+  }
+}
+
+export const setUserBackground = (value, type) => {
+  const background = {
+    value: value,
+    type: type
+  }
+  return {
+    type: SET_USER_BACKGROUND,
+    payload: background
   }
 }

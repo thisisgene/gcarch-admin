@@ -35,7 +35,6 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const body = req.body
-    console.log(body.name)
     const { errors, isValid } = await validateProjectInput(body)
 
     // Check validation
@@ -93,7 +92,6 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const body = req.body
-    console.log(body)
     const projectFields = {}
     if (body.name) projectFields.name = body.name
     if (body.title) projectFields.title = body.title
@@ -133,7 +131,10 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Project.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true })
-      .then(project => res.json(project))
+      .then(async project => {
+        const projects = await getProjectsByQuery({ isDeleted: false })
+        res.json(projects)
+      })
       .catch(err => {
         errors.project = 'Projekt nicht gefunden.'
         return res.status(404).json(errors)
@@ -163,7 +164,6 @@ router.post(
       .then(project => {
         file.mv(`public/${body.id}/${imgName}`, function(err) {
           if (err) {
-            console.log(err)
             return res.status(500).send(err)
           }
         })
@@ -189,7 +189,6 @@ router.get(
           project.isHomePage = true
           project.save(async () => {
             const projects = await getProjectsByQuery({ isDeleted: false })
-            console.log(projects)
             res.json(projects)
           })
         }
@@ -207,7 +206,6 @@ router.get(
   (req, res) => {
     const projectId = req.params.projectid
     const imgId = req.params.imgid
-    // console.log(projectId)
     Project.findById(projectId)
       .then(project => {
         let topTenOnGrid = false
@@ -243,9 +241,12 @@ router.get(
 // @desc    Get all projects after rank 10
 // @access  Public
 router.get('/get_projects_after_ten', async (req, res) => {
-  const query = { $or: [{ topTenOnGrid: false }, { topTenOnGrid: null }] }
+  const query = {
+    $or: [{ topTenOnGrid: false }, { topTenOnGrid: null }],
+    isDeleted: false,
+    isVisible: true
+  }
   let projects = await getProjectsByQuery(query)
-  console.log(projects)
   res.json(projects)
 })
 
@@ -253,7 +254,7 @@ router.get('/get_projects_after_ten', async (req, res) => {
 // @desc    Get all project of the top 10
 // @access  Public
 router.get('/get_project_grid', async (req, res) => {
-  const query = { topTenOnGrid: true, isVisible: true }
+  const query = { topTenOnGrid: true, isVisible: true, isDeleted: false }
   let projects = await getProjectsByQuery(query)
   res.json(projects)
 })
