@@ -13,6 +13,7 @@ import {
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
   GET_PROJECT,
+  SORT_PROJECTS,
   DELETE_PROJECT,
   SET_HOME_PROJECT,
   SET_USER_BACKGROUND
@@ -140,6 +141,24 @@ export const setHomeProject = id => dispatch => {
     .then(res =>
       dispatch({
         type: SET_HOME_PROJECT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    )
+}
+
+// Sort projects
+export const sortProjects = orderObj => dispatch => {
+  axios
+    .post('/api/projects/sort', orderObj)
+    .then(res =>
+      dispatch({
+        type: SORT_PROJECTS,
         payload: res.data
       })
     )

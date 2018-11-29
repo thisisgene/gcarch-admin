@@ -96,6 +96,9 @@ const ProjectSchema = new Schema({
     type: Boolean,
     default: true
   },
+  position: {
+    type: Number
+  },
   isDeleted: {
     type: Boolean,
     default: false

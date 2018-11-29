@@ -18,6 +18,8 @@ router.get('/', (req, res) => {
   // res.json({ msg: 'Jubidu' })
   const errors = {}
   Project.find({ isDeleted: false })
+    .sort('position')
+    .exec()
     .then(projects => {
       if (projects === undefined || projects.length === 0) {
         return res.json({ noprojects: 'Noch keine Projekte.' })
@@ -119,6 +121,34 @@ router.post(
       .catch(err => {
         errors.project = 'Projekt nicht gefunden.'
         return res.status(404).json(errors)
+      })
+  }
+)
+
+// @route   POST api/projects/sort
+// @desc    Sort projects.
+// @access  Private
+router.post(
+  '/sort',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const orderObj = req.body.orderObj
+    const projects = await getProjectsByQuery({ isDeleted: false })
+    projects.forEach(project => {
+      console.log(project.id, project.name, req.body['position' + project.id])
+      project.position = req.body['position' + project.id]
+      console.log(project.position)
+      project.save((err, project) => console.log(project))
+    })
+    Project.find({
+      isDeleted: false
+    })
+      .sort('position')
+      .exec((err, projects) => {
+        if (!err) {
+          console.log(projects)
+          res.json(projects)
+        }
       })
   }
 )

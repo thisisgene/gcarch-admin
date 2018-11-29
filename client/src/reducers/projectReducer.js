@@ -18,7 +18,8 @@ import {
   UPDATE_PROJECT_CONTENT,
   SET_HOME_PROJECT,
   SET_USER_BACKGROUND,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  SORT_PROJECTS
 } from '../actions/types'
 
 const initialState = {
@@ -93,6 +94,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         project: null
+      }
+    case SORT_PROJECTS:
+      return {
+        ...state,
+        projects: action.payload
       }
     case DELETE_PROJECT:
       return {

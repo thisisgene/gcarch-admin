@@ -19,6 +19,34 @@
     max-height: calc(95% - 20px)
     width: 100%
     // padding-right: 1rem
+    
+    .list-container
+      ul
+        margin: 0
+        li
+          display: flex
+          flex-direction: row
+          justify-content: space-between
+          align-items: center
+          &:hover
+          background: rgba(#aaa, .1)
+          .list-child
+            flex: 1
+            padding: 12px
+            &:last-child
+              flex: 2
+            button
+              padding: 0
+            a 
+              color: #fff
+              padding: 6px 10px
+              box-sizing: border-box
+              display: block
+        
+
+              &.active 
+                background: #51545b
+                font-style: italic
   table
     margin-top: 1rem
     text-align: center
@@ -35,8 +63,7 @@
     tr
       margin-bottom: 0.1rem
 
-      &:hover
-        background: rgba(#aaa, .1)
+      
 
       td
         text-align: center
@@ -49,18 +76,8 @@
           text-align: right
           font-size: .9rem
         
-        button
-          padding: 4px 12px
-      a 
-        color: #fff
-        padding: 6px 10px
-        box-sizing: border-box
-        display: block
-  
-
-        &.active 
-          background: #51545b
-          font-style: italic
+        
+      
 
 .project-content 
   flex-grow: 3
