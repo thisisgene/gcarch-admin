@@ -1,0 +1,38 @@
+$gridWidth: calc(100vw - 540px)
+$itemBaseHeight: calc(calc(100vw - 540px) / 6 / 1.5)
+  
+.team-container
+  width: $gridWidth
+  margin: 8px auto
+  padding: 0 1rem
+  display: grid
+  grid-template-columns: 1fr 1fr
+  // grid-auto-rows: $itemBaseHeight
+  grid-gap: 4px
+  @media(max-width: 1080px)
+    width: calc(100vw - 310px)
+    // grid-auto-rows: calc(calc(100vw - 310px) / 6 / 1.5)
+
+  .team-member
+    // width: 50%
+    padding: 0 .4rem 1rem
+    margin-bottom: 1rem
+
+    &-name
+      text-transform: uppercase
+      font-weight: bold
+    
+    &-email
+      font-size: .8rem
+      margin-bottom: 1rem
+    &-description
+      font-size: .9rem
+      line-height: 1.2
+    img
+      margin-bottom: .5rem
+      width: 100%
+      // display: none
+
+  
+
+  
