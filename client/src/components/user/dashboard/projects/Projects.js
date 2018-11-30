@@ -57,6 +57,7 @@ class Projects extends Component {
                   gridStyles['grid-item'],
                   gridStyles[`grid-item--${rank}`]
                 )}
+                style={{ order: rank }}
                 key={rank}
               >
                 <NavLink
@@ -123,6 +124,7 @@ class Projects extends Component {
                       gridStyles['grid-item'],
                       gridStyles[`grid-item--${image.gridPosition}`]
                     )}
+                    style={{ order: image.gridPosition }}
                     key={image.gridPosition}
                     //
                   >
