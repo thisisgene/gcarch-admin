@@ -46,19 +46,15 @@ class ImageUpload extends Component {
           >
             {({ isDragAccept, isDragReject, acceptedFiles, rejectedFiles }) => {
               if (acceptedFiles.length || rejectedFiles.length) {
-                return `Accepted ${acceptedFiles.length}, rejected ${
+                return `Akzeptiert: ${acceptedFiles.length}, abgelehnt: ${
                   rejectedFiles.length
-                } files`
+                }`
               }
               if (isDragAccept) {
-                return 'This file is authorized'
+                return 'Gültiges Format.'
               }
               if (isDragReject) {
-                return (
-                  <p className="small">
-                    Ungültiges Format. Nur Bilddateien erlaubt.
-                  </p>
-                )
+                return 'Ungültiges Format. Nur Bilddateien erlaubt.'
               }
               return (
                 <p>

@@ -192,6 +192,7 @@ router.post(
       originalName: imgName
     }
     Project.findByIdAndUpdate(
+      // TODO: Only allow image files.
       // FIXME: If project has no background image, make first image to upload the background image!
       body.id,
       { $push: { images: newImage } },
