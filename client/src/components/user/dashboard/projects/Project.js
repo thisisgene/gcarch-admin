@@ -17,15 +17,24 @@ class Project extends Component {
     super()
     this.state = {
       scrollDistance: 0,
-      titlePosition: 20,
+      titlePosition: 0,
+      offset: 20,
       titleColor: 255,
-      fixed: true
+      fixed: true,
+      mobile: false
     }
   }
   componentDidMount() {
     const id = this.props.match.params.id
     this.props.getProjectById(id)
     this.props.hasBackgroundImage(true)
+    const isMobile = window.innerWidth < 768
+    if (isMobile) {
+      this.setState({
+        mobile: true,
+        offset: 84
+      })
+    }
     window.addEventListener('scroll', this.listenScrollEvent)
   }
 
@@ -43,19 +52,22 @@ class Project extends Component {
         titleColor: 255
       })
     }
-    if (window.scrollY > window.innerHeight - 20) {
-      this.setState({
-        titlePosition: window.innerHeight - window.scrollY // + 20 - 20
-      })
+    if (window.scrollY > window.innerHeight - this.state.offset) {
+      if (this.state.mobile) {
+        this.setState({ fixed: false })
+      } else {
+        this.setState({
+          titlePosition: window.innerHeight - window.scrollY - this.state.offset
+        })
+      }
     } else {
-      this.setState({ titlePosition: 20 })
+      this.setState({ titlePosition: 0 })
     }
   }
 
   render() {
     const { project, loading } = this.props.project
     let projectContent
-
     if (loading) {
       projectContent = <Spinner />
     } else if (project) {
@@ -81,22 +93,44 @@ class Project extends Component {
         >
           <div className={styles['placeholder']}>hallo</div>
           <div
-            className={cx(styles['project-info'], {
-              [styles.fixed]: this.state.fixed
-            })}
-            style={{
-              top: this.state.titlePosition,
-              color: `rgb(
+            className={styles['project-info']}
+            style={
+              this.state.mobile === false
+                ? {
+                    // zIndex: this.state.mobile ? -1 : 1,
+                    top: this.state.titlePosition + this.state.offset,
+                    color: `rgb(
                 ${this.state.titleColor},
                 ${this.state.titleColor},
                 ${this.state.titleColor}
               )`
-            }}
+                  }
+                : {
+                    opacity: `calc(1 - ${this.state.scrollDistance} * 5)`
+                  }
+            }
           >
             <h1 className={styles['project-title']}>{project.name}</h1>
             <div className={styles['project-location']}>Wien Simmering</div>
           </div>
           <div className={styles['project-content']}>
+            <div
+              className={cx(styles['project-info'], styles['mobile-title'])}
+              style={
+                this.state.mobile
+                  ? {
+                      color: `rgba(calc(${this.state.titleColor}/1.4),
+                        calc(${this.state.titleColor}/1.4),
+                        calc(${this.state.titleColor}/1.4), calc(-.5 + ${
+                        this.state.scrollDistance
+                      } * 8))`
+                    }
+                  : {}
+              }
+            >
+              <h1 className={styles['project-title']}>{project.name}</h1>
+              <div className={styles['project-location']}>Wien Simmering</div>
+            </div>
             <div
               className={styles['project-description']}
               dangerouslySetInnerHTML={{ __html: project.descriptionHtml }}

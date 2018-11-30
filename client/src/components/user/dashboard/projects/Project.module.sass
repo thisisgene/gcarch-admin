@@ -9,6 +9,7 @@
   position: relative
   top: 0
 
+  
   .placeholder
     opacity: 0
 
@@ -28,6 +29,10 @@
   .project-content
     margin-top: 100vh
 
+    .mobile-title
+      display: none
+      
+
     .project-description
       color: #111111
       padding: 2rem
@@ -46,3 +51,13 @@
         width: 100%
         margin-bottom: 1rem
         opacity: 1
+
+  @media(max-width: 768px)
+    padding: 0
+    .project-content
+      .mobile-title
+        display: block
+        position: relative
+        color: #111
+    .project-info
+      bottom: 20px
