@@ -9,6 +9,16 @@ import cx from 'classnames'
 import styles from './Header.module.sass'
 
 class Header extends Component {
+  state = {
+    mobileExpand: false
+  }
+
+  onMobileNavClick = () => {
+    this.setState({
+      mobileExpand: !this.state.mobileExpand
+    })
+  }
+
   render() {
     // NOTE: Does link to admin make sense?
     // const toAdmin = this.props.auth ? (
@@ -27,7 +37,7 @@ class Header extends Component {
         })}
       >
         <div className={styles.logo}>
-          <NavLink to="/user">
+          <NavLink onClick={this.onMobileNavClick} to="/user">
             <img
               src={hasBackgroundImage ? LogoW : LogoS}
               height="30"
@@ -50,6 +60,51 @@ class Header extends Component {
             Kontakt
           </NavLink>
           {/* {toAdmin} */}
+        </div>
+        <div className={styles['mobile-menu-container']}>
+          <div
+            className={cx(styles['mobile-menu'], {
+              [styles['expanded']]: this.state.mobileExpand
+            })}
+          >
+            <NavLink
+              activeClassName={styles.active}
+              onClick={this.onMobileNavClick}
+              to="/user/aktuell"
+            >
+              Aktuell
+            </NavLink>
+            <NavLink
+              activeClassName={styles.active}
+              onClick={this.onMobileNavClick}
+              to="/user/projekte"
+            >
+              Projekte
+            </NavLink>
+            <NavLink
+              activeClassName={styles.active}
+              onClick={this.onMobileNavClick}
+              to="/user/team"
+            >
+              Team
+            </NavLink>
+            <NavLink
+              activeClassName={styles.active}
+              onClick={this.onMobileNavClick}
+              to="/user/kontakt"
+            >
+              Kontakt
+            </NavLink>
+          </div>
+          <div className={styles['mobile-menu-button']}>
+            <div onClick={this.onMobileNavClick}>
+              <span
+                className={cx(styles['nav-burger'], {
+                  [styles['burger-expand']]: this.state.mobileExpand
+                })}
+              />
+            </div>
+          </div>
         </div>
       </div>
     )
