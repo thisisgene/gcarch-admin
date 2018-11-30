@@ -21,7 +21,7 @@ import commonStyles from '../../common/Common.module.sass'
 import styles from './Projects.module.sass'
 
 const grid = 12
-
+let projectList = []
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'rgba(255, 255, 255, .1)' : 'transparent'
 })
@@ -52,7 +52,7 @@ class ProjectList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      projectList: '',
+      projectList: [],
       name: ''
     }
   }
@@ -116,7 +116,7 @@ class ProjectList extends Component {
           </div>
         )
       } else {
-        let projectList = []
+        projectList = []
         for (let i = 0; i < projects.length; i++) {
           let project = projects[i]
           if (!project.isDeleted) {

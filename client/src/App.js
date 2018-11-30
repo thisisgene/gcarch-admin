@@ -24,7 +24,7 @@ if (localStorage.jwtToken) {
 
   // Check for expired token
   const currentTime = Date.now() / 1000
-  if (decoded.exp < currentTime) {
+  if (decoded.exp < currentTime && window.location.href.indexOf('admin') > -1) {
     // Logout user
     store.dispatch(logoutUser())
     // Clear current Project

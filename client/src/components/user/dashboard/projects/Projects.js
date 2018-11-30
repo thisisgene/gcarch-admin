@@ -17,7 +17,8 @@ import {
   getProjectsAfterTen,
   getProjectById,
   getGridTopTen,
-  clearCurrentProject
+  clearCurrentProject,
+  hasBackgroundImage
 } from '../../../../actions/projectActions'
 
 // if (this.props.project.project) {
@@ -25,10 +26,11 @@ import {
 // import './projects.css'
 class Projects extends Component {
   componentDidMount() {
-    // this.props.getAllProjects()
+    store.dispatch(clearCurrentProject())
+    this.props.hasBackgroundImage(false)
+    this.props.getAllProjects()
     this.props.getProjectsAfterTen()
     this.props.getGridTopTen()
-    store.dispatch(clearCurrentProject())
   }
 
   fillRemainingRanks = (top10, afterTenProjects, projectList) => {
@@ -102,6 +104,7 @@ class Projects extends Component {
         )
       } else if (afterTenProjects.length > 1) {
         this.fillRemainingRanks(top10, afterTenProjects, projectList)
+        console.log('hallo')
       } else {
         console.log('now')
         for (let i = 0; i < toptenProjects.length; i++) {
@@ -176,6 +179,7 @@ Projects.propTypes = {
   getProjectsAfterTen: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
   getGridTopTen: PropTypes.func.isRequired,
+  hasBackgroundImage: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   topten: PropTypes.object
@@ -188,7 +192,13 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAllProjects, getProjectsAfterTen, getProjectById, getGridTopTen }
+  {
+    getAllProjects,
+    getProjectsAfterTen,
+    getProjectById,
+    getGridTopTen,
+    hasBackgroundImage
+  }
 )(Projects)
 
 // export default Projects

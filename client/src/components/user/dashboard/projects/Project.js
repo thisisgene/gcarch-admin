@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getProjectById } from '../../../../actions/projectActions'
+import {
+  getProjectById,
+  hasBackgroundImage
+} from '../../../../actions/projectActions'
 
 import Spinner from '../../common/Spinner'
 
@@ -14,7 +17,7 @@ class Project extends Component {
     super()
     this.state = {
       scrollDistance: 0,
-      titlePosition: 16,
+      titlePosition: 20,
       titleColor: 255,
       fixed: true
     }
@@ -22,6 +25,7 @@ class Project extends Component {
   componentDidMount() {
     const id = this.props.match.params.id
     this.props.getProjectById(id)
+    this.props.hasBackgroundImage(true)
     window.addEventListener('scroll', this.listenScrollEvent)
   }
 
@@ -29,7 +33,6 @@ class Project extends Component {
     let scrollDistance
     if (window.scrollY > 100) {
       scrollDistance = (window.scrollY - 100) / 500
-      console.log(scrollDistance)
       this.setState({
         scrollDistance,
         titleColor: 255 - scrollDistance * 200
@@ -42,10 +45,10 @@ class Project extends Component {
     }
     if (window.scrollY > window.innerHeight - 20) {
       this.setState({
-        titlePosition: window.innerHeight - window.scrollY + 16 - 20
+        titlePosition: window.innerHeight - window.scrollY // + 20 - 20
       })
     } else {
-      this.setState({ titlePosition: 16 })
+      this.setState({ titlePosition: 20 })
     }
   }
 
@@ -112,16 +115,18 @@ class Project extends Component {
 
 Project.propTypes = {
   getProjectById: PropTypes.func.isRequired,
+  hasBackgroundImage: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   project: state.project,
+  // hasBackgroundImage: state.hasBackgroundImage,
   auth: state.auth
 })
 
 export default connect(
   mapStateToProps,
-  { getProjectById }
+  { getProjectById, hasBackgroundImage }
 )(Project)

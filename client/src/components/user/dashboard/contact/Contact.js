@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import store from '../../../../store'
-import { clearCurrentProject } from '../../../../actions/projectActions'
+import {
+  clearCurrentProject,
+  hasBackgroundImage
+} from '../../../../actions/projectActions'
 
 import Map from './Map'
 
@@ -10,6 +14,7 @@ import styles from './Contact.module.sass'
 class Contact extends Component {
   componentDidMount() {
     store.dispatch(clearCurrentProject())
+    this.props.hasBackgroundImage(false)
   }
   render() {
     return (
@@ -29,5 +34,7 @@ class Contact extends Component {
     )
   }
 }
-
-export default Contact
+export default connect(
+  null,
+  { hasBackgroundImage }
+)(Contact)

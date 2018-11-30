@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 const marked = require('marked')
-
+const Jimp = require('jimp')
 // Load project model
 const Project = require('../../models/Project')
 
@@ -71,7 +71,7 @@ router.post(
 // @access  Public
 router.get('/id/:id', (req, res) => {
   const errors = {}
-  Project.findById(req.params.id)
+  Project.findOne({ _id: req.params.id, isDeleted: false })
     .populate('lastEdited.user', ['name'])
     .then(project => {
       if (!project) {
@@ -134,22 +134,28 @@ router.post(
   async (req, res) => {
     const orderObj = req.body.orderObj
     const projects = await getProjectsByQuery({ isDeleted: false })
-    projects.forEach(project => {
-      console.log(project.id, project.name, req.body['position' + project.id])
-      project.position = req.body['position' + project.id]
-      console.log(project.position)
-      project.save((err, project) => console.log(project))
-    })
-    Project.find({
-      isDeleted: false
-    })
-      .sort('position')
-      .exec((err, projects) => {
-        if (!err) {
-          console.log(projects)
-          res.json(projects)
-        }
+    let projectPromise = new Promise((resolve, reject) => {
+      projects.forEach((project, index, array) => {
+        console.log(project.id, project.name, req.body['position' + project.id])
+        project.position = req.body['position' + project.id]
+        console.log(project.position)
+        project.save()
+        console.log(index, array.length)
+        if (index == array.length - 1) resolve()
       })
+    })
+    // FIXME: Project.find() gets the old data (before it gets updated)
+    projectPromise.then(() => {
+      Project.find({
+        isDeleted: false
+      })
+        .sort('position')
+        .exec()
+        .then(projects => {
+          console.log('hu')
+          res.json(projects)
+        })
+    })
   }
 )
 
@@ -196,6 +202,21 @@ router.post(
           if (err) {
             return res.status(500).send(err)
           }
+          Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
+            if (err) throw err
+            img
+              .resize(600, Jimp.AUTO) // resize
+              .quality(88) // set JPEG quality
+              .write(`public/${body.id}/med/${imgName}`) // save
+          })
+          Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
+            if (err) throw err
+            img
+              .resize(100, Jimp.AUTO) // resize
+              .quality(60) // set JPEG quality
+              .blur(3) // set blur
+              .write(`public/${body.id}/min/${imgName}`) // save
+          })
         })
         res.json(project)
       })
@@ -205,6 +226,20 @@ router.post(
       })
   }
 )
+// @route   GET api/projects/get_home_project/:id
+// @desc    Get project to be displayed on home screen
+// @access  Private
+router.get('/get_home_project/:projectid', async (req, res) => {
+  const project = await getProjectByQuery({
+    isHomePage: true,
+    isDeleted: false
+  })
+  if (project) {
+    res.json(project)
+  } else {
+    res.json({ error: 'No home project' })
+  }
+})
 // @route   GET api/projects/set_home_project/:id
 // @desc    Set project to be displayed on home screen
 // @access  Private

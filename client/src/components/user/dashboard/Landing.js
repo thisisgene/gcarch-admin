@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import store from '../../../store'
 import {
   clearCurrentProject,
-  setUserBackground
+  setUserBackground,
+  hasBackgroundImage
 } from '../../../actions/projectActions'
 
 import cx from 'classnames'
 import styles from './Landing.module.sass'
+import { getAllProjects, getHomeProject } from '../../../actions/projectActions'
 
 class Landing extends Component {
   constructor() {
@@ -19,6 +21,9 @@ class Landing extends Component {
   }
   componentDidMount() {
     store.dispatch(clearCurrentProject())
+    this.props.hasBackgroundImage(true)
+    this.props.getHomeProject()
+    // this.props.getAllProjects()
   }
 
   onLoad = () => {
@@ -28,17 +33,18 @@ class Landing extends Component {
   }
 
   render() {
-    const { projects } = this.props.project
+    const { homeProject } = this.props.project
     let isLoading = true
     let backgroundImage
-    if (projects != null) {
-      const homeProject = projects.filter(project => {
-        return project.isHomePage === true
-      })
-      if (homeProject[0].backgroundImage) {
+    if (homeProject != null) {
+      // const homeProject = projects.filter(project => {
+      //   return project.isHomePage === true
+      // })
+
+      if (homeProject && homeProject.backgroundImage) {
         isLoading = false
-        let imgSrc = `/public/${homeProject[0]._id}/${
-          homeProject[0].backgroundImage.originalName
+        let imgSrc = `/public/${homeProject._id}/${
+          homeProject.backgroundImage.originalName
         }`
         backgroundImage = (
           <div>
@@ -78,5 +84,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setUserBackground }
+  { setUserBackground, getAllProjects, getHomeProject, hasBackgroundImage }
 )(Landing)

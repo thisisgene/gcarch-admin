@@ -17,14 +17,9 @@ class User extends Component {
       auth: false
     }
   }
-  componentDidMount() {
-    this.setState({
-      auth: this.props.auth.isAuthenticated
-    })
-    this.props.getAllProjects()
-  }
+  componentDidMount() {}
   render() {
-    const { project } = this.props.project
+    const { project, hasBackgroundImage } = this.props.project
     let backgroundImg = ''
     if (project && project.backgroundImage) {
       backgroundImg =
@@ -40,27 +35,25 @@ class User extends Component {
               backgroundImg != '' ? `url(${backgroundImg}` : 'none'
           }}
         />
-        <Header auth={this.state.auth} />
+        <Header hasBackgroundImage={hasBackgroundImage} />
         <Switch>
-          <Route exact path="/user" project={project} component={Landing} />
+          <Route exact path="/user" component={Landing} />
           <MainContent />
         </Switch>
       </div>
     )
-    // return <div>hallo</div>
   }
 }
 
 User.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
   getProjectById: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   project: state.project,
-  auth: state.auth
+  hasBackgroundImage: state.hasBackgroundImage
 })
 
 export default withRouter(

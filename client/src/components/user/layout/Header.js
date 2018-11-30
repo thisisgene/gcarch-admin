@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import LogoS from '../common/logo.svg'
 import LogoW from '../common/logo_white.svg'
 
+import cx from 'classnames'
 import styles from './Header.module.sass'
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     // NOTE: Does link to admin make sense?
     // const toAdmin = this.props.auth ? (
@@ -14,13 +16,20 @@ export default class Header extends Component {
     // ) : (
     //   ''
     // )
-
+    const { hasBackgroundImage } = this.props
+    if (hasBackgroundImage) {
+      console.log('hello')
+    }
     return (
-      <div className={styles.header}>
+      <div
+        className={cx(styles.header, {
+          [styles['black-header']]: !hasBackgroundImage
+        })}
+      >
         <div className={styles.logo}>
           <NavLink to="/user">
             <img
-              src={LogoW}
+              src={hasBackgroundImage ? LogoW : LogoS}
               height="30"
               className="d-inline-block align-top"
               alt=""
@@ -46,3 +55,14 @@ export default class Header extends Component {
     )
   }
 }
+
+// const mapStateToProps = state => ({
+//   hasBackgroundImage: state.hasBackgroundImage
+// })
+
+// export default connect(
+//   mapStateToProps,
+//   {}
+// )(Header)
+
+export default Header

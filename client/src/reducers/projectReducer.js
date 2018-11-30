@@ -16,6 +16,8 @@ import {
   SET_IMAGE_VISIBILITY,
   UPDATE_PROJECT,
   UPDATE_PROJECT_CONTENT,
+  HAS_BACKGROUND_IMAGE,
+  GET_HOME_PROJECT,
   SET_HOME_PROJECT,
   SET_USER_BACKGROUND,
   DELETE_PROJECT,
@@ -78,6 +80,18 @@ export default function(state = initialState, action) {
         description: action.payload.descriptionMarkdown,
         loading: false
       }
+    case HAS_BACKGROUND_IMAGE:
+      console.log(action.payload)
+      return {
+        ...state,
+        hasBackgroundImage: action.payload
+      }
+    case GET_HOME_PROJECT:
+      return {
+        ...state,
+        homeProject: action.payload,
+        waiting: false
+      }
     case SET_HOME_PROJECT:
       return {
         ...state,
@@ -96,6 +110,7 @@ export default function(state = initialState, action) {
         project: null
       }
     case SORT_PROJECTS:
+      console.log('update')
       return {
         ...state,
         projects: action.payload

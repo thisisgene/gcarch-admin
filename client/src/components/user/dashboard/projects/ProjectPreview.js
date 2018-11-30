@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
 // import cx from 'classnames'
+
+// import lowRes from '../../common/test.jpg'
+
 import cx from 'classnames'
 import gridStyles from './ProjectGrid.module.sass'
 
@@ -11,29 +14,47 @@ class ProjectPreview extends Component {
       project: this.props.project,
       image: this.props.image,
       position: this.props.position,
-      doneLoading: false
+      thumbLoaded: false,
+      imgLoaded: false
     }
   }
 
-  doneLoading = () => {
-    this.setState({ doneLoading: true }, () => {})
+  onThumbLoaded = () => {
+    this.setState({ thumbLoaded: true })
+  }
+
+  onImgLoaded = () => {
+    this.setState({ imgLoaded: true }, () => {})
   }
 
   render() {
     const project = this.props.project
     const image = this.props.image
     const position = this.props.position
-    const imgSrc = `/public/${project._id}/${image.originalName}`
+    const lowResSrc = `/public/${project._id}/min/${image.originalName}`
+    const imgSrc = `/public/${project._id}/med/${image.originalName}`
+
     return (
-      <div className={gridStyles['img-container']}>
+      <div
+        className={cx(gridStyles['img-container'], {
+          [gridStyles['thumb-loaded']]: this.state.thumbLoaded
+        })}
+        style={{ backgroundImage: `url(${lowResSrc})` }}
+      >
         <img
           src={imgSrc}
           alt={image.originalName}
-          onLoad={this.doneLoading}
+          onLoad={this.onImgLoaded}
           className={cx(gridStyles['img'], {
-            [gridStyles['loaded']]: this.state.doneLoading
+            [gridStyles['loaded']]: this.state.imgLoaded
           })}
         />
+        <img
+          className={gridStyles['fake-thumb']}
+          src={lowResSrc}
+          onLoad={this.onThumbLoaded}
+        />
+        {/* <img src={lowResSrc} alt="" className={StyleSheet['low-res-img']} /> */}
         {/* <p>{position}</p> */}
         {/* <p>{project.name}</p> */}
         <div className={gridStyles['img-tag-container']}>

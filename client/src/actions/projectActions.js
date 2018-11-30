@@ -15,6 +15,8 @@ import {
   GET_PROJECT,
   SORT_PROJECTS,
   DELETE_PROJECT,
+  HAS_BACKGROUND_IMAGE,
+  GET_HOME_PROJECT,
   SET_HOME_PROJECT,
   SET_USER_BACKGROUND
 } from './types'
@@ -134,6 +136,25 @@ export const getGridTopTen = () => dispatch => {
 }
 
 // SET HOME PROJECT
+export const getHomeProject = id => dispatch => {
+  dispatch(setWaiting())
+  axios
+    .get(`/api/projects/get_home_project/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_HOME_PROJECT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    )
+}
+
+// SET HOME PROJECT
 export const setHomeProject = id => dispatch => {
   dispatch(setWaiting())
   axios
@@ -156,12 +177,13 @@ export const setHomeProject = id => dispatch => {
 export const sortProjects = orderObj => dispatch => {
   axios
     .post('/api/projects/sort', orderObj)
-    .then(res =>
+    .then(res => {
+      console.log(res.data)
       dispatch({
         type: SORT_PROJECTS,
         payload: res.data
       })
-    )
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -186,6 +208,14 @@ export const deleteProject = id => dispatch => {
         payload: err
       })
     )
+}
+
+// Set hasBackgroundImage to see if header should be black or white
+export const hasBackgroundImage = boolean => {
+  return {
+    type: HAS_BACKGROUND_IMAGE,
+    payload: boolean
+  }
 }
 
 // Project loading
