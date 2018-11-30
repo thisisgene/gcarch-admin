@@ -37,7 +37,10 @@ class Header extends Component {
         })}
       >
         <div className={styles.logo}>
-          <NavLink onClick={this.onMobileNavClick} to="/user">
+          <NavLink
+            onClick={this.state.mobileExpand && this.onMobileNavClick}
+            to="/user"
+          >
             <img
               src={hasBackgroundImage ? LogoW : LogoS}
               height="30"

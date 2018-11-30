@@ -67,10 +67,12 @@ class Team extends Component {
         teamList.push(
           <div key={index} className={styles['team-member']}>
             <img src={value.img} alt="" />
-            <div className={styles['team-member-name']}>{value.name}</div>
-            <div className={styles['team-member-email']}>{value.email}</div>
-            <div className={styles['team-member-description']}>
-              {value.description}
+            <div className={styles['team-member-info']}>
+              <div className={styles['team-member-name']}>{value.name}</div>
+              <div className={styles['team-member-email']}>{value.email}</div>
+              <div className={styles['team-member-description']}>
+                {value.description}
+              </div>
             </div>
           </div>
         )
