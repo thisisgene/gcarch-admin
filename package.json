@@ -31,9 +31,9 @@
     "npm": "^6.4.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "react-dropzone": "^7.0.1",
-    "validator": "^9.4.1",
-    "nodemon": "^1.18.5"
+    "validator": "^9.4.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.18.7"
+  }
 }
