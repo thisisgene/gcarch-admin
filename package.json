@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "GC Architektur",
   "engines": {
-    "node": "10.3.0"
+    "node": "10.3.0",
+    "npm": "6.4.1"
   },
   "main": "server.js",
   "scripts": {
