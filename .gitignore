@@ -2,6 +2,10 @@
 
 # Created by https://www.gitignore.io/api/macos,visualstudiocode,node
 
+/config/keys_dev.js
+/public
+/client/build
+
 ### macOS ###
 # General
 .DS_Store

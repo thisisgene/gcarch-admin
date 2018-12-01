@@ -1,5 +1,5 @@
-module.exports = {
-  mongoURI: 'mongodb://admin:gcArch2018@ds137863.mlab.com:37863/gcarch',
-  secretOrKey:
-    'N2xv^D*JnE7bRP#y3eq9ZNGzXVWQNPRKfeBu@4KqxP7Gyewsc%xyZG$jtT_YwrLJ'
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./keys_prod')
+} else {
+  module.exports = require('./keys_dev')
 }
