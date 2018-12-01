@@ -10,7 +10,6 @@ import Spinner from '../../common/Spinner'
 
 import cx from 'classnames'
 import styles from './Project.module.sass'
-import { SSL_OP_TLS_ROLLBACK_BUG } from 'constants'
 
 class Project extends Component {
   constructor() {
