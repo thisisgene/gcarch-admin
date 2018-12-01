@@ -2,6 +2,9 @@
   "name": "gc_arch",
   "version": "1.0.0",
   "description": "GC Architektur",
+  "engines": {
+    "node": "10.3.0"
+  },
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
@@ -9,7 +12,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "dokku-postbuild": "NPM_CONFIG_PRUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Serious Pigeon",
   "license": "MIT",
