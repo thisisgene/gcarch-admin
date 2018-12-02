@@ -26,7 +26,9 @@ class Admin extends Component {
       errors: {}
     }
   }
-
+  componentDidMount() {
+    document.title = 'GC Architektur | Admin'
+  }
   render() {
     const { isAuthenticated } = this.props.auth
 
