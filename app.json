@@ -2,7 +2,7 @@
   "scripts": {
     "dokku": {
       "predeploy": "",
-      "postdeploy": "NPM_CONFIG_PRUCTION=false npm install --prefix client && npm run build --prefix client"
+      "postdeploy": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     }
   }
 }
