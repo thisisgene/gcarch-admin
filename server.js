@@ -22,7 +22,8 @@ app.use(
     preserveExtension: true
   })
 )
-app.use('/public', express.static(__dirname + '/public'))
+// app.use('/public', express.static(__dirname + '/public'))
+app.use('/public', express.static('/mnt/volume_fra1_01' + '/public'))
 
 // DB Config
 const db = require('./config/keys').mongoURI
