@@ -9,6 +9,8 @@ import {
 
 import styles from './Team.module.sass'
 
+import imgBertram from '../../common/img/bertram.png'
+
 class Team extends Component {
   componentDidMount() {
     store.dispatch(clearCurrentProject())
@@ -22,7 +24,7 @@ class Team extends Component {
         email: 'chiba@gc­architektur.at',
         description:
           'Studium der Architektur an der Technischen Universität Wien; Abschluss an der Technischen Universität Wien, ZT Befugnis Architektur seit 2011, Gründung GC Archi­ tektur 2011, Gründung Projektplattform PP1 2013',
-        img: '/public/team/bertram.png'
+        img: { imgBertram }
       },
       {
         position: 2,

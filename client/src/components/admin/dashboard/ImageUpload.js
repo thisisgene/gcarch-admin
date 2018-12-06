@@ -42,7 +42,7 @@ class ImageUpload extends Component {
             accept="image/*"
             onDrop={this.onDrop}
             onFileDialogCancel={this.onCancel}
-            name="images"
+            name="file"
           >
             {({ isDragAccept, isDragReject, acceptedFiles, rejectedFiles }) => {
               if (acceptedFiles.length || rejectedFiles.length) {

@@ -13,7 +13,8 @@ const TextFieldGroup = ({
   type,
   onChange,
   onClick,
-  disabled
+  disabled,
+  buttonText
 }) => {
   return (
     <div
@@ -42,7 +43,7 @@ const TextFieldGroup = ({
           type="button"
           onClick={onClick}
         >
-          <i className="fa fa-plus-circle" />
+          {buttonText ? buttonText : <i className="fa fa-plus-circle" />}
         </button>
       </div>
     </div>

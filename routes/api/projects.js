@@ -2,6 +2,10 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 const marked = require('marked')
+
+const multer = require('multer')
+const multerS3 = require('multer-s3')
+const AWS = require('aws-sdk')
 const Jimp = require('jimp')
 // Load project model
 const Project = require('../../models/Project')
@@ -191,10 +195,9 @@ router.post(
     const newImage = {
       originalName: imgName
     }
-    Project.findByIdAndUpdate(
-      // TODO: Only allow image files.
+    Project.findOneAndUpdate(
       // FIXME: If project has no background image, make first image to upload the background image!
-      body.id,
+      { _id: body.id },
       { $push: { images: newImage } },
       { safe: true, new: true }
     )
@@ -222,11 +225,34 @@ router.post(
         res.json(project)
       })
       .catch(err => {
-        errors.project = 'Projekt nicht gefunden.'
-        return res.status(404).json(errors)
+        // errors.project = 'Projekt nicht gefunden.'
+        return res.status(404).json(err)
       })
   }
 )
+/// OLD upload
+
+//     // file.mv(`public/${body.id}/${imgName}`, function(err) {
+//     //   if (err) {
+//     //     return res.status(500).send(err)
+//     //   }
+//     //   Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
+//     //     if (err) throw err
+//     //     img
+//     //       .resize(600, Jimp.AUTO) // resize
+//     //       .quality(88) // set JPEG quality
+//     //       .write(`public/${body.id}/med/${imgName}`) // save
+//     //   })
+//     //   Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
+//     //     if (err) throw err
+//     //     img
+//     //       .resize(100, Jimp.AUTO) // resize
+//     //       .quality(60) // set JPEG quality
+//     //       .blur(3) // set blur
+//     //       .write(`public/${body.id}/min/${imgName}`) // save
+//     //   })
+//     // })
+
 // @route   GET api/projects/get_home_project/:id
 // @desc    Get project to be displayed on home screen
 // @access  Private

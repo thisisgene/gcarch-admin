@@ -14,10 +14,10 @@ export const uploadImages = (files, id, category) => dispatch => {
     case 'project':
       files.map(file => {
         let formData = new FormData()
-        formData.append('file', file)
+        formData.append('id', id)
         formData.append('name', file.name)
         formData.append('size', file.size)
-        formData.append('id', id)
+        formData.append('file', file)
         return axios
           .post('/api/projects/image_upload', formData)
           .then(res => {

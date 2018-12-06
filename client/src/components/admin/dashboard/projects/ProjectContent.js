@@ -8,6 +8,7 @@ import {
 
 import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
+import TextInputButtonGroup from '../../common/TextInputButtonGroup'
 
 import Spinner from '../../common/Spinner'
 import ImageUpload from '../ImageUpload'
@@ -57,6 +58,10 @@ class ProjectContent extends Component {
     }
   }
 
+  onLocationClick = e => {
+    console.log(e.target.value)
+  }
+
   render() {
     const { project, loading, dynamicSave } = this.props.project
 
@@ -75,10 +80,31 @@ class ProjectContent extends Component {
                 onChange={this.onChange}
               />
             </div>
+            <div className={styles['project-text-location']}>
+              <label htmlFor="location">Ort</label>
+              <TextInputButtonGroup
+                type="text"
+                id="location"
+                name="location"
+                value={project.location}
+                onChange={this.onChange}
+                onClick={this.onLocationClick}
+                buttonText="ok"
+              />
+            </div>
+            {/* <div>
+              <TextareaFieldGroup
+                className={dynamicSave ? styles['dynamic-save'] : ''}
+                name="leadDescription"
+                value={this.state.description}
+                onChange={this.onChange}
+                onKeyUp={this.onKeyUp.bind(this, project._id)}
+              />
+            </div> */}
             <div className={styles['project-text-description']}>
               <TextareaFieldGroup
                 className={dynamicSave ? styles['dynamic-save'] : ''}
-                name="description"
+                name="blockDescription"
                 value={this.state.description}
                 onChange={this.onChange}
                 onKeyUp={this.onKeyUp.bind(this, project._id)}

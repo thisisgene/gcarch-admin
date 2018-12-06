@@ -1,13 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const fileUpload = require('express-fileupload')
 const path = require('path')
-
+const s3Proxy = require('s3-proxy')
+const request = require('request')
 const users = require('./routes/api/users')
 const projects = require('./routes/api/projects')
-
+const AWS = require('aws-sdk')
 const app = express()
 
 // Body parser middleware
@@ -22,15 +24,18 @@ app.use(
     preserveExtension: true
   })
 )
-// app.use('/public', express.static(__dirname + '/public'))
-app.use('/public', express.static('/mnt/volume_fra1_01' + '/public'))
+
+app.use('/public', express.static(__dirname + '/public'))
 
 // DB Config
 const db = require('./config/keys').mongoURI
 
 // Connect to MongoDB
 mongoose
-  .connect(db)
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err))
 
@@ -48,6 +53,7 @@ app.use('/api/projects', projects)
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'))
+  // app.use('/public', express.static(__dirname + '/public')) // Serve files from public folder??
 
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))

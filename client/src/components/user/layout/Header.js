@@ -38,7 +38,7 @@ class Header extends Component {
       >
         <div className={styles.logo}>
           <NavLink
-            onClick={this.state.mobileExpand && this.onMobileNavClick}
+            onClick={this.state.mobileExpand ? this.onMobileNavClick : null}
             to="/user"
           >
             <img
