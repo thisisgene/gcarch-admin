@@ -3,7 +3,7 @@
 # Created by https://www.gitignore.io/api/macos,visualstudiocode,node
 
 config/keys_dev.js
-public/*
+# public/*
 client/build
 
 ### macOS ###
