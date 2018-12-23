@@ -27,7 +27,7 @@ app.use(
 
 app.use('/public', express.static(__dirname + '/public'))
 
-app.use('/assets', proxy('https://assets.seriouspigeon.com/gc-arch'))
+app.use('/assets', proxy('https://assets.seriouspigeon.com/'))
 
 // DB Config
 const db = require('./config/keys').mongoURI

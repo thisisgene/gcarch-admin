@@ -31,8 +31,12 @@ class ProjectPreview extends Component {
     const project = this.props.project
     const image = this.props.image
     const position = this.props.position
-    const lowResSrc = `/public/${project._id}/min/${image.originalName}`
-    const imgSrc = `/public/${project._id}/med/${image.originalName}`
+    const lowResSrc = `/assets/gc-arch/uploads/${project._id}/min/${
+      image.originalName
+    }`
+    const imgSrc = `/assets/gc-arch/uploads/${project._id}/med/${
+      image.originalName
+    }`
 
     return (
       <div

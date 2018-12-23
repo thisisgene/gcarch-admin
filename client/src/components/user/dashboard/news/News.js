@@ -31,7 +31,9 @@ class News extends Component {
               to={`/user/projekte/${project._id}`}
             >
               <img
-                src={`/public/${project._id}/${project.images[0].originalName}`}
+                src={`/assets/gc-arch/uploads/${project._id}/${
+                  project.images[0].originalName
+                }`}
                 alt=""
               />
               <div className={styles['news-info']}>

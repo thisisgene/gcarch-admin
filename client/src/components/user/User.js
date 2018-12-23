@@ -24,7 +24,9 @@ class User extends Component {
     if (project && project.backgroundImage) {
       backgroundImg =
         project &&
-        `/public/${project._id}/${project.backgroundImage.originalName}`
+        `/assets/gc-arch/uploads/${project._id}/${
+          project.backgroundImage.originalName
+        }`
     }
     return (
       <div className={styles.user}>

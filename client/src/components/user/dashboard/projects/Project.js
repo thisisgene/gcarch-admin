@@ -77,7 +77,9 @@ class Project extends Component {
             <img
               className={styles['project-img']}
               key={image._id}
-              src={`/public/${project._id}/${image.originalName}`}
+              src={`/assets/gc-arch/uploads/${project._id}/${
+                image.originalName
+              }`}
               alt=""
             />
           )
