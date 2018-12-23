@@ -49,7 +49,7 @@ router.post(
     }
 
     // Check if project.name already exists
-    const project = await Project.findOne({ name: body.name })
+    const project = await Project.findOne({ name: body.name, isDeleted: false })
     if (project) {
       errors.name = 'Ein Projekt mit diesem Namen existiert bereits.'
       return res.status(400).json(errors)

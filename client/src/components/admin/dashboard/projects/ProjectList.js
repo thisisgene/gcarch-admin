@@ -53,7 +53,8 @@ class ProjectList extends Component {
     super(props)
     this.state = {
       projectList: [],
-      name: ''
+      name: '',
+      errors: {}
     }
   }
 
@@ -61,6 +62,12 @@ class ProjectList extends Component {
     this.props.getAllProjects()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      console.log(nextProps.errors)
+      this.setState({ errors: nextProps.errors })
+    }
+  }
   // Drag and Drop logic
   onBeforeDragStart = () => {
     /*...*/
@@ -102,6 +109,7 @@ class ProjectList extends Component {
   }
   render() {
     // const { user } = this.props.auth
+    const { errors } = this.state
     const { projects } = this.props.project
     let projectListContent
     // let projectContent
@@ -220,6 +228,7 @@ class ProjectList extends Component {
               placeholder="Neues Projekt"
               onChange={this.onChange}
               onClick={this.onClick}
+              error={errors.name}
             />
             <table>
               <thead>

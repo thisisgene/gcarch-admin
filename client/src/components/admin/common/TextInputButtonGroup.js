@@ -16,10 +16,12 @@ const TextFieldGroup = ({
   disabled,
   buttonText
 }) => {
+  // TODO: MAKE error feedback work
   return (
     <div
       className={cx(globalStyles['input-group'], commonStyles['dark-group'])}
     >
+      {error && <div className={globalStyles['invalid-feedback']}>{error}</div>}{' '}
       <input
         className={cx(globalStyles['form-control'], commonStyles['dark-input'])}
         placeholder={placeholder}

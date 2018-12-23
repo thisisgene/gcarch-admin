@@ -27,12 +27,20 @@ export const createProject = name => dispatch => {
   const data = {
     name: name
   }
-  axios.post('/api/projects', data).then(res => {
-    dispatch({
-      type: CREATE_PROJECT,
-      payload: res.data
+  axios
+    .post('/api/projects', data)
+    .then(res => {
+      dispatch({
+        type: CREATE_PROJECT,
+        payload: res.data
+      })
     })
-  })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    )
 }
 
 export const updateProject = (id, content, type) => dispatch => {
