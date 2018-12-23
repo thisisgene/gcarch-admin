@@ -5,8 +5,8 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const fileUpload = require('express-fileupload')
 const path = require('path')
-const s3Proxy = require('s3-proxy')
-const request = require('request')
+const proxy = require('express-http-proxy')
+
 const users = require('./routes/api/users')
 const projects = require('./routes/api/projects')
 const AWS = require('aws-sdk')
@@ -26,6 +26,8 @@ app.use(
 )
 
 app.use('/public', express.static(__dirname + '/public'))
+
+app.use('/assets', proxy('https://assets.seriouspigeon.com/gc-arch'))
 
 // DB Config
 const db = require('./config/keys').mongoURI

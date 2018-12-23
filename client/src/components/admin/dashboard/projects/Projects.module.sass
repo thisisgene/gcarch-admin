@@ -85,7 +85,10 @@
   padding: 0 1rem
   display: flex
   justify-content: center
-
+  textarea
+    line-height: 1
+    font-size: .9rem
+    padding: 1rem .6rem
 .project-content-container 
   flex: 1
   padding: 0
@@ -113,7 +116,24 @@
 .project-text-description 
   flex-grow: 2
   height: 100%
-
+  position: relative
+  &:before
+    color: #111
+    background: rgba(green, .3)
+    font-size: .8rem
+    content: 'saving...'
+    position: absolute
+    top: 0
+    width: 100%
+    text-align: center
+    transition: opacity 1000ms ease-in-out
+    opacity: 0
+  
+  &.dynamic-save 
+    &:before
+      opacity: 1
+      transition: opacity 1ms ease-in-out
+    
 .project-text-description * 
   height: 100%
 

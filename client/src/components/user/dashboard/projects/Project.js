@@ -131,6 +131,10 @@ class Project extends Component {
               <div className={styles['project-location']}>Wien Simmering</div>
             </div>
             <div
+              className={styles['project-lead-description']}
+              dangerouslySetInnerHTML={{ __html: project.leadDescriptionHtml }}
+            />
+            <div
               className={styles['project-description']}
               dangerouslySetInnerHTML={{ __html: project.descriptionHtml }}
             />

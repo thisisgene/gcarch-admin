@@ -12,6 +12,12 @@ const ProjectSchema = new Schema({
   handle: {
     type: String
   },
+  leadDescriptionMarkdown: {
+    type: String
+  },
+  leadDescriptionHtml: {
+    type: String
+  },
   descriptionMarkdown: {
     type: String
   },

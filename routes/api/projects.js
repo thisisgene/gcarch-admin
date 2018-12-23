@@ -98,10 +98,17 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const body = req.body
+    console.log(body.descriptionMarkdown)
     const projectFields = {}
     if (body.name) projectFields.name = body.name
     if (body.title) projectFields.title = body.title
     if (body.handle) projectFields.handle = body.handle
+    if (body.leadDescriptionMarkdown) {
+      projectFields.leadDescriptionMarkdown = body.leadDescriptionMarkdown
+      projectFields.leadDescriptionHtml = marked(body.leadDescriptionMarkdown, {
+        sanitize: true
+      })
+    }
     if (body.descriptionMarkdown) {
       projectFields.descriptionMarkdown = body.descriptionMarkdown
       projectFields.descriptionHtml = marked(body.descriptionMarkdown, {

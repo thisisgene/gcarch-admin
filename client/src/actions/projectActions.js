@@ -40,6 +40,7 @@ export const updateProject = (id, content, type) => dispatch => {
   const data = {
     id: id
   }
+
   data[type] = content
   axios.post('/api/projects/update', data).then(res => {
     dispatch({
@@ -49,18 +50,27 @@ export const updateProject = (id, content, type) => dispatch => {
   })
 }
 
-export const updateProjectContent = (description, id) => dispatch => {
+export const updateProjectContent = (description, id, type) => dispatch => {
   dispatch(setDynamicSave())
+  console.log(description)
   const data = {
     id: id,
-    descriptionMarkdown: description
+    [type]: description
   }
-  axios.post('/api/projects/update', data).then(res => {
-    dispatch({
-      type: UPDATE_PROJECT_CONTENT,
-      payload: res.data
+  axios
+    .post('/api/projects/update', data)
+    .then(res => {
+      dispatch({
+        type: UPDATE_PROJECT_CONTENT,
+        payload: res.data
+      })
     })
-  })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    )
 }
 
 // Get all projects

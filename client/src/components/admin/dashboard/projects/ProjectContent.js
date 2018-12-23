@@ -24,9 +24,11 @@ class ProjectContent extends Component {
     super()
     this.state = {
       project: {},
+      leadDescription: '',
       description: '',
       errors: {},
-      timeout: 0
+      timeout: 0,
+      writing: false
     }
   }
 
@@ -35,11 +37,14 @@ class ProjectContent extends Component {
   }
 
   onKeyUp = (id, e) => {
+    const content = this.state[e.target.name]
+    const type = e.target.name + 'Markdown'
     this.setState({ writing: true })
     clearTimeout(this.state.timeout)
     this.setState({
       timeout: setTimeout(() => {
-        this.props.updateProjectContent(this.state.description, id)
+        console.log('key', id)
+        this.props.updateProjectContent(content, id, type)
         this.setState({ writing: false })
       }, 1000)
     })
@@ -47,14 +52,23 @@ class ProjectContent extends Component {
 
   componentDidMount() {
     const id = this.props.match.params.id
+    // this.setState({ leadDescription: '', description: '' })
     this.props.getProjectById(id)
+    // const project = this.props.project.project
+    // if (project) {
+    //   this.setState({ description: project.descriptionMarkdown })
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
     // FIXME: Only update once when loaded initially
     if (nextProps.project.project) {
       const project = nextProps.project.project
+      console.log('hola', this.state.description)
+      // this.state.description === '' &&
       this.setState({ description: project.descriptionMarkdown })
+      // this.state.leadDescription === '' &&
+      this.setState({ leadDescription: project.leadDescriptionMarkdown })
     }
   }
 
@@ -92,19 +106,22 @@ class ProjectContent extends Component {
                 buttonText="ok"
               />
             </div>
-            {/* <div>
+            <div>
               <TextareaFieldGroup
                 className={dynamicSave ? styles['dynamic-save'] : ''}
                 name="leadDescription"
-                value={this.state.description}
+                value={this.state.leadDescription}
                 onChange={this.onChange}
                 onKeyUp={this.onKeyUp.bind(this, project._id)}
               />
-            </div> */}
-            <div className={styles['project-text-description']}>
+            </div>
+            <div
+              className={cx(styles['project-text-description'], {
+                [styles['dynamic-save']]: dynamicSave
+              })}
+            >
               <TextareaFieldGroup
-                className={dynamicSave ? styles['dynamic-save'] : ''}
-                name="blockDescription"
+                name="description"
                 value={this.state.description}
                 onChange={this.onChange}
                 onKeyUp={this.onKeyUp.bind(this, project._id)}
