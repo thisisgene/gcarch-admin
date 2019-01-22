@@ -40,7 +40,9 @@ class News extends Component {
                 <div className={styles['news-info-name']}>{project.name}</div>
                 <div
                   className={styles['news-info-description']}
-                  // dangerouslySetInnerHTML={{ __html: project.descriptionHtml }}
+                  dangerouslySetInnerHTML={{
+                    __html: project.leadDescriptionHtml
+                  }}
                 >
                   {/* Das ist unser neues Projekt. */}
                 </div>
