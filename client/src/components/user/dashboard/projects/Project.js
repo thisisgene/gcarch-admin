@@ -6,6 +6,7 @@ import {
   hasBackgroundImage
 } from '../../../../actions/projectActions'
 
+import ArrowDown from '../../common/img/arrow_down.png'
 import Spinner from '../../common/Spinner'
 
 import cx from 'classnames'
@@ -92,7 +93,10 @@ class Project extends Component {
             background: `rgba(255, 255, 255, ${this.state.scrollDistance})`
           }}
         >
-          <div className={styles['placeholder']}>hallo</div>
+          <div className={styles['placeholder']}>platzhalter</div>
+          <a href="#info" className={styles['arrow-down']}>
+            <img src={ArrowDown} alt="Pfeil nach unten" />
+          </a>
           <div
             className={styles['project-info']}
             style={
@@ -114,7 +118,7 @@ class Project extends Component {
             <h1 className={styles['project-title']}>{project.name}</h1>
             <div className={styles['project-location']}>Wien Simmering</div>
           </div>
-          <div className={styles['project-content']}>
+          <div id="info" className={styles['project-content']}>
             <div
               className={cx(styles['project-info'], styles['mobile-title'])}
               style={
