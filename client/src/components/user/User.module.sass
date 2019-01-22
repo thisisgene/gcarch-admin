@@ -5,7 +5,7 @@ body
 
 
 .user
-  
+  margin: 0 auto 0 3rem
   display: flex
   flex-direction: row
   // background: white
@@ -13,7 +13,8 @@ body
   max-width: 100vw
   // position: relative
   // padding: 1rem 0
-
+  @media(max-width: 1120px)
+    margin: 0
   .background
     position: fixed
     top: 0
@@ -21,4 +22,5 @@ body
     width: 100vw
     height: 100vh
     background-size: cover
+    background-position: bottom center !important
     z-index: -1
