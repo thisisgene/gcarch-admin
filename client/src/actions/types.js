@@ -26,4 +26,5 @@ export const SET_HOME_PROJECT = 'SET_HOME_PROJECT'
 export const SET_USER_BACKGROUND = 'SET_USER_BACKGROUND'
 
 export const GET_NEWS = 'GET_NEWS'
+export const CREATE_NEWS = 'CREATE_NEWS'
 export const GET_NEWS_BY_ID = 'GET_NEWS_BY_ID'

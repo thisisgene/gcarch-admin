@@ -4,14 +4,15 @@ import {
   PROJECT_LOADING,
   CLEAR_PROJECTS,
   GET_ERRORS,
-  GET_NEWS_BY_ID
+  GET_NEWS_BY_ID,
+  CREATE_NEWS
 } from './types'
 
 // Get all projects
 export const getAllNews = () => dispatch => {
-  dispatch(setNewsLoading())
+  // dispatch(setNewsLoading())
   axios
-    .get('/api/projects')
+    .get('/api/news')
     .then(res => {
       dispatch({
         type: GET_NEWS,
@@ -28,7 +29,7 @@ export const getAllNews = () => dispatch => {
 
 // Create News
 export const createNews = title => dispatch => {
-  dispatch(setWaiting())
+  // dispatch(setWaiting())
   const data = {
     title: title
   }
@@ -50,7 +51,7 @@ export const createNews = title => dispatch => {
 
 // Get project by ID
 export const getNewsById = id => dispatch => {
-  dispatch(setNewsLoading())
+  // dispatch(setNewsLoading())
   axios
     .get('/api/projects/id/' + id)
     .then(res =>
@@ -68,11 +69,11 @@ export const getNewsById = id => dispatch => {
 }
 
 // News loading
-export const setNewsLoading = () => {
-  return {
-    type: NEWS_LOADING
-  }
-}
+// export const setNewsLoading = () => {
+//   return {
+//     type: NEWS_LOADING
+//   }
+// }
 // Clear projects
 export const clearProjects = () => {
   return {
