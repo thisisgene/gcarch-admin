@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 export default class NewsList extends Component {
   render() {
     const { news } = this.props
-    console.log(news)
     return (
       <div>
         {news.news &&
