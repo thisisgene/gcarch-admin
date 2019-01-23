@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 
 import NewsList from './NewsList'
-// import NewsContent from './NewsContent'
+import NewsContent from './NewsContent'
 import { getAllNews } from '../../../../actions/newsActions'
 
 // import './news.css'
@@ -17,7 +17,11 @@ class News extends Component {
     return (
       <div className="news">
         {this.props.news && <NewsList news={this.props.news} />}
-        {/* <Route path="/news/:id" props={this.props} component={NewsContent} /> */}
+        <Route
+          path="/admin/news/:id"
+          props={this.props}
+          component={NewsContent}
+        />
       </div>
     )
   }
