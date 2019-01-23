@@ -9,7 +9,7 @@ const ProjectSchema = new Schema({
   title: {
     type: String
   },
-  handle: {
+  location: {
     type: String
   },
   leadDescriptionMarkdown: {

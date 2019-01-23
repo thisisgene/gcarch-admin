@@ -40,12 +40,12 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Route exact path="/" component={NotFound} />
-            <div className="User">
-              <Route path="/" component={User} />
-            </div>
+            {/* <Route exact path="/" component={NotFound} /> */}
             <div>
               <Route path="/admin/" component={Admin} />
+            </div>
+            <div className="User">
+              <Route path="/" component={User} />
             </div>
           </div>
         </Router>

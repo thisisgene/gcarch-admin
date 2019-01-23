@@ -43,7 +43,7 @@ class Landing extends Component {
 
       if (homeProject && homeProject.backgroundImage) {
         isLoading = false
-        let imgSrc = `/assets/gc-arch/uploads/${homeProject._id}/${
+        let imgSrc = `/assets/projekte/${homeProject._id}/${
           homeProject.backgroundImage.originalName
         }`
         backgroundImage = (

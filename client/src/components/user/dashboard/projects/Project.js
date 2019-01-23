@@ -78,9 +78,7 @@ class Project extends Component {
             <img
               className={styles['project-img']}
               key={image._id}
-              src={`/assets/gc-arch/uploads/${project._id}/${
-                image.originalName
-              }`}
+              src={`/assets/projekte/${project._id}/${image.originalName}`}
               alt=""
             />
           )
@@ -116,7 +114,7 @@ class Project extends Component {
             }
           >
             <h1 className={styles['project-title']}>{project.name}</h1>
-            <div className={styles['project-location']}>Wien Simmering</div>
+            <div className={styles['project-location']}>{project.location}</div>
           </div>
           <div id="info" className={styles['project-content']}>
             <div

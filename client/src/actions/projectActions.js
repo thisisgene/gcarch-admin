@@ -58,15 +58,11 @@ export const updateProject = (id, content, type) => dispatch => {
   })
 }
 
-export const updateProjectContent = (description, id, type) => dispatch => {
-  dispatch(setDynamicSave())
-  console.log(description)
-  const data = {
-    id: id,
-    [type]: description
-  }
+export const updateProjectContent = content => dispatch => {
+  // dispatch(setDynamicSave())
+  console.log('action', content)
   axios
-    .post('/api/projects/update', data)
+    .post('/api/projects/update', content)
     .then(res => {
       dispatch({
         type: UPDATE_PROJECT_CONTENT,

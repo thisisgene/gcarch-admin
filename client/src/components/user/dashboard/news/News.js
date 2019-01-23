@@ -28,7 +28,7 @@ class News extends Component {
           <div key={project._id} className={styles['news-item']}>
             <NavLink className={styles['link']} to={`/projekte/${project._id}`}>
               <img
-                src={`/assets/gc-arch/uploads/${project._id}/${
+                src={`/assets/projekte/${project._id}/${
                   project.images[0].originalName
                 }`}
                 alt=""

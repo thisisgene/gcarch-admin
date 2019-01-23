@@ -26,6 +26,7 @@ class ProjectContent extends Component {
       project: {},
       leadDescription: '',
       description: '',
+      location: '',
       errors: {},
       timeout: 0,
       writing: false
@@ -36,18 +37,15 @@ class ProjectContent extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  onKeyUp = (id, e) => {
-    const content = this.state[e.target.name]
-    const type = e.target.name + 'Markdown'
-    this.setState({ writing: true })
-    clearTimeout(this.state.timeout)
-    this.setState({
-      timeout: setTimeout(() => {
-        console.log('key', id)
-        this.props.updateProjectContent(content, id, type)
-        this.setState({ writing: false })
-      }, 1000)
-    })
+  submitDescription = id => {
+    const content = {
+      id: id,
+      location: this.state.location,
+      leadDescriptionMarkdown: this.state.leadDescription,
+      descriptionMarkdown: this.state.description
+    }
+
+    this.props.updateProjectContent(content)
   }
 
   componentDidMount() {
@@ -60,20 +58,18 @@ class ProjectContent extends Component {
     // }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // FIXME: Only update once when loaded initially
-    if (nextProps.project.project) {
-      const project = nextProps.project.project
-      console.log('hola', this.state.description)
-      // this.state.description === '' &&
-      this.setState({ description: project.descriptionMarkdown })
-      // this.state.leadDescription === '' &&
-      this.setState({ leadDescription: project.leadDescriptionMarkdown })
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      if (this.props.project.project) {
+        const project = this.props.project.project
+        console.log('hola', this.state.description)
+        // this.state.description === '' &&
+        this.setState({ location: project.location })
+        this.setState({ description: project.descriptionMarkdown })
+        // this.state.leadDescription === '' &&
+        this.setState({ leadDescription: project.leadDescriptionMarkdown })
+      }
     }
-  }
-
-  onLocationClick = e => {
-    console.log(e.target.value)
   }
 
   render() {
@@ -96,23 +92,24 @@ class ProjectContent extends Component {
             </div>
             <div className={styles['project-text-location']}>
               <label htmlFor="location">Ort</label>
-              <TextInputButtonGroup
-                type="text"
+              <TextFieldGroup
                 id="location"
                 name="location"
-                value={project.location}
+                value={this.state.location}
                 onChange={this.onChange}
-                onClick={this.onLocationClick}
-                buttonText="ok"
               />
             </div>
-            <div>
+            <div
+              className={cx(styles['project-text-short-description'], {
+                [styles['dynamic-save']]: dynamicSave
+              })}
+            >
               <TextareaFieldGroup
                 className={dynamicSave ? styles['dynamic-save'] : ''}
                 name="leadDescription"
                 value={this.state.leadDescription}
                 onChange={this.onChange}
-                onKeyUp={this.onKeyUp.bind(this, project._id)}
+                // onKeyUp={this.onKeyUp.bind(this, project._id)}
               />
             </div>
             <div
@@ -124,8 +121,13 @@ class ProjectContent extends Component {
                 name="description"
                 value={this.state.description}
                 onChange={this.onChange}
-                onKeyUp={this.onKeyUp.bind(this, project._id)}
+                // onKeyUp={this.onKeyUp.bind(this, project._id)}
               />
+            </div>
+            <div>
+              <button onClick={this.submitDescription.bind(this, project._id)}>
+                Speichern
+              </button>
             </div>
           </div>
           <div className={styles['project-images']}>

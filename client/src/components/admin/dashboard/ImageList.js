@@ -69,7 +69,7 @@ class ImageList extends Component {
 
       for (let [i, img] of project.images.entries()) {
         if (!img.isDeleted) {
-          let imgSrc = `/public/${project._id}/${img.originalName}`
+          let imgSrc = `/assets/projekte/${project._id}/${img.originalName}`
           imageList.push(
             <tr
               key={img._id}

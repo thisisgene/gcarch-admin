@@ -64,6 +64,7 @@ export default function(state = initialState, action) {
     case UPDATE_PROJECT_CONTENT:
       return {
         ...state,
+        project: action.payload,
         dynamicSave: false,
         waiting: false
       }

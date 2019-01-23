@@ -17,17 +17,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // FileUpload middleware
-app.use(
-  fileUpload({
-    createParentPath: true,
-    safeFileNames: true,
-    preserveExtension: true
-  })
-)
+// app.use(
+//   fileUpload({
+//     createParentPath: true,
+//     safeFileNames: true,
+//     preserveExtension: true
+//   })
+// )
 
 app.use('/public', express.static(__dirname + '/public'))
 
-app.use('/assets', proxy('https://assets.seriouspigeon.com/'))
+app.use('/assets', proxy('https://gc-arch.ams3.digitaloceanspaces.com'))
 
 // DB Config
 const db = require('./config/keys').mongoURI
