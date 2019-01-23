@@ -39,7 +39,7 @@ class User extends Component {
         />
         <Header hasBackgroundImage={hasBackgroundImage} />
         <Switch>
-          <Route exact path="/user" component={Landing} />
+          <Route exact path="/" component={Landing} />
           <MainContent />
         </Switch>
       </div>

@@ -29,16 +29,16 @@ class MainContent extends Component {
 
     return (
       <div className={styles['main-content']}>
-        <Route exact path="/user/aktuell" component={News} />
-        <Route exact path="/user/projekte" component={Projects} />
+        <Route exact path="/aktuell" component={News} />
+        <Route exact path="/projekte" component={Projects} />
         <Route
           exact
-          path="/user/projekte/:id"
+          path="/projekte/:id"
           props={this.props}
           component={Project}
         />
-        <Route exact path="/user/team" component={Team} />
-        <Route exact path="/user/kontakt" component={Contact} />
+        <Route exact path="/team" component={Team} />
+        <Route exact path="/kontakt" component={Contact} />
       </div>
     )
     // return <div>hallo</div>

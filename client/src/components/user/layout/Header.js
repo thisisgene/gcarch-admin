@@ -39,7 +39,7 @@ class Header extends Component {
         <div className={styles.logo}>
           <NavLink
             onClick={this.state.mobileExpand ? this.onMobileNavClick : null}
-            to="/user"
+            to="/"
           >
             <img
               src={hasBackgroundImage ? LogoW : LogoS}
@@ -50,16 +50,16 @@ class Header extends Component {
           </NavLink>
         </div>
         <div className={styles['menu-container']}>
-          <NavLink activeClassName={styles.active} to="/user/aktuell">
+          <NavLink activeClassName={styles.active} to="/aktuell">
             Aktuell
           </NavLink>
-          <NavLink activeClassName={styles.active} to="/user/projekte">
+          <NavLink activeClassName={styles.active} to="/projekte">
             Projekte
           </NavLink>
-          <NavLink activeClassName={styles.active} to="/user/team">
+          <NavLink activeClassName={styles.active} to="/team">
             Team
           </NavLink>
-          <NavLink activeClassName={styles.active} to="/user/kontakt">
+          <NavLink activeClassName={styles.active} to="/kontakt">
             Kontakt
           </NavLink>
           {/* {toAdmin} */}
@@ -73,28 +73,28 @@ class Header extends Component {
             <NavLink
               activeClassName={styles.active}
               onClick={this.onMobileNavClick}
-              to="/user/aktuell"
+              to="/aktuell"
             >
               Aktuell
             </NavLink>
             <NavLink
               activeClassName={styles.active}
               onClick={this.onMobileNavClick}
-              to="/user/projekte"
+              to="/projekte"
             >
               Projekte
             </NavLink>
             <NavLink
               activeClassName={styles.active}
               onClick={this.onMobileNavClick}
-              to="/user/team"
+              to="/team"
             >
               Team
             </NavLink>
             <NavLink
               activeClassName={styles.active}
               onClick={this.onMobileNavClick}
-              to="/user/kontakt"
+              to="/kontakt"
             >
               Kontakt
             </NavLink>

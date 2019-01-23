@@ -42,7 +42,7 @@ class App extends Component {
           <div className="App">
             <Route exact path="/" component={NotFound} />
             <div className="User">
-              <Route path="/user" component={User} />
+              <Route path="/" component={User} />
             </div>
             <div>
               <Route path="/admin/" component={Admin} />

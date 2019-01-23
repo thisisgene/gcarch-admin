@@ -26,10 +26,7 @@ class News extends Component {
       projectList = projects.map(project => {
         return (
           <div key={project._id} className={styles['news-item']}>
-            <NavLink
-              className={styles['link']}
-              to={`/user/projekte/${project._id}`}
-            >
+            <NavLink className={styles['link']} to={`/projekte/${project._id}`}>
               <img
                 src={`/assets/gc-arch/uploads/${project._id}/${
                   project.images[0].originalName
