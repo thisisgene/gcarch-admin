@@ -21,8 +21,7 @@ import {
   SET_HOME_PROJECT,
   SET_USER_BACKGROUND,
   DELETE_PROJECT,
-  SORT_PROJECTS,
-  EMPTY_PROJECT
+  SORT_PROJECTS
 } from '../actions/types'
 
 const initialState = {
@@ -75,11 +74,7 @@ export default function(state = initialState, action) {
         projects: action.payload,
         loading: false
       }
-    case EMPTY_PROJECT:
-      return {
-        ...state,
-        project: null
-      }
+
     case GET_PROJECT:
       return {
         ...state,

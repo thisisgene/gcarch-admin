@@ -1,23 +1,22 @@
 import axios from 'axios'
 import {
-  GET_PROJECTS,
+  GET_NEWS,
   PROJECT_LOADING,
   CLEAR_PROJECTS,
   GET_ERRORS,
-  GET_PROJECT
+  GET_NEWS_BY_ID
 } from './types'
 
 // Get all projects
-export const getAllProjects = () => dispatch => {
-  dispatch(setProjectLoading())
+export const getAllNews = () => dispatch => {
+  dispatch(setNewsLoading())
   axios
     .get('/api/projects')
     .then(res => {
       dispatch({
-        type: GET_PROJECTS,
+        type: GET_NEWS,
         payload: res.data
       })
-      console.log(res.data)
     })
     .catch(err =>
       dispatch({
@@ -27,14 +26,36 @@ export const getAllProjects = () => dispatch => {
     )
 }
 
+// Create News
+export const createNews = title => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    title: title
+  }
+  axios
+    .post('/api/news', data)
+    .then(res => {
+      dispatch({
+        type: CREATE_NEWS,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    )
+}
+
 // Get project by ID
-export const getProjectById = id => dispatch => {
-  dispatch(setProjectLoading())
+export const getNewsById = id => dispatch => {
+  dispatch(setNewsLoading())
   axios
     .get('/api/projects/id/' + id)
     .then(res =>
       dispatch({
-        type: GET_PROJECT,
+        type: GET_NEWS_BY_ID,
         payload: res.data
       })
     )
@@ -46,10 +67,10 @@ export const getProjectById = id => dispatch => {
     )
 }
 
-// Project loading
-export const setProjectLoading = () => {
+// News loading
+export const setNewsLoading = () => {
   return {
-    type: PROJECT_LOADING
+    type: NEWS_LOADING
   }
 }
 // Clear projects

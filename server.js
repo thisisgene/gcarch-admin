@@ -9,6 +9,8 @@ const proxy = require('express-http-proxy')
 
 const users = require('./routes/api/users')
 const projects = require('./routes/api/projects')
+const news = require('./routes/api/news')
+
 const AWS = require('aws-sdk')
 const app = express()
 
@@ -50,6 +52,7 @@ require('./config/passport')(passport)
 // Use Routes
 app.use('/api/users', users)
 app.use('/api/projects', projects)
+app.use('/api/news', news)
 
 // Server static assets if on production
 if (process.env.NODE_ENV === 'production') {

@@ -16,7 +16,7 @@ class News extends Component {
   render() {
     return (
       <div className="news">
-        <NewsList />
+        <NewsList news={this.props.news} />
         <Route path="/news/:id" props={this.props} component={NewsContent} />
       </div>
     )

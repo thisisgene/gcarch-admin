@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   getProjectById,
+  getAllProjects,
   updateProjectContent
 } from '../../../../actions/projectActions'
 
@@ -24,9 +25,10 @@ class ProjectContent extends Component {
     super()
     this.state = {
       project: {},
+      title: '',
+      location: '',
       leadDescription: '',
       description: '',
-      location: '',
       errors: {},
       timeout: 0,
       writing: false
@@ -40,6 +42,7 @@ class ProjectContent extends Component {
   submitDescription = id => {
     const content = {
       id: id,
+      name: this.state.title,
       location: this.state.location,
       leadDescriptionMarkdown: this.state.leadDescription,
       descriptionMarkdown: this.state.description
@@ -62,12 +65,16 @@ class ProjectContent extends Component {
     if (prevProps !== this.props) {
       if (this.props.project.project) {
         const project = this.props.project.project
-        console.log('hola', this.state.description)
-        // this.state.description === '' &&
+        this.setState({ title: project.name })
         this.setState({ location: project.location })
         this.setState({ description: project.descriptionMarkdown })
-        // this.state.leadDescription === '' &&
         this.setState({ leadDescription: project.leadDescriptionMarkdown })
+        if (
+          prevProps.project.project &&
+          this.props.project.project.name !== prevProps.project.project.name
+        ) {
+          this.props.getAllProjects()
+        }
       }
     }
   }
@@ -86,7 +93,7 @@ class ProjectContent extends Component {
             <div className={styles['project-text-title']}>
               <TextFieldGroup
                 name="title"
-                value={project.name}
+                value={this.state.title}
                 onChange={this.onChange}
               />
             </div>
@@ -169,5 +176,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProjectById, updateProjectContent }
+  { getProjectById, getAllProjects, updateProjectContent }
 )(ProjectContent)

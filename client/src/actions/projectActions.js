@@ -13,7 +13,6 @@ import {
   GET_PROJECTS_AFTER_TEN,
   GET_GRID_TOPTEN,
   GET_PROJECT,
-  EMPTY_PROJECT,
   SORT_PROJECTS,
   DELETE_PROJECT,
   HAS_BACKGROUND_IMAGE,
@@ -96,12 +95,7 @@ export const getAllProjects = () => dispatch => {
       })
     )
 }
-// Empty project prop
-export const emptyProject = () => dispatch => {
-  dispatch({
-    type: EMPTY_PROJECT
-  })
-}
+
 // Get project by ID
 export const getProjectById = id => dispatch => {
   dispatch(setProjectLoading())
