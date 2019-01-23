@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   getProjectById,
+  emptyProject,
   hasBackgroundImage
 } from '../../../../actions/projectActions'
 
@@ -36,6 +37,9 @@ class Project extends Component {
       })
     }
     window.addEventListener('scroll', this.listenScrollEvent)
+  }
+  componentWillUnmount() {
+    this.props.emptyProject()
   }
 
   listenScrollEvent = e => {
@@ -169,5 +173,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProjectById, hasBackgroundImage }
+  { getProjectById, emptyProject, hasBackgroundImage }
 )(Project)
