@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+
+import { getAllNews } from '../../../../actions/newsActions'
 
 import store from '../../../../store'
 import {
@@ -9,55 +11,68 @@ import {
   hasBackgroundImage
 } from '../../../../actions/projectActions'
 
+import CustomLink from '../../common/CustomLink'
+
 import styles from './News.module.sass'
+import NewsListItem from '../../../admin/dashboard/news/NewsListItem'
 
 class News extends Component {
   componentDidMount() {
+    this.props.getAllNews()
     store.dispatch(clearCurrentProject())
     this.props.hasBackgroundImage(false)
-    if (!this.props.project.projects) {
-      this.props.getAllProjects()
-    }
+    // if (!this.props.project.projects) {
+    //   this.props.getAllProjects()
+    // }
   }
   render() {
-    const { projects } = this.props.project
-    let projectList = []
-    if (projects) {
-      projectList = projects.map(project => {
-        return (
-          <div key={project._id} className={styles['news-item']}>
-            <NavLink className={styles['link']} to={`/projekte/${project._id}`}>
-              <img
-                src={`/assets/projekte/${project._id}/${
-                  project.images[0].originalName
-                }`}
-                alt=""
+    const { news } = this.props.news
+    return (
+      <div className={styles['news-container']}>
+        {news &&
+          news.map(newsItem => (
+            <div key={newsItem._id} className={styles['news-item']}>
+              <CustomLink
+                isExternal={newsItem.isExternal}
+                className={styles['link']}
+                text={'test'}
+                to={`/${newsItem.link}`}
+                inside={
+                  <div>
+                    <img
+                      src={`/assets/news/${newsItem._id}/${
+                        newsItem.images[0].originalName
+                      }`}
+                      alt=""
+                    />
+                    <div className={styles['news-info']}>
+                      <div className={styles['news-info-name']}>
+                        {newsItem.title}
+                      </div>
+                      <div
+                        className={styles['news-info-description']}
+                        dangerouslySetInnerHTML={{
+                          __html: newsItem.descriptionHtml
+                        }}
+                      >
+                        {/* Das ist unser neues Projekt. */}
+                      </div>
+                    </div>
+                  </div>
+                }
               />
-              <div className={styles['news-info']}>
-                <div className={styles['news-info-name']}>{project.name}</div>
-                <div
-                  className={styles['news-info-description']}
-                  dangerouslySetInnerHTML={{
-                    __html: project.leadDescriptionHtml
-                  }}
-                >
-                  {/* Das ist unser neues Projekt. */}
-                </div>
-              </div>
-            </NavLink>
-          </div>
-        )
-      })
-    }
-    return <div className={styles['news-container']}>{projectList}</div>
+            </div>
+          ))}
+      </div>
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  project: state.project
+  news: state.news
 })
 
 export default connect(
   mapStateToProps,
-  { hasBackgroundImage, getAllProjects }
+  { hasBackgroundImage, getAllProjects, getAllNews }
 )(News)
