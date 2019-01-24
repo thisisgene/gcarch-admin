@@ -7,7 +7,7 @@ import NewsList from './NewsList'
 import NewsContent from './NewsContent'
 import { getAllNews } from '../../../../actions/newsActions'
 
-// import './news.css'
+import styles from './News.module.sass'
 
 class News extends Component {
   componentDidMount() {
@@ -15,10 +15,10 @@ class News extends Component {
   }
   render() {
     return (
-      <div className="news">
+      <div className={styles['news']}>
         {this.props.news && <NewsList news={this.props.news} />}
         <Route
-          path="/admin/news/:id"
+          path="/admin/aktuelles/:id"
           props={this.props}
           component={NewsContent}
         />

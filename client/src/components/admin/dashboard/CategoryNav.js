@@ -21,9 +21,9 @@ class Dashboard extends Component {
         <NavLink
           className={styles['category-nav--link']}
           activeClassName={styles['active']}
-          to="/admin/news"
+          to="/admin/aktuelles"
         >
-          News
+          Aktuelles
         </NavLink>
       </div>
     )

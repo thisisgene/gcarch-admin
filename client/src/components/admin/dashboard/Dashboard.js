@@ -17,7 +17,7 @@ class Dashboard extends Component {
 
         <div className={styles['dashboard-content']}>
           <PrivateRoute path="/admin/projects" component={Projects} />
-          <PrivateRoute path="/admin/news" component={News} />
+          <PrivateRoute path="/admin/aktuelles" component={News} />
         </div>
       </div>
     )

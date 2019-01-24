@@ -18,36 +18,41 @@ const TextFieldGroup = ({
 }) => {
   // TODO: MAKE error feedback work
   return (
-    <div
-      className={cx(globalStyles['input-group'], commonStyles['dark-group'])}
-    >
-      {error && <div className={globalStyles['invalid-feedback']}>{error}</div>}{' '}
-      <input
-        className={cx(globalStyles['form-control'], commonStyles['dark-input'])}
-        placeholder={placeholder}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-      />
+    <div>
       <div
-        className={cx(
-          globalStyles['input-group-append'],
-          commonStyles['dark-append']
-        )}
+        className={cx(globalStyles['input-group'], commonStyles['dark-group'])}
       >
-        <button
+        <input
           className={cx(
-            globalStyles['btn'],
-            globalStyles['btn-outline-secondary']
+            globalStyles['form-control'],
+            commonStyles['dark-input']
           )}
-          type="button"
-          onClick={onClick}
+          placeholder={placeholder}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+        />
+        <div
+          className={cx(
+            globalStyles['input-group-append'],
+            commonStyles['dark-append']
+          )}
         >
-          {buttonText ? buttonText : <i className="fa fa-plus-circle" />}
-        </button>
+          <button
+            className={cx(
+              globalStyles['btn'],
+              globalStyles['btn-outline-secondary']
+            )}
+            type="button"
+            onClick={onClick}
+          >
+            {buttonText ? buttonText : <i className="fa fa-plus-circle" />}
+          </button>
+        </div>
       </div>
+      {error && <div className={globalStyles['invalid-feedback']}>{error}</div>}{' '}
     </div>
   )
 }

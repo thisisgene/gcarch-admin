@@ -22,14 +22,17 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json(err))
 })
 
+// Create News
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const body = req.body
-    const news = await News.findOne({ name: body.name, isDeleted: false })
+    const errors = {}
+    console.log(body.title)
+    const news = await News.findOne({ title: body.title, isDeleted: false })
     if (news) {
-      errors.name = 'Ein Projekt mit diesem Namen existiert bereits.'
+      errors.title = 'Ein Projekt mit diesem Namen existiert bereits.'
       return res.status(400).json(errors)
     } else {
       // Get fields
@@ -39,9 +42,27 @@ router.post(
       }
       const newNews = new News(newsFields)
       newNews.save(async () => {
-        const news = await News.find()
+        const news = await News.find({ isDeleted: false })
         res.json(news)
       })
     }
+  }
+)
+
+// Delete News
+router.get(
+  '/delete/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    News.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true })
+      .then(async newsItem => {
+        const news = await News.find({ isDeleted: false })
+        console.log(news)
+        res.json(news)
+      })
+      .catch(err => {
+        errors.news = 'Beitrag nicht gefunden.'
+        return res.status(404).json(errors)
+      })
   }
 )

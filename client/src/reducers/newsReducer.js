@@ -2,7 +2,9 @@ import {
   CREATE_NEWS,
   GET_NEWS,
   SET_WAITING,
-  GET_NEWS_BY_ID
+  GET_NEWS_BY_ID,
+  DELETE_PROJECT,
+  DELETE_NEWS
 } from '../actions/types'
 
 const initialState = {
@@ -35,6 +37,12 @@ export default function(state = initialState, action) {
         newsItem: action.payload,
         description: action.payload.descriptionMarkdown,
         loading: false
+      }
+    case DELETE_NEWS:
+      console.log(action.payload)
+      return {
+        ...state,
+        news: action.payload
       }
 
     default:
