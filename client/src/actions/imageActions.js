@@ -35,27 +35,73 @@ export const uploadImages = (files, id, category) => dispatch => {
       })
 
       break
+    case 'news':
+      files.map(file => {
+        let formData = new FormData()
+        formData.append('id', id)
+        formData.append('name', file.name)
+        formData.append('size', file.size)
+        formData.append('file', file)
+        return axios
+          .post('/api/news/image_upload', formData)
+          .then(res => {
+            dispatch({
+              type: UPLOAD_IMAGES,
+              payload: res.data
+            })
+          })
+          .catch(err =>
+            dispatch({
+              type: GET_ERRORS,
+              payload: {}
+            })
+          )
+      })
+
+      break
     default:
       return null
   }
 }
 
-export const deleteImage = (projectid, imgid) => dispatch => {
+export const deleteImage = (id, imgid, category) => dispatch => {
   dispatch(setWaiting())
-  axios
-    .get(`/api/projects/delete_image/${projectid}/${imgid}`)
-    .then(res => {
-      dispatch({
-        type: DELETE_IMAGE,
-        payload: res.data
-      })
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: {}
-      })
-    )
+  switch (category) {
+    case 'project':
+      axios
+        .get(`/api/projects/delete_image/${id}/${imgid}`)
+        .then(res => {
+          dispatch({
+            type: DELETE_IMAGE,
+            payload: res.data
+          })
+        })
+        .catch(err =>
+          dispatch({
+            type: GET_ERRORS,
+            payload: {}
+          })
+        )
+      break
+    case 'news':
+      axios
+        .get(`/api/news/delete_image/${id}/${imgid}`)
+        .then(res => {
+          dispatch({
+            type: DELETE_IMAGE,
+            payload: res.data
+          })
+        })
+        .catch(err =>
+          dispatch({
+            type: GET_ERRORS,
+            payload: {}
+          })
+        )
+      break
+    default:
+      return null
+  }
 }
 
 export const setGridPosition = (

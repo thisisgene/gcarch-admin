@@ -58,7 +58,7 @@ class ImageList extends Component {
     const data = e.currentTarget.dataset
     const imgid = data.img_id
     const projectid = data.project_id
-    this.props.deleteImage(projectid, imgid, this.props.history)
+    this.props.deleteImage(projectid, imgid, 'project')
   }
 
   getAllImages() {

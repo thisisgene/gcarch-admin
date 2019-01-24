@@ -27,5 +27,6 @@ export const SET_USER_BACKGROUND = 'SET_USER_BACKGROUND'
 
 export const GET_NEWS = 'GET_NEWS'
 export const CREATE_NEWS = 'CREATE_NEWS'
+export const UPDATE_NEWS = 'UPDATE_NEWS'
 export const DELETE_NEWS = 'DELETE_NEWS'
 export const GET_NEWS_BY_ID = 'GET_NEWS_BY_ID'

@@ -6,7 +6,8 @@ import {
   GET_ERRORS,
   GET_NEWS_BY_ID,
   CREATE_NEWS,
-  DELETE_NEWS
+  DELETE_NEWS,
+  UPDATE_NEWS
 } from './types'
 
 // Get all projects
@@ -46,6 +47,24 @@ export const createNews = title => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    )
+}
+
+// Update News
+export const updateNews = data => dispatch => {
+  axios
+    .post(`/api/news/update`, data)
+    .then(res =>
+      dispatch({
+        type: UPDATE_NEWS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
       })
     )
 }

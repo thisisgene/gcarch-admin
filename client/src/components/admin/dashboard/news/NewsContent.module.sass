@@ -1,5 +1,22 @@
-.date-picker 
-  div
-    padding: .1rem .3rem
-  *
-    background: #aaa
+.news-content
+  display: flex
+  flex: 1
+  &--text
+    flex: 1
+    .date-picker 
+      div
+        padding: .1rem .3rem
+      *
+        background: #aaa
+  &--image
+    flex: 1
+    padding: 2rem
+
+    &__item
+      display: flex
+      // height: 60px
+      border-bottom: 1px solid #aaa
+      padding: .3rem 0
+      img
+        height: 60px
+        // width: 100%

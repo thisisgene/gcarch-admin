@@ -5,6 +5,9 @@ import { NavLink } from 'react-router-dom'
 
 import { deleteNews } from '../../../../actions/newsActions'
 
+import cx from 'classnames'
+import globalStyles from '../../common/Bootstrap.module.css'
+
 class NewsListItem extends Component {
   onClickDelete = id => {
     this.props.deleteNews(id)
@@ -13,7 +16,10 @@ class NewsListItem extends Component {
     const { item } = this.props
     return (
       <div>
-        <button onClick={this.onClickDelete.bind(this, item._id)}>
+        <button
+          className={cx(globalStyles['btn'], globalStyles['btn-link'])}
+          onClick={this.onClickDelete.bind(this, item._id)}
+        >
           <i className="fa fa-minus-circle" />
         </button>
         <NavLink to={`/admin/aktuelles/${item._id}`}>{item.title}</NavLink>

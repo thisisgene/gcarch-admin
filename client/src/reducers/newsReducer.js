@@ -4,7 +4,9 @@ import {
   SET_WAITING,
   GET_NEWS_BY_ID,
   DELETE_PROJECT,
-  DELETE_NEWS
+  DELETE_NEWS,
+  DELETE_IMAGE,
+  UPLOAD_IMAGES
 } from '../actions/types'
 
 const initialState = {
@@ -42,6 +44,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         news: action.payload
+      }
+    case UPLOAD_IMAGES:
+      return {
+        ...state,
+        newsItem: action.payload,
+        loading: false
+      }
+    case DELETE_IMAGE:
+      return {
+        ...state,
+        newsItem: action.payload,
+        waiting: false
       }
 
     default:

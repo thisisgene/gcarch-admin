@@ -17,14 +17,14 @@ class ImageUpload extends Component {
 
   componentDidMount() {
     if (this.props) {
-      this.setState({ id: this.props.project._id })
+      this.setState({ id: this.props.id })
     }
   }
 
   onDrop = files => {
     console.log(files)
     this.setState({ files: files })
-    this.props.uploadImages(files, this.state.id, 'project')
+    this.props.uploadImages(files, this.state.id, this.props.category)
   }
 
   onCancel = () => {
@@ -65,33 +65,10 @@ class ImageUpload extends Component {
             }}
           </Dropzone>
         </div>
-        {/* <aside>
-          <h2>Dropped files</h2>
-          <ul>
-            {this.state.files.map(f => (
-              <li key={f.name}>
-                {f.name} - {f.size} bytes
-              </li>
-            ))}
-          </ul>
-        </aside> */}
       </div>
     )
   }
 }
-
-// ImageUpload.propTypes = {
-//   uploadImages: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired,
-//   project: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-//
-
-// const mapStateToProps = state => ({
-//   auth: state.auth,
-//   project: state.project,
-//   errors: state.errors
-// })
 
 export default connect(
   null,
