@@ -35,7 +35,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         newsItem: action.payload,
-        description: action.payload.descriptionMarkdown,
         loading: false
       }
     case DELETE_NEWS:

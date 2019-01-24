@@ -71,8 +71,9 @@ export const deleteNews = id => dispatch => {
 // Get project by ID
 export const getNewsById = id => dispatch => {
   // dispatch(setNewsLoading())
+  console.log('action! ', id)
   axios
-    .get('/api/projects/id/' + id)
+    .get('/api/news/id/' + id)
     .then(res =>
       dispatch({
         type: GET_NEWS_BY_ID,

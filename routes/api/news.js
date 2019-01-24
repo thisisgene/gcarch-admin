@@ -15,11 +15,30 @@ router.get('/', (req, res) => {
     .exec()
     .then(news => {
       if (news === undefined || news.length === 0) {
-        return res.json({ nonews: 'Noch keine Projekte.' })
+        return res.json({ nonews: 'Noch keine Beiträge.' })
       }
       res.json(news)
     })
     .catch(err => res.status(404).json(err))
+})
+
+// Get News by ID
+router.get('/id/:id', (req, res) => {
+  const errors = {}
+  News.findOne({ _id: req.params.id, isDeleted: false })
+    .populate('lastEdited.user', ['name'])
+    .then(news => {
+      if (!news) {
+        errors.nonews = 'Kein Beitrag mit dieser ID.'
+        return res.status(404).json(errors.nonews)
+      }
+      console.log(news)
+      res.json(news)
+    })
+    .catch(err => {
+      errors.news = 'Projekt nicht gefunden.'
+      return res.status(404).json(errors)
+    })
 })
 
 // Create News
@@ -57,7 +76,6 @@ router.get(
     News.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true })
       .then(async newsItem => {
         const news = await News.find({ isDeleted: false })
-        console.log(news)
         res.json(news)
       })
       .catch(err => {
