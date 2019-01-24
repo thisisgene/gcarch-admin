@@ -15,6 +15,7 @@ import ImageUpload from '../ImageUpload'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
+import commonStyles from '../../common/Common.module.sass'
 import 'react-datepicker/dist/react-datepicker.css'
 import styles from './NewsContent.module.sass'
 
@@ -105,12 +106,14 @@ class NewsContent extends Component {
               error={this.state.errors.title}
             />
             {/* <input type="file" name="file" onChange={this.handleFile} /> */}
-            <TextareaFieldGroup
-              name="description"
-              value={this.state.description}
-              placeholder="Beschreibung"
-              onChange={this.onChange}
-            />
+            <div className={styles['news-content--text__description']}>
+              <TextareaFieldGroup
+                name="description"
+                value={this.state.description}
+                placeholder="Beschreibung"
+                onChange={this.onChange}
+              />
+            </div>
             <DatePicker
               name="date"
               className={styles['date-picker']}
@@ -123,7 +126,11 @@ class NewsContent extends Component {
             />
 
             <br />
-            <input type="submit" value="Speichern" />
+            <input
+              className={commonStyles['submit-button']}
+              type="submit"
+              value="Speichern"
+            />
           </form>
         </div>
         <div className={styles['news-content--image']}>

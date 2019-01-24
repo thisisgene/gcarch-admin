@@ -18,6 +18,7 @@ import Sidebar from './Sidebar'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
+import commonStyles from '../../common/Common.module.sass'
 import styles from './Projects.module.sass'
 
 class ProjectContent extends Component {
@@ -132,7 +133,10 @@ class ProjectContent extends Component {
               />
             </div>
             <div>
-              <button onClick={this.submitDescription.bind(this, project._id)}>
+              <button
+                className={commonStyles['submit-button']}
+                onClick={this.submitDescription.bind(this, project._id)}
+              >
                 Speichern
               </button>
             </div>
