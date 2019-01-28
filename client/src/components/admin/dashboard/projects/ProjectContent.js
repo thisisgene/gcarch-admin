@@ -9,7 +9,6 @@ import {
 
 import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
-import TextInputButtonGroup from '../../common/TextInputButtonGroup'
 
 import Spinner from '../../common/Spinner'
 import ImageUpload from '../ImageUpload'
@@ -81,7 +80,7 @@ class ProjectContent extends Component {
   }
 
   render() {
-    const { project, loading, dynamicSave } = this.props.project
+    const { project, loading, dynamicSave, saving } = this.props.project
 
     let projectContent
     if (loading) {
@@ -89,7 +88,11 @@ class ProjectContent extends Component {
     } else if (project) {
       // TODO: Make project name updateable
       projectContent = (
-        <div className={styles['project-content-container']}>
+        <div
+          className={cx(styles['project-content-container'], {
+            [styles['saving']]: saving
+          })}
+        >
           <div className={styles['project-text']}>
             <div className={styles['project-text-title']}>
               <TextFieldGroup

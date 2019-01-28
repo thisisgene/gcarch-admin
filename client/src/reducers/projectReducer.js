@@ -21,7 +21,8 @@ import {
   SET_HOME_PROJECT,
   SET_USER_BACKGROUND,
   DELETE_PROJECT,
-  SORT_PROJECTS
+  SORT_PROJECTS,
+  PROJECT_SAVING
 } from '../actions/types'
 
 const initialState = {
@@ -59,13 +60,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         project: action.payload,
+        saving: false,
         waiting: false
       }
     case UPDATE_PROJECT_CONTENT:
       return {
         ...state,
         project: action.payload,
-        dynamicSave: false,
+        saving: false,
         waiting: false
       }
     case GET_PROJECTS:
@@ -105,6 +107,11 @@ export default function(state = initialState, action) {
         ...state,
         project: null,
         projects: null
+      }
+    case PROJECT_SAVING:
+      return {
+        ...state,
+        saving: true
       }
     case CLEAR_CURRENT_PROJECT:
       return {

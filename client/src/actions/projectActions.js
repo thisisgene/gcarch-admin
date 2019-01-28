@@ -18,7 +18,8 @@ import {
   HAS_BACKGROUND_IMAGE,
   GET_HOME_PROJECT,
   SET_HOME_PROJECT,
-  SET_USER_BACKGROUND
+  SET_USER_BACKGROUND,
+  PROJECT_SAVING
 } from './types'
 
 // Create project
@@ -59,7 +60,7 @@ export const updateProject = (id, content, type) => dispatch => {
 }
 
 export const updateProjectContent = content => dispatch => {
-  // dispatch(setDynamicSave())
+  dispatch(projectSaving())
   console.log('action', content)
   axios
     .post('/api/projects/update', content)
@@ -256,9 +257,9 @@ export const setWaiting = () => {
     type: SET_WAITING
   }
 }
-export const setDynamicSave = () => {
+export const projectSaving = () => {
   return {
-    type: SET_DYNAMIC_SAVE
+    type: PROJECT_SAVING
   }
 }
 

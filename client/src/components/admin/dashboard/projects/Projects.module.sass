@@ -13,7 +13,7 @@
   flex: 1
   .project-list-container
     overflow-y: auto
-    max-height: calc(95% - 20px)
+    max-height: calc(100% - 20px)
     width: 100%
     // padding-right: 1rem
     
@@ -92,7 +92,8 @@
   display: flex
   flex-direction: row
   height: 100%
-
+  &.saving
+    opacity: .5
 
 .project-text 
   padding-right: 1rem
@@ -151,30 +152,52 @@ textarea
 .project-images 
   padding-left: 1rem
   width: 50%
-
+  height: 100%
   z-index: 10
-
-.image-table 
+  display: flex
+  flex-direction: column
+  
+.image-upload
+  // height1
+.image-list
   width: 100%
+  // border-spacing: 1rem
+  flex: 1
+  // height: calc(100% - 120px)
+  overflow-y: auto
+  .image-table
+    thead
+      font-size: .8rem
+      text-align: center
+      border-bottom: 1rem solid transparent
+      tr th
+        padding: 0 .4rem
+    tbody 
+      // border-top: 1rem solid transparent
+      tr 
+        border-bottom: 1px solid #555
+        vertical-align: center
 
-  tbody tr 
-    border-bottom: 1px solid #555
+        &:hover 
+          background: #555
 
-    &:hover 
-      background: #555
+        td 
+          // min-width: 20px
+          text-align: center
+          padding: 0 .4rem
+          // border: 1px dashed #aaa
+          
+          img
+            margin: .3rem 0
+            transform-origin: center right
+            transition: transform 200ms ease-in-out
+            &:hover
+              transform: scale(8)
 
-    td 
-      min-width: 20px
-      // padding: 4px 10px
-      // border: 1px dashed #aaa
-      img
-        transform-origin: center right
-        transition: transform 200ms ease-in-out
-        &:hover
-          transform: scale(8)
-
-      input 
-        margin: 0
+          input 
+            margin: 0
+            
+            
 
 
 .cheatsheet

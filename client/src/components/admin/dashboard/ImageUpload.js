@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { uploadImages } from '../../../actions/imageActions'
 
 import commonStyles from '../common/Common.module.sass'
+import styles from './projects/Projects.module.sass'
 
 class ImageUpload extends Component {
   constructor() {
@@ -35,7 +36,7 @@ class ImageUpload extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles['image-upload']}>
         <div className={commonStyles['dropzone']}>
           <Dropzone
             className={commonStyles['dropzone-inner']}

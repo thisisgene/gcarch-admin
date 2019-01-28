@@ -72,13 +72,14 @@ class ImageList extends Component {
           let imgSrc = `/assets/projekte/${project._id}/${img.originalName}`
           imageList.push(
             <tr
+              // className={globalStyles['form-inline']}
               key={img._id}
               style={waiting ? { opacity: '.5' } : { opacity: '1' }}
             >
               <td>
                 <img src={imgSrc} alt="" style={{ width: '60px' }} />
               </td>
-              <td>
+              {/* <td>
                 <input
                   name={`description_${i}`}
                   className={cx(
@@ -89,7 +90,7 @@ class ImageList extends Component {
                   value={this.state[`description_${i}`]}
                   onChange={this.onChange.bind(this, `description_${i}`)}
                 />
-              </td>
+              </td> */}
               <td>
                 <SelectFieldGroup
                   name={`placeInGrid_${i}`}
@@ -109,7 +110,8 @@ class ImageList extends Component {
                 <input
                   type="radio"
                   name={`optcover_${i}`}
-                  className={globalStyles['form-control']}
+                  // className={globalStyles['form-control']}
+                  // style={{ margin: '0 !important' }}
                   onClick={this.onRadioClick.bind(this, project._id, img._id)}
                   onChange={this.onChange.bind(this, `radio_${i}`)}
                   checked={
@@ -122,7 +124,7 @@ class ImageList extends Component {
                 <input
                   name="visibility"
                   type="checkbox"
-                  className={globalStyles['form-control']}
+                  // className={globalStyles['form-control']}
                   onClick={this.onCheckboxClick.bind(
                     this,
                     project._id,
@@ -154,6 +156,15 @@ class ImageList extends Component {
     return (
       <div className={styles['image-list']}>
         <table className={styles['image-table']}>
+          <thead>
+            <tr>
+              <th>Bild</th>
+              <th># auf Raster</th>
+              <th>Hintergrund</th>
+              <th>Wird angezeigt</th>
+              <th>Löschen</th>
+            </tr>
+          </thead>
           <tbody>{this.getAllImages()}</tbody>
         </table>
       </div>

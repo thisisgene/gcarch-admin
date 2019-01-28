@@ -59,7 +59,11 @@ class NewsContent extends Component {
       this.props.getNewsById(this.props.match.params.id)
     }
 
-    if (prevProps !== this.props) {
+    if (
+      (!prevProps.news.newsItem && prevProps !== this.props) ||
+      (prevProps.news.newsItem &&
+        prevProps.news.newsItem !== this.props.news.newsItem)
+    ) {
       if (this.props.news.newsItem) {
         const news = this.props.news.newsItem
         this.setState({

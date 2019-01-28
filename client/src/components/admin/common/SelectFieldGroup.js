@@ -12,7 +12,7 @@ const SelectFieldGroup = ({ name, onChange, options, value, disabled }) => {
   }
 
   return (
-    <div className={globalStyles['form-group']}>
+    <div>
       <select
         value={value}
         className={cx(
