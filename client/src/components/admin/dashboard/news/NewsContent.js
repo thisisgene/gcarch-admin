@@ -28,6 +28,8 @@ class NewsContent extends Component {
       file: null,
       description: '',
       title: '',
+      link: '',
+      linkExternal: false,
       errors: {}
     }
   }
@@ -43,17 +45,31 @@ class NewsContent extends Component {
       this.props.match &&
       prevProps.match.params.id !== this.props.match.params.id
     ) {
-      this.setState({ id: this.props.match.params.id })
+      console.log('UPDATE')
+      this.setState({
+        id: this.props.match.params.id,
+        date: new Date(),
+        file: null,
+        description: '',
+        title: '',
+        link: '',
+        linkExternal: false,
+        errors: {}
+      })
       this.props.getNewsById(this.props.match.params.id)
     }
 
     if (prevProps !== this.props) {
       if (this.props.news.newsItem) {
         const news = this.props.news.newsItem
-        this.setState({ title: news.title })
-        this.setState({ file: news.file })
-        news.date && this.setState({ date: new Date(news.date) })
-        this.setState({ description: news.descriptionMarkdown })
+        this.setState({
+          title: news.title ? news.title : '',
+          link: news.link ? news.link : '',
+          linkExternal: news.linkExternal ? news.linkExternal : false,
+          file: news.file ? news.file : null,
+          date: new Date(news.date ? news.date : ''),
+          description: news.descriptionMarkdown ? news.descriptionMarkdown : ''
+        })
         if (
           prevProps.news.newsItem &&
           this.props.news.newsItem.title !== prevProps.news.newsItem.title
@@ -70,7 +86,12 @@ class NewsContent extends Component {
     this.setState({ date: date })
   }
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+    if (e.target.name !== 'linkExternal') {
+      this.setState({ [e.target.name]: e.target.value })
+    } else {
+      console.log(e.target.checked)
+      this.setState({ [e.target.name]: e.target.checked })
+    }
   }
   handleFile = e => {
     this.setState({
@@ -80,10 +101,12 @@ class NewsContent extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-
+    console.log(this.state.linkExternal)
     const newsData = {
       id: this.state.id,
       title: this.state.title,
+      link: this.state.link,
+      linkExternal: this.state.linkExternal,
       file: this.state.file,
       descriptionMarkdown: this.state.description,
       date: this.state.date
@@ -92,9 +115,13 @@ class NewsContent extends Component {
   }
 
   render() {
-    const { newsItem } = this.props.news
+    const { newsItem, saving } = this.props.news
     return (
-      <div className={styles['news-content']}>
+      <div
+        className={cx(styles['news-content'], {
+          [styles['saving']]: saving
+        })}
+      >
         <div className={styles['news-content--text']}>
           <form onSubmit={this.onSubmit}>
             <TextFieldGroup
@@ -124,7 +151,24 @@ class NewsContent extends Component {
               // locale={'de-DE'}
               // clearIcon={null}
             />
-
+            <br />
+            <input
+              id="linkExternal"
+              type="checkbox"
+              name="linkExternal"
+              checked={this.state.linkExternal}
+              defaultChecked={newsItem && newsItem.linkExternal}
+              onChange={this.onChange}
+            />{' '}
+            <label htmlFor="linkExternal">externer Link</label>
+            <TextFieldGroup
+              type="text"
+              name="link"
+              value={this.state.link}
+              placeholder="Link"
+              onChange={this.onChange}
+              error={this.state.errors.link}
+            />
             <br />
             <input
               className={commonStyles['submit-button']}
@@ -138,29 +182,31 @@ class NewsContent extends Component {
           <div>
             {newsItem &&
               newsItem.images &&
-              newsItem.images.map(image => (
-                <div>
-                  {!image.isDeleted && (
-                    <div className={styles['news-content--image__item']}>
-                      <button
-                        className={cx(
-                          globalStyles['btn'],
-                          globalStyles['btn-link']
-                        )}
-                        onClick={this.onClickDelete.bind(this, image._id)}
-                      >
-                        <i className="fa fa-minus-circle" />
-                      </button>
-                      <img
-                        src={`/assets/news/${this.state.id}/${
-                          image.originalName
-                        }`}
-                        alt=""
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
+              newsItem.images
+                .filter(image => !image.isDeleted)
+                .map((image, index) => (
+                  <div key={index}>
+                    {!image.isDeleted && (
+                      <div className={styles['news-content--image__item']}>
+                        <button
+                          className={cx(
+                            globalStyles['btn'],
+                            globalStyles['btn-link']
+                          )}
+                          onClick={this.onClickDelete.bind(this, image._id)}
+                        >
+                          <i className="fa fa-minus-circle" />
+                        </button>
+                        <img
+                          src={`/assets/news/${this.state.id}/${
+                            image.originalName
+                          }`}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
           </div>
         </div>
       </div>

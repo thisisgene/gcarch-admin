@@ -9,12 +9,14 @@ class NewsList extends Component {
   render() {
     const { news } = this.props
     return (
-      <div className={styles['news-list']}>
+      <div className={styles['news-list-container']}>
         <NewsInput />
-        {news.news &&
-          news.news.map((item, index) => (
-            <NewsListItem key={index} item={item} />
-          ))}
+        <div className={styles['news-list']}>
+          {news.news &&
+            news.news.map((item, index) => (
+              <NewsListItem key={index} item={item} />
+            ))}
+        </div>
       </div>
     )
   }

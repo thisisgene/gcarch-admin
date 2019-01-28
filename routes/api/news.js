@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
   // res.json({ msg: 'Jubidu' })
   const errors = {}
   News.find({ isDeleted: false })
-    .sort('position')
+    .sort('-date')
     .exec()
     .then(news => {
       if (news === undefined || news.length === 0) {
@@ -80,9 +80,12 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const body = req.body
-    console.log(body.file)
+    console.log('linkExternal', body.linkExternal)
     const updateItem = {}
     if (body.title) updateItem.title = body.title
+    if (body.link) updateItem.link = body.link
+    if (body.linkExternal !== undefined)
+      updateItem.linkExternal = body.linkExternal
     if (body.date) updateItem.date = body.date
     if (body.descriptionMarkdown) {
       updateItem.descriptionMarkdown = body.descriptionMarkdown
@@ -141,6 +144,7 @@ router.post(
         key: function(req, file, cb) {
           console.log('body: ', req.body)
           body = req.body
+
           cb(null, `news/${body.id}/${file.originalname}`)
         }
       })
@@ -151,9 +155,9 @@ router.post(
         res.send(err)
       }
       const body = req.body
-      const imgName = body.name.replace(/ /g, '_')
+      // const imgName = body.name.replace(/ /g, '_')
       const newImage = {
-        originalName: imgName
+        originalName: body.name
       }
       News.findOneAndUpdate(
         { _id: body.id },

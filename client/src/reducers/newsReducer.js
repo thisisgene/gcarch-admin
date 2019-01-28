@@ -6,7 +6,9 @@ import {
   DELETE_PROJECT,
   DELETE_NEWS,
   DELETE_IMAGE,
-  UPLOAD_IMAGES
+  UPLOAD_IMAGES,
+  NEWS_SAVING,
+  UPDATE_NEWS
 } from '../actions/types'
 
 const initialState = {
@@ -40,7 +42,6 @@ export default function(state = initialState, action) {
         loading: false
       }
     case DELETE_NEWS:
-      console.log(action.payload)
       return {
         ...state,
         news: action.payload
@@ -57,7 +58,16 @@ export default function(state = initialState, action) {
         newsItem: action.payload,
         waiting: false
       }
-
+    case NEWS_SAVING:
+      return {
+        ...state,
+        saving: true
+      }
+    case UPDATE_NEWS:
+      return {
+        ...state,
+        saving: false
+      }
     default:
       return state
   }

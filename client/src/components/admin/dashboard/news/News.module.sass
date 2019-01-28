@@ -4,11 +4,26 @@
   align-items: stretch
   flex: 1
   position: relative
-
-  .news-list 
+  
+  
+  .news-list-container
     flex: 1
     max-width: 270px
     padding: 0
     border-right: 1px solid #444
     display: flex
     flex-direction: column
+    overflow-y: auto
+    max-height: calc(100% - 20px)
+    .news-list
+      &--item
+        button
+          color: red
+        a
+          color: white
+          padding: .3rem .6rem
+          &.active
+            font-style: italic
+            background: #51545B
+
+    

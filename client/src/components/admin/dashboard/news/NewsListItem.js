@@ -7,6 +7,7 @@ import { deleteNews } from '../../../../actions/newsActions'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
+import styles from './News.module.sass'
 
 class NewsListItem extends Component {
   onClickDelete = id => {
@@ -15,14 +16,19 @@ class NewsListItem extends Component {
   render() {
     const { item } = this.props
     return (
-      <div>
+      <div className={styles['news-list--item']}>
         <button
           className={cx(globalStyles['btn'], globalStyles['btn-link'])}
           onClick={this.onClickDelete.bind(this, item._id)}
         >
           <i className="fa fa-minus-circle" />
         </button>
-        <NavLink to={`/admin/aktuelles/${item._id}`}>{item.title}</NavLink>
+        <NavLink
+          activeClassName={styles['active']}
+          to={`/admin/aktuelles/${item._id}`}
+        >
+          {item.title}
+        </NavLink>
       </div>
     )
   }

@@ -33,18 +33,30 @@ class News extends Component {
           news.map(newsItem => (
             <div key={newsItem._id} className={styles['news-item']}>
               <CustomLink
-                isExternal={newsItem.isExternal}
+                isExternal={newsItem.linkExternal}
                 className={styles['link']}
                 text={'test'}
-                to={`/${newsItem.link}`}
+                to={`${newsItem.link}`}
                 inside={
                   <div>
-                    <img
-                      src={`/assets/news/${newsItem._id}/${
-                        newsItem.images[0].originalName
-                      }`}
-                      alt=""
-                    />
+                    {newsItem.images[0] && (
+                      <div>
+                        {newsItem.images
+                          .filter(img => !img.isDeleted)
+                          .map(
+                            (img, index) =>
+                              index == 0 && (
+                                <img
+                                  key={index}
+                                  src={`/assets/news/${newsItem._id}/${
+                                    img.originalName
+                                  }`}
+                                  alt=""
+                                />
+                              )
+                          )}
+                      </div>
+                    )}
                     <div className={styles['news-info']}>
                       <div className={styles['news-info-name']}>
                         {newsItem.title}

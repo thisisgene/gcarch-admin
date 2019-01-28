@@ -13,7 +13,7 @@ export default class CustomLink extends Component {
             {inside && inside}
           </a>
         ) : (
-          <Link to={to}>{inside && inside}</Link>
+          <Link to={`/projekte/${to}`}>{inside && inside}</Link>
         )}
       </div>
     )

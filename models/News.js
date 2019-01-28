@@ -15,8 +15,11 @@ const NewsSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  linkTo: {
+  link: {
     type: String
+  },
+  linkExternal: {
+    type: Boolean
   },
   images: [
     {

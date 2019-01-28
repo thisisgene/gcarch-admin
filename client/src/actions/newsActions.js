@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {
   GET_NEWS,
-  PROJECT_LOADING,
+  NEWS_SAVING,
   CLEAR_PROJECTS,
   GET_ERRORS,
   GET_NEWS_BY_ID,
@@ -53,6 +53,7 @@ export const createNews = title => dispatch => {
 
 // Update News
 export const updateNews = data => dispatch => {
+  dispatch(setSaving())
   axios
     .post(`/api/news/update`, data)
     .then(res =>
@@ -107,12 +108,13 @@ export const getNewsById = id => dispatch => {
     )
 }
 
-// News loading
-// export const setNewsLoading = () => {
-//   return {
-//     type: NEWS_LOADING
-//   }
-// }
+// News saving
+export const setSaving = () => {
+  return {
+    type: NEWS_SAVING
+  }
+}
+
 // Clear projects
 export const clearProjects = () => {
   return {
