@@ -29,7 +29,6 @@ class Projects extends Component {
           description={this.props.description}
           component={ProjectContent}
         />
-        <ProjectLayoutCheatsheet />
       </div>
     )
   }

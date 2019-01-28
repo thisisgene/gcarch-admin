@@ -89,9 +89,15 @@ class ProjectContent extends Component {
       // TODO: Make project name updateable
       projectContent = (
         <div
-          className={cx(styles['project-content-container'], {
-            [styles['saving']]: saving
-          })}
+          className={cx(
+            styles['project-content-container'],
+            {
+              [styles['saving']]: saving
+            },
+            {
+              [styles['semi-opaque']]: !project.isVisible
+            }
+          )}
         >
           <div className={styles['project-text']}>
             <div className={styles['project-text-title']}>
