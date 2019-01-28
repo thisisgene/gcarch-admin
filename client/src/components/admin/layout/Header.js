@@ -23,18 +23,18 @@ class Header extends Component {
 
     const authLinks = (
       <ul className={cx(globalStyles.nav, globalStyles['justify-content-end'])}>
-        <li className={globalStyles['nav-item']}>
+        {/* <li className={globalStyles['nav-item']}>
           <Link className={globalStyles['nav-link']} to="/admin/settings">
             <i className="fas fa-cog" />
           </Link>
-        </li>
+        </li> */}
         <li className={globalStyles['nav-item']}>
           <button
             className={cx(globalStyles.btn, globalStyles['btn-link'])}
-            id="dLabel"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
+            // id="dLabel"
+            // data-toggle="dropdown"
+            // aria-haspopup="true"
+            // aria-expanded="false"
           >
             {user.name}
           </button>
