@@ -62,6 +62,14 @@ class ProjectList extends Component {
     this.props.getAllProjects()
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.project.project &&
+      prevProps.project.project != this.props.project.project
+    ) {
+      console.log(this.props.project.project.isVisible)
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       console.log(nextProps.errors)
@@ -132,6 +140,9 @@ class ProjectList extends Component {
               <Draggable key={i} draggableId={`item-${i}`} index={i}>
                 {(provided, snapshot) => (
                   <li
+                    className={cx(styles['list-item'], {
+                      [styles['semi-opaque']]: !project.isVisible
+                    })}
                     key={i}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -141,7 +152,7 @@ class ProjectList extends Component {
                       provided.draggableProps.style
                     )}
                   >
-                    <div className={styles['list-child']}>
+                    <div className={cx(styles['list-child'])}>
                       <button
                         className={cx(
                           globalStyles['btn'],

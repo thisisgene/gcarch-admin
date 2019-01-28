@@ -20,13 +20,15 @@
     .list-container
       ul
         margin: 0
-        li
+        .list-item
           display: flex
           flex-direction: row
           justify-content: space-between
           align-items: center
           &:hover
           background: rgba(#aaa, .1)
+          // &.semi-opaque
+          //   opacity: .6
           .list-child
             flex: 1
             padding: 12px
@@ -179,7 +181,7 @@ textarea
       tr 
         border-bottom: 1px solid #555
         vertical-align: center
-
+        height: 60px
         &:hover 
           background: #555
 
@@ -191,10 +193,11 @@ textarea
           
           img
             margin: .3rem 0
-            transform-origin: center right
+            transform-origin: center left
             transition: transform 200ms ease-in-out
             &:hover
-              transform: scale(8)
+              transform: scale(2.5)
+              // position: fixed
 
           input 
             margin: 0
