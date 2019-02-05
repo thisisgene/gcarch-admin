@@ -11,7 +11,9 @@
   &.black-header .menu-container a
     color: #111
     &.active
-      color: #aaa
+      // font-weight: 900
+      text-decoration: underline
+      // color: #aaa
 
   .logo
     margin-bottom: 10px
@@ -24,15 +26,19 @@
 
     a
       font:
+        family: 'Aileron', 'Helvetica Neue', sans-serif
         weight: bold
       margin: 0
-      line-height: 1.1
+      line-height: 1.18
       text-transform: uppercase
-      font-size: .9rem
+      font-size: .8rem
       color: #fff
+      letter-spacing: .3px
 
     .active
-      color: #aaa
+      // font-weight: 900
+      text-decoration: underline
+      // color: #aaa
 @media(max-width: 768px)
   .header
     position: absolute
