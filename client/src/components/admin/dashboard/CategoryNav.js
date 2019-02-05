@@ -16,7 +16,7 @@ class Dashboard extends Component {
           activeClassName={styles['active']}
           to="/admin/projects"
         >
-          Projects
+          Projekte
         </NavLink>
         <NavLink
           className={styles['category-nav--link']}
