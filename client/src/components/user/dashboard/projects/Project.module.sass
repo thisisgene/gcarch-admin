@@ -4,12 +4,13 @@
   font-family: 'Roboto', 'Helvetica Neue', sans-serif
   background: white
   margin: 0
-  padding: 0 1rem
-  width: 720px
+  padding: 0 2rem
+  width: calc(100vw - 540px)
   color: white
   position: relative
   top: 0
-  
+  @media(min-width: 2040px)
+    width: 1500px
   
   .placeholder
     opacity: 0
@@ -23,7 +24,7 @@
     img
       width: 100%
   .project-info
-    margin-left: 2rem
+    // margin-left: 2rem
     position: fixed
     .project-title
       text-transform: uppercase
@@ -45,21 +46,21 @@
 
     .project-lead-description
       color: #111111
-      padding: 1rem 2rem
+      padding: 1rem 0
       // margin-bottom: 1rem     
       line-height: 1.5
-      text-align: justify
       font:
         size: 1rem
         weight: bold
       letter-spacing: .4px
     .project-description
       color: #050505
-      padding: 1rem 2rem 2rem
+      padding: 1rem 0 2rem
       margin-bottom: 1rem     
       // column-count: 2 
       line-height: 1.5
       text-align: left
+      max-width: 800px
       font:
         size: 1rem
         weight: 300

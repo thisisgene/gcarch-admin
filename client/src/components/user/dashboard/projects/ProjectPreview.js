@@ -34,7 +34,7 @@ class ProjectPreview extends Component {
     const lowResSrc = `/assets/projekte/${project._id}/min/${
       image.originalName
     }`
-    const imgSrc = `/assets/projekte/${project._id}/med/${image.originalName}`
+    const imgSrc = `/assets/projekte/${project._id}/${image.originalName}`
 
     return (
       <div
