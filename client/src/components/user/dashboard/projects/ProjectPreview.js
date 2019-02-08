@@ -14,7 +14,7 @@ class ProjectPreview extends Component {
       project: this.props.project,
       image: this.props.image,
       position: this.props.position,
-      thumbLoaded: false,
+      thumbLoaded: true,
       imgLoaded: false
     }
   }
@@ -31,9 +31,9 @@ class ProjectPreview extends Component {
     const project = this.props.project
     const image = this.props.image
     const position = this.props.position
-    const lowResSrc = `/assets/projekte/${project._id}/min/${
-      image.originalName
-    }`
+    // const lowResSrc = `/assets/projekte/${project._id}/min/${
+    //   image.originalName
+    // }`
     const imgSrc = `/assets/projekte/${project._id}/${image.originalName}`
 
     return (
@@ -41,7 +41,7 @@ class ProjectPreview extends Component {
         className={cx(gridStyles['img-container'], {
           [gridStyles['thumb-loaded']]: this.state.thumbLoaded
         })}
-        style={{ backgroundImage: `url(${lowResSrc})` }}
+        // style={{ backgroundImage: `url(${lowResSrc})` }}
       >
         <img
           src={imgSrc}
@@ -51,11 +51,11 @@ class ProjectPreview extends Component {
             [gridStyles['loaded']]: this.state.imgLoaded
           })}
         />
-        <img
+        {/* <img
           className={gridStyles['fake-thumb']}
           src={lowResSrc}
           onLoad={this.onThumbLoaded}
-        />
+        /> */}
         {/* <img src={lowResSrc} alt="" className={StyleSheet['low-res-img']} /> */}
         {/* <p>{position}</p> */}
         {/* <p>{project.name}</p> */}
