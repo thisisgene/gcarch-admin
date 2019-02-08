@@ -17,6 +17,7 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
     // width: 50%
     padding: 0 .4rem 1rem
     margin-bottom: 1rem
+    position: relative
 
     &-name
       text-transform: uppercase
@@ -26,10 +27,28 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
     
     &-email
       font-size: .8rem
-      margin-bottom: 1rem
+      // margin-bottom: 1rem
+    .biographie--link
+      background: none
+      border: none
+      padding: 0
+      font:
+        family: 'Aileron', 'Helvetica Neue', sans-serif
+        weight: bold
     &-description
-      font-size: .9rem
-      line-height: 1.2
+      position: absolute
+      background: rgba(white, .9)
+      z-index: 3
+      padding: 1rem 0
+      font:
+        size: .9rem
+        weight: 300
+      letter-spacing: .4px
+      line-height: 1.4
+      text-align: left
+      display: none
+      &.visible
+        display: block
     img
       margin-bottom: .5rem
       width: 100%
