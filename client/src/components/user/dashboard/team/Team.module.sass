@@ -1,8 +1,9 @@
-$gridWidth: 720px
+$gridWidth: calc(80vw - 340px)
 $itemBaseHeight: calc(720px / 6 / 1.5)
   
 .team-container
   width: $gridWidth
+  max-width: 1500px
   margin: 0 0 0 0 
   padding: 0
   display: grid
@@ -10,7 +11,8 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
   // grid-auto-rows: $itemBaseHeight
   grid-gap: 4px
  
-
+  @media(max-width: 1400px)
+    grid-template-columns: 1fr 1fr
   .team-member
     // width: 50%
     padding: 0 .4rem 1rem
@@ -34,12 +36,14 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
       // display: none
 
   @media(max-width: 1080px)
-    width: calc(100vw - 310px)
+    grid-template-columns: 1fr
+
+    // width: calc(100vw - 310px)
     // grid-auto-rows: calc(calc(100vw - 310px) / 6 / 1.5)
 
   @media(max-width: 768px)
     width: 100vw
-    grid-template-columns: 1fr
+    // grid-template-columns: 1fr
     padding: 1rem
     .team-member
       // width: 50%
