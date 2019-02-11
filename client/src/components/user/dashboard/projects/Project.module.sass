@@ -50,12 +50,15 @@
     .project-location
       font-size: .8rem
     .more-info
+      margin-top: 1rem
+      display: block
       text-transform: uppercase
       color: white
       text-decoration: underline
+      letter-spacing: .3px
       font:
         family: 'Aileron', 'Helvetica Neue', sans-serif
-        size: 1.2rem
+        size: .8rem
         weight: bold
       transition: opacity 200ms ease-in-out
       &.hidden
@@ -108,7 +111,9 @@
     .project-content .project-description
       column-count: 1
   @media(max-width: 768px)
-    padding: 0
+    padding: 0 1rem
+    .arrow-down
+      display: none
     .project-content
       .mobile-title
         display: block
@@ -119,3 +124,6 @@
         column-count: 1
     .project-info
       bottom: 20px
+
+      .more-info
+        text-align: center
