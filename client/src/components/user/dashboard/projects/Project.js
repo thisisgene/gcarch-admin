@@ -22,6 +22,7 @@ class Project extends Component {
       offset: 20,
       titleColor: 255,
       fixed: true,
+      beyond100: false,
       mobile: false
     }
   }
@@ -48,12 +49,14 @@ class Project extends Component {
       scrollDistance = (window.scrollY - 100) / 500
       this.setState({
         scrollDistance,
-        titleColor: 255 - scrollDistance * 200
+        titleColor: 255 - scrollDistance * 200,
+        beyond100: true
       })
     } else {
       this.setState({
         scrollDistance: 0,
-        titleColor: 255
+        titleColor: 255,
+        beyond100: false
       })
     }
     if (window.scrollY > window.innerHeight - this.state.offset) {
@@ -119,6 +122,14 @@ class Project extends Component {
           >
             <h1 className={styles['project-title']}>{project.name}</h1>
             <div className={styles['project-location']}>{project.location}</div>
+            <a
+              href="#info"
+              className={cx(styles['more-info'], {
+                [styles['hidden']]: this.state.beyond100
+              })}
+            >
+              Mehr Info
+            </a>
           </div>
           <div id="info" className={styles['project-content']}>
             <div
