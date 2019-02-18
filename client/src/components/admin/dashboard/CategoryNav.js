@@ -25,6 +25,13 @@ class Dashboard extends Component {
         >
           Aktuelles
         </NavLink>
+        <NavLink
+          className={styles['category-nav--link']}
+          activeClassName={styles['active']}
+          to="/admin/team"
+        >
+          Team
+        </NavLink>
       </div>
     )
   }
