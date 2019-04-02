@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-// import { createNews } from '../../../../actions/newsActions'
+import { createTeamMember } from '../../../../actions/teamActions'
 import TextInputButtonGroup from '../../common/TextInputButtonGroup'
 
 import styles from './Team.module.sass'
@@ -20,15 +20,15 @@ class TeamInput extends Component {
   //   }
   // }
 
-  // onChange = e => {
-  //   this.setState({ [e.target.name]: e.target.value })
-  // }
-  // onClick = e => {
-  //   this.props.createNews(this.state.title)
-  //   if (this.state.errors.length !== 0) {
-  //     this.setState({ title: '', errors: {} })
-  //   }
-  // }
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  onClick = e => {
+    this.props.createTeamMember(this.state.title)
+    if (this.state.errors.length !== 0) {
+      this.setState({ title: '', errors: {} })
+    }
+  }
 
   render() {
     return (
@@ -53,5 +53,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { createTeamMember }
 )(TeamInput)

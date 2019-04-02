@@ -32,3 +32,8 @@ export const UPDATE_NEWS = 'UPDATE_NEWS'
 export const DELETE_NEWS = 'DELETE_NEWS'
 export const GET_NEWS_BY_ID = 'GET_NEWS_BY_ID'
 export const NEWS_SAVING = 'NEWS_SAVING'
+
+export const GET_TEAM = 'GET_TEAM'
+export const GET_TEAM_MEMBER = 'GET_TEAM_MEMBER'
+export const CREATE_TEAM_MEMBER = 'CREATE_TEAM_MEMBER'
+export const DELETE_TEAM_MEMBER = 'DELETE_TEAM_MEMBER'

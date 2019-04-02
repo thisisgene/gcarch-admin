@@ -10,6 +10,7 @@ const proxy = require('express-http-proxy')
 const users = require('./routes/api/users')
 const projects = require('./routes/api/projects')
 const news = require('./routes/api/news')
+const team = require('./routes/api/team')
 
 const AWS = require('aws-sdk')
 const app = express()
@@ -36,10 +37,7 @@ const db = require('./config/keys').mongoURI
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err))
 
@@ -53,6 +51,7 @@ require('./config/passport')(passport)
 app.use('/api/users', users)
 app.use('/api/projects', projects)
 app.use('/api/news', news)
+app.use('/api/team', team)
 
 // Server static assets if on production
 if (process.env.NODE_ENV === 'production') {
