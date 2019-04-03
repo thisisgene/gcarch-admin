@@ -5,8 +5,8 @@ import {
   GET_NEWS_BY_ID,
   DELETE_PROJECT,
   DELETE_NEWS,
-  DELETE_IMAGE,
-  UPLOAD_IMAGES,
+  UPLOAD_NEWS_IMAGES,
+  DELETE_NEWS_IMAGE,
   NEWS_SAVING,
   UPDATE_NEWS
 } from '../actions/types'
@@ -46,13 +46,13 @@ export default function(state = initialState, action) {
         ...state,
         news: action.payload
       }
-    case UPLOAD_IMAGES:
+    case UPLOAD_NEWS_IMAGES:
       return {
         ...state,
         newsItem: action.payload,
         loading: false
       }
-    case DELETE_IMAGE:
+    case DELETE_NEWS_IMAGE:
       return {
         ...state,
         newsItem: action.payload,

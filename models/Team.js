@@ -5,21 +5,14 @@ const TeamSchema = new Schema({
   title: {
     type: String
   },
+  email: {
+    type: String
+  },
   descriptionMarkdown: {
     type: String
   },
   descriptionHtml: {
     type: String
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
-  link: {
-    type: String
-  },
-  linkExternal: {
-    type: Boolean
   },
   position: {
     type: Number

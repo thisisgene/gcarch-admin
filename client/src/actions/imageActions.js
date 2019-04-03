@@ -6,7 +6,11 @@ import {
   DELETE_IMAGE,
   SET_GRID_POSITION,
   SET_BACKGROUND_IMAGE,
-  SET_IMAGE_VISIBILITY
+  SET_IMAGE_VISIBILITY,
+  DELETE_TEAM_IMAGE,
+  DELETE_NEWS_IMAGE,
+  UPLOAD_TEAM_IMAGES,
+  UPLOAD_NEWS_IMAGES
 } from './types'
 
 export const uploadImages = (files, id, category) => dispatch => {
@@ -46,7 +50,31 @@ export const uploadImages = (files, id, category) => dispatch => {
           .post('/api/news/image_upload', formData)
           .then(res => {
             dispatch({
-              type: UPLOAD_IMAGES,
+              type: UPLOAD_NEWS_IMAGES,
+              payload: res.data
+            })
+          })
+          .catch(err =>
+            dispatch({
+              type: GET_ERRORS,
+              payload: {}
+            })
+          )
+      })
+
+      break
+    case 'team':
+      files.map(file => {
+        let formData = new FormData()
+        formData.append('id', id)
+        formData.append('name', file.name)
+        formData.append('size', file.size)
+        formData.append('file', file)
+        return axios
+          .post('/api/team/image_upload', formData)
+          .then(res => {
+            dispatch({
+              type: UPLOAD_TEAM_IMAGES,
               payload: res.data
             })
           })
@@ -88,7 +116,23 @@ export const deleteImage = (id, imgid, category) => dispatch => {
         .get(`/api/news/delete_image/${id}/${imgid}`)
         .then(res => {
           dispatch({
-            type: DELETE_IMAGE,
+            type: DELETE_NEWS_IMAGE,
+            payload: res.data
+          })
+        })
+        .catch(err =>
+          dispatch({
+            type: GET_ERRORS,
+            payload: {}
+          })
+        )
+      break
+    case 'team':
+      axios
+        .get(`/api/team/delete_image/${id}/${imgid}`)
+        .then(res => {
+          dispatch({
+            type: DELETE_TEAM_IMAGE,
             payload: res.data
           })
         })

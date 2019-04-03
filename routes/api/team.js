@@ -40,6 +40,7 @@ router.get('/id/:id', (req, res) => {
         errors.noteam = 'Kein Beitrag mit dieser ID.'
         return res.status(404).json(errors.noteam)
       }
+      console.log(member)
       res.json(member)
     })
     .catch(err => {
@@ -75,34 +76,31 @@ router.post(
   }
 )
 
-// // Update News
-// router.post(
-//   '/update',
-//   passport.authenticate('jwt', { session: false }),
-//   async (req, res) => {
-//     const body = req.body
-//     console.log('linkExternal', body.linkExternal)
-//     const updateItem = {}
-//     if (body.title) updateItem.title = body.title
-//     if (body.link) updateItem.link = body.link
-//     if (body.linkExternal !== undefined)
-//       updateItem.linkExternal = body.linkExternal
-//     if (body.date) updateItem.date = body.date
-//     if (body.descriptionMarkdown) {
-//       updateItem.descriptionMarkdown = body.descriptionMarkdown
-//       updateItem.descriptionHtml = marked(body.descriptionMarkdown, {
-//         sanitize: true
-//       })
-//     }
+// Update News
+router.post(
+  '/update',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const body = req.body
+    console.log('description', body.descriptionMarkdown)
+    const updateItem = {}
+    if (body.title) updateItem.title = body.title
+    if (body.email) updateItem.email = body.email
+    if (body.descriptionMarkdown) {
+      updateItem.descriptionMarkdown = body.descriptionMarkdown
+      updateItem.descriptionHtml = marked(body.descriptionMarkdown, {
+        sanitize: true
+      })
+    }
 
-//     News.findByIdAndUpdate(body.id, { $set: updateItem }, { new: true })
-//       .then(newsItem => res.json(newsItem))
-//       .catch(err => {
-//         errors.project = 'Projekt nicht gefunden.'
-//         return res.status(404).json(errors)
-//       })
-//   }
-// )
+    Team.findByIdAndUpdate(body.id, { $set: updateItem }, { new: true })
+      .then(teamMember => res.json(teamMember))
+      .catch(err => {
+        errors.project = 'Projekt nicht gefunden.'
+        return res.status(404).json(errors)
+      })
+  }
+)
 
 // Sort Team
 router.post(
@@ -146,90 +144,90 @@ router.get(
   }
 )
 
-// // Image upload
-// router.post(
-//   '/image_upload',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     let body
+// Image upload
+router.post(
+  '/image_upload',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    let body
 
-//     const s3secret = require('../../config/keys').s3secret
-//     const s3key = require('../../config/keys').s3key
-//     const spacesEndpoint = new aws.Endpoint('ams3.digitaloceanspaces.com')
-//     const s3 = new aws.S3({
-//       endpoint: spacesEndpoint,
-//       signatureVersion: 'v4',
-//       accessKeyId: s3key,
-//       secretAccessKey: s3secret
-//     })
-//     const upload = multer({
-//       storage: multerS3({
-//         s3: s3,
-//         bucket: 'gc-arch',
-//         acl: 'public-read',
-//         key: function(req, file, cb) {
-//           console.log('body: ', req.body)
-//           body = req.body
+    const s3secret = require('../../config/keys').s3secret
+    const s3key = require('../../config/keys').s3key
+    const spacesEndpoint = new aws.Endpoint('ams3.digitaloceanspaces.com')
+    const s3 = new aws.S3({
+      endpoint: spacesEndpoint,
+      signatureVersion: 'v4',
+      accessKeyId: s3key,
+      secretAccessKey: s3secret
+    })
+    const upload = multer({
+      storage: multerS3({
+        s3: s3,
+        bucket: 'gc-arch',
+        acl: 'public-read',
+        key: function(req, file, cb) {
+          console.log('body: ', req.body)
+          body = req.body
 
-//           cb(null, `news/${body.id}/${file.originalname}`)
-//         }
-//       })
-//     }).array('file', 1)
+          cb(null, `team/${body.id}/${file.originalname}`)
+        }
+      })
+    }).array('file', 1)
 
-//     upload(req, res, function(error) {
-//       if (error) {
-//         res.send(err)
-//       }
-//       const body = req.body
-//       // const imgName = body.name.replace(/ /g, '_')
-//       const newImage = {
-//         originalName: body.name
-//       }
-//       News.findOneAndUpdate(
-//         { _id: body.id },
-//         { $push: { images: newImage } },
-//         { safe: true, new: true }
-//       )
-//         .then(news => {
-//           res.send(news)
-//         })
-//         .catch(err => {
-//           console.log('noo fail')
-//           res.send(err)
-//         })
-//     })
-//   }
-// )
+    upload(req, res, function(error) {
+      if (error) {
+        res.send(err)
+      }
+      const body = req.body
+      // const imgName = body.name.replace(/ /g, '_')
+      const newImage = {
+        originalName: body.name
+      }
+      Team.findOneAndUpdate(
+        { _id: body.id },
+        { $push: { images: newImage } },
+        { safe: true, new: true }
+      )
+        .then(teamMember => {
+          res.send(teamMember)
+        })
+        .catch(err => {
+          console.log('noo fail')
+          res.send(err)
+        })
+    })
+  }
+)
 
-// // Delete image
-// router.get(
-//   '/delete_image/:newsid/:imgid',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     const newsId = req.params.newsid
-//     const imgId = req.params.imgid
-//     console.log(imgId)
-//     News.findById(newsId)
-//       .then(news => {
-//         news.images
-//           .filter(img => {
-//             console.log('equal: ', img._id == imgId)
-//             return img._id == imgId
-//           })
-//           .map(img => {
-//             console.log('hallo', img)
-//             img.isDeleted = true
-//           })
+// Delete image
+router.get(
+  '/delete_image/:teamid/:imgid',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const teamId = req.params.teamid
+    const imgId = req.params.imgid
+    console.log(imgId)
+    Team.findById(teamId)
+      .then(member => {
+        member.images
+          .filter(img => {
+            console.log('equal: ', img._id == imgId)
+            return img._id == imgId
+          })
+          .map(img => {
+            console.log('hallo', img)
+            img.isDeleted = true
+          })
 
-//         news.save(err => {
-//           if (err) res.send(err)
-//           else {
-//             res.json(news)
-//           }
-//         })
-//       })
-//       .catch(err => {
-//         res.json(err)
-//       })
-//   }
-// )
+        member.save(err => {
+          if (err) res.send(err)
+          else {
+            res.json(member)
+          }
+        })
+      })
+      .catch(err => {
+        res.json(err)
+      })
+  }
+)

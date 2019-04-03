@@ -2,7 +2,10 @@ import {
   GET_TEAM,
   GET_TEAM_MEMBER,
   CREATE_TEAM_MEMBER,
-  DELETE_TEAM_MEMBER
+  DELETE_TEAM_MEMBER,
+  UPDATE_TEAM_MEMBER,
+  UPLOAD_TEAM_IMAGES,
+  DELETE_TEAM_IMAGE
 } from '../actions/types'
 
 const initialState = {
@@ -39,28 +42,28 @@ export default function(state = initialState, action) {
         ...state,
         team: action.payload
       }
-    // case UPLOAD_IMAGES:
-    //   return {
-    //     ...state,
-    //     newsItem: action.payload,
-    //     loading: false
-    //   }
-    // case DELETE_IMAGE:
-    //   return {
-    //     ...state,
-    //     newsItem: action.payload,
-    //     waiting: false
-    //   }
+    case UPLOAD_TEAM_IMAGES:
+      return {
+        ...state,
+        teamMember: action.payload,
+        loading: false
+      }
+    case DELETE_TEAM_IMAGE:
+      return {
+        ...state,
+        teamMember: action.payload,
+        waiting: false
+      }
     // case NEWS_SAVING:
     //   return {
     //     ...state,
     //     saving: true
     //   }
-    // case UPDATE_NEWS:
-    //   return {
-    //     ...state,
-    //     saving: false
-    //   }
+    case UPDATE_TEAM_MEMBER:
+      return {
+        ...state,
+        saving: false
+      }
     default:
       return state
   }

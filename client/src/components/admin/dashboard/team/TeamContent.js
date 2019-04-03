@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import DatePicker from 'react-datepicker'
 
 import {
-  getAllNews,
-  getNewsById,
-  updateNews
-} from '../../../../actions/newsActions'
+  getTeam,
+  getTeamMember,
+  updateTeamMember
+} from '../../../../actions/teamActions'
 import { deleteImage } from '../../../../actions/imageActions'
 
 import TextFieldGroup from '../../common/TextFieldGroup'
@@ -17,36 +17,32 @@ import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
 import commonStyles from '../../common/Common.module.sass'
 import 'react-datepicker/dist/react-datepicker.css'
-import styles from './NewsContent.module.sass'
+import styles from '../news/NewsContent.module.sass'
 
-class NewsContent extends Component {
+class TeamContent extends Component {
   constructor(props) {
     super(props)
     this.state = {
       id: props.match.params.id,
-      date: new Date(),
       file: null,
       description: '',
       title: '',
-      link: '',
-      linkExternal: false,
+      email: '',
       errors: {}
     }
   }
   componentDidMount() {
     this.setState({
       id: this.props.match.params.id,
-      date: new Date(),
+      email: '',
       file: null,
       description: '',
       title: '',
-      link: '',
-      linkExternal: false,
       errors: {}
     })
     const id = this.props.match.params.id
     console.log(id)
-    this.props.getNewsById(id)
+    this.props.getTeamMember(id)
   }
 
   componentDidUpdate(prevProps) {
@@ -58,43 +54,38 @@ class NewsContent extends Component {
       console.log('UPDATE')
       this.setState({
         id: this.props.match.params.id,
-        date: new Date(),
+        email: '',
         file: null,
         description: '',
         title: '',
-        link: '',
-        linkExternal: false,
         errors: {}
       })
-      this.props.getNewsById(this.props.match.params.id)
+      this.props.getTeamMember(this.props.match.params.id)
     }
-
     if (
-      (!prevProps.news.newsItem && prevProps !== this.props) ||
-      (prevProps.news.newsItem &&
-        prevProps.news.newsItem !== this.props.news.newsItem)
+      (!prevProps.team.teamMember && prevProps !== this.props) ||
+      (prevProps.team.teamMember &&
+        prevProps.team.teamMember !== this.props.team.teamMember)
     ) {
-      if (this.props.news.newsItem) {
-        const news = this.props.news.newsItem
+      if (this.props.team.teamMember) {
+        const team = this.props.team.teamMember
+        console.log('now change')
         this.setState({
-          title: news.title ? news.title : '',
-          link: news.link ? news.link : '',
-          linkExternal: news.linkExternal ? news.linkExternal : false,
-          file: news.file ? news.file : null,
-          date: new Date(news.date ? news.date : ''),
-          description: news.descriptionMarkdown ? news.descriptionMarkdown : ''
+          title: team.title ? team.title : '',
+          email: team.email ? team.email : '',
+          description: team.descriptionMarkdown ? team.descriptionMarkdown : ''
         })
         if (
-          prevProps.news.newsItem &&
-          this.props.news.newsItem.title !== prevProps.news.newsItem.title
+          prevProps.team.teamMember &&
+          this.props.team.teamMember.title !== prevProps.team.teamMember.title
         ) {
-          this.props.getAllNews()
+          this.props.getTeam()
         }
       }
     }
   }
   onClickDelete = id => {
-    this.props.deleteImage(this.state.id, id, 'news')
+    this.props.deleteImage(this.state.id, id, 'team')
   }
   onDateChange = date => {
     this.setState({ date: date })
@@ -115,24 +106,23 @@ class NewsContent extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    console.log(this.state.linkExternal)
-    const newsData = {
+    const teamData = {
       id: this.state.id,
       title: this.state.title,
-      link: this.state.link,
-      linkExternal: this.state.linkExternal,
+      email: this.state.email,
       file: this.state.file,
       descriptionMarkdown: this.state.description,
       date: this.state.date
     }
-    this.props.updateNews(newsData)
+    this.props.updateTeamMember(teamData)
   }
 
   render() {
-    const { newsItem, saving } = this.props.news
+    const { teamMember, saving } = this.props.team
+    console.log(teamMember)
     return (
       <div className={styles['content-container']}>
-        {newsItem && (
+        {teamMember && (
           <div
             className={cx(styles['news-content'], {
               [styles['saving']]: saving
@@ -148,6 +138,14 @@ class NewsContent extends Component {
                   onChange={this.onChange}
                   error={this.state.errors.title}
                 />
+                <TextFieldGroup
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  placeholder="E-mail Adresse"
+                  onChange={this.onChange}
+                  error={this.state.errors.email}
+                />
                 {/* <input type="file" name="file" onChange={this.handleFile} /> */}
                 <div className={styles['news-content--text__description']}>
                   <TextareaFieldGroup
@@ -157,34 +155,7 @@ class NewsContent extends Component {
                     onChange={this.onChange}
                   />
                 </div>
-                <DatePicker
-                  name="date"
-                  className={styles['date-picker']}
-                  onChange={this.onDateChange}
-                  selected={this.state.date}
-                  value={this.state.date}
-                  dateFormat="dd-MM-YYYY"
-                  // locale={'de-DE'}
-                  // clearIcon={null}
-                />
-                <br />
-                <input
-                  id="linkExternal"
-                  type="checkbox"
-                  name="linkExternal"
-                  checked={this.state.linkExternal}
-                  defaultChecked={newsItem && newsItem.linkExternal}
-                  onChange={this.onChange}
-                />{' '}
-                <label htmlFor="linkExternal">externer Link</label>
-                <TextFieldGroup
-                  type="text"
-                  name="link"
-                  value={this.state.link}
-                  placeholder="Link"
-                  onChange={this.onChange}
-                  error={this.state.errors.link}
-                />
+
                 <br />
                 <input
                   className={commonStyles['submit-button']}
@@ -194,11 +165,10 @@ class NewsContent extends Component {
               </form>
             </div>
             <div className={styles['news-content--image']}>
-              <ImageUpload id={this.props.match.params.id} category={'news'} />
+              <ImageUpload id={this.props.match.params.id} category={'team'} />
               <div>
-                {newsItem &&
-                  newsItem.images &&
-                  newsItem.images
+                {teamMember.images &&
+                  teamMember.images
                     .filter(image => !image.isDeleted)
                     .map((image, index) => (
                       <div key={index}>
@@ -214,7 +184,7 @@ class NewsContent extends Component {
                               <i className="fa fa-minus-circle" />
                             </button>
                             <img
-                              src={`/assets/news/${this.state.id}/${
+                              src={`/assets/team/${this.state.id}/${
                                 image.originalName
                               }`}
                               alt=""
@@ -232,9 +202,9 @@ class NewsContent extends Component {
   }
 }
 const mapStateToProps = state => ({
-  news: state.news
+  team: state.team
 })
 export default connect(
   mapStateToProps,
-  { getAllNews, getNewsById, updateNews, deleteImage }
-)(NewsContent)
+  { getTeam, getTeamMember, updateTeamMember, deleteImage }
+)(TeamContent)

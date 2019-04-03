@@ -65,17 +65,19 @@ class TeamList extends Component {
     return (
       <div className={styles['team-list-container']}>
         <TeamInput />
-        <div className={styles['team-list']}>
-          <SortableList
-            lockAxis={'y'}
-            pressDelay={200}
-            helperClass={styles['dragged']}
-            items={team}
-            onSortEnd={this.onSortEnd}
-          />
-          {/* {team &&
+        {team && (
+          <div className={styles['team-list']}>
+            <SortableList
+              lockAxis={'y'}
+              pressDelay={200}
+              helperClass={styles['dragged']}
+              items={team}
+              onSortEnd={this.onSortEnd}
+            />
+            {/* {team &&
             team.map((item, index) => <TeamListItem key={index} item={item} />)} */}
-        </div>
+          </div>
+        )}
       </div>
     )
   }
