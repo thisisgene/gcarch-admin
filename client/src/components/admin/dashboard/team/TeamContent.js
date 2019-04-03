@@ -164,7 +164,6 @@ class TeamContent extends Component {
               </form>
             </div>
             <div className={styles['news-content--image']}>
-              <div>Hallo {this.props.match.params.id}</div>
               <ImageUpload id={this.props.match.params.id} category={'team'} />
               <div>
                 {teamMember.images && (
