@@ -40,7 +40,6 @@ router.get('/id/:id', (req, res) => {
         errors.noteam = 'Kein Beitrag mit dieser ID.'
         return res.status(404).json(errors.noteam)
       }
-      console.log(member)
       res.json(member)
     })
     .catch(err => {
@@ -56,7 +55,6 @@ router.post(
   async (req, res) => {
     const body = req.body
     const errors = {}
-    console.log(body.title)
     const member = await Team.findOne({ title: body.title, isDeleted: false })
     if (member) {
       errors.title = 'Ein Team Mitglied mit diesem Namen existiert bereits.'
@@ -82,7 +80,6 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const body = req.body
-    console.log('description', body.descriptionMarkdown)
     const updateItem = {}
     if (body.title) updateItem.title = body.title
     if (body.email) updateItem.email = body.email
@@ -166,22 +163,22 @@ router.post(
         bucket: 'gc-arch',
         acl: 'public-read',
         key: function(req, file, cb) {
-          console.log('body: ', req.body)
           body = req.body
+          console.log('body: ', req.body.id)
 
           cb(null, `team/${body.id}/${file.originalname}`)
         }
       })
     }).array('file', 1)
-
     upload(req, res, function(error) {
       if (error) {
         res.send(err)
       }
-      const body = req.body
+      // const body = req.body
       // const imgName = body.name.replace(/ /g, '_')
       const newImage = {
-        originalName: body.name
+        originalName: body.name,
+        isDeleted: false
       }
       Team.findOneAndUpdate(
         { _id: body.id },
@@ -209,15 +206,7 @@ router.get(
     console.log(imgId)
     Team.findById(teamId)
       .then(member => {
-        member.images
-          .filter(img => {
-            console.log('equal: ', img._id == imgId)
-            return img._id == imgId
-          })
-          .map(img => {
-            console.log('hallo', img)
-            img.isDeleted = true
-          })
+        member.images.isDeleted = true
 
         member.save(err => {
           if (err) res.send(err)

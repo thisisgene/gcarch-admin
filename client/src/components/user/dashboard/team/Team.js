@@ -6,6 +6,7 @@ import {
   clearCurrentProject,
   hasBackgroundImage
 } from '../../../../actions/projectActions'
+import { getTeam } from '../../../../actions/teamActions'
 
 import { teamData } from './teamData'
 
@@ -22,21 +23,23 @@ class Team extends Component {
   componentDidMount() {
     store.dispatch(clearCurrentProject())
     this.props.hasBackgroundImage(false)
-    const showBio = []
-    teamData &&
-      teamData.map(item => {
-        showBio[item.name] = false
-      })
-    this.setState({
-      showBio: showBio
-    })
-    console.log(showBio)
+    this.props.getTeam()
   }
 
-  // componentDidUpdate()
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props && this.props.team) {
+      const showBio = []
+      this.props.team.team &&
+        this.props.team.team.map(item => {
+          showBio[item.title] = false
+        })
+      this.setState({
+        showBio: showBio
+      })
+    }
+  }
 
   onBioClick = e => {
-    console.log(this.state.showBio, e.target.name)
     const showBio = this.state.showBio
     showBio[e.target.name] = !showBio[e.target.name]
     this.setState({
@@ -45,31 +48,40 @@ class Team extends Component {
   }
 
   render() {
+    const { team } = this.props.team
     return (
       <div className={styles['team-container']}>
-        {teamData &&
-          teamData.map((item, index) => (
+        {team &&
+          team.map((item, index) => (
             <div key={index} className={styles['team-member']}>
-              <img src={item.img} alt="" />
+              <div className={styles['team-member--image']}>
+                {item.images.originalName && !item.images.isDeleted ? (
+                  <img
+                    src={`/assets/team/${item._id}/${item.images.originalName}`}
+                    alt=""
+                  />
+                ) : (
+                  <img src={`/assets/team/placeholder2.jpg`} alt="" />
+                )}
+              </div>
               <div className={styles['team-member-info']}>
-                <div className={styles['team-member-name']}>{item.name}</div>
+                <div className={styles['team-member-name']}>{item.title}</div>
                 <div className={styles['team-member-email']}>{item.email}</div>
-                {item.description && (
+                {item.descriptionHtml && (
                   <div className={styles['biographie']}>
                     <button
                       className={styles['biographie--link']}
                       onClick={this.onBioClick}
-                      name={item.name}
+                      name={item.title}
                     >
                       Kurzbiographie
                     </button>
                     <div
                       className={cx(styles['team-member-description'], {
-                        [styles['visible']]: this.state.showBio[item.name]
+                        [styles['visible']]: this.state.showBio[item.title]
                       })}
-                    >
-                      {item.description}
-                    </div>
+                      dangerouslySetInnerHTML={{ __html: item.descriptionHtml }}
+                    />
                   </div>
                 )}
               </div>
@@ -79,7 +91,12 @@ class Team extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  team: state.team
+})
+
 export default connect(
-  null,
-  { hasBackgroundImage }
+  mapStateToProps,
+  { hasBackgroundImage, getTeam }
 )(Team)

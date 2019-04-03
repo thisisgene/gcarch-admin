@@ -52,6 +52,7 @@ class TeamContent extends Component {
       prevProps.match.params.id !== this.props.match.params.id
     ) {
       console.log('UPDATE')
+      console.log(this.props.match.params.id)
       this.setState({
         id: this.props.match.params.id,
         email: '',
@@ -94,7 +95,6 @@ class TeamContent extends Component {
     if (e.target.name !== 'linkExternal') {
       this.setState({ [e.target.name]: e.target.value })
     } else {
-      console.log(e.target.checked)
       this.setState({ [e.target.name]: e.target.checked })
     }
   }
@@ -119,7 +119,6 @@ class TeamContent extends Component {
 
   render() {
     const { teamMember, saving } = this.props.team
-    console.log(teamMember)
     return (
       <div className={styles['content-container']}>
         {teamMember && (
@@ -165,6 +164,7 @@ class TeamContent extends Component {
               </form>
             </div>
             <div className={styles['news-content--image']}>
+              <div>Hallo {this.props.match.params.id}</div>
               <ImageUpload id={this.props.match.params.id} category={'team'} />
               <div>
                 {teamMember.images && (

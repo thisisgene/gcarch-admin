@@ -7,7 +7,7 @@ import { deleteTeamMember } from '../../../../actions/teamActions'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
-import styles from '../news/News.module.sass'
+import styles from './Team.module.sass'
 
 class TeamListItem extends Component {
   onClickDelete = id => {
@@ -16,7 +16,7 @@ class TeamListItem extends Component {
   render() {
     const { item } = this.props
     return (
-      <div className={styles['news-list--item']}>
+      <div className={styles['team-list--item']}>
         <button
           className={cx(globalStyles['btn'], globalStyles['btn-link'])}
           onClick={this.onClickDelete.bind(this, item._id)}

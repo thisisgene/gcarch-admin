@@ -11,8 +11,7 @@ class ImageUpload extends Component {
   constructor() {
     super()
     this.state = {
-      files: [],
-      id: ''
+      files: []
     }
   }
 
@@ -25,7 +24,7 @@ class ImageUpload extends Component {
   onDrop = files => {
     console.log(files)
     this.setState({ files: files })
-    this.props.uploadImages(files, this.state.id, this.props.category)
+    this.props.uploadImages(files, this.props.id, this.props.category)
   }
 
   onCancel = () => {
