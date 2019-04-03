@@ -17,26 +17,22 @@ const TeamSchema = new Schema({
   position: {
     type: Number
   },
-  images: [
-    {
-      originalName: {
-        type: String,
-        required: true
-      },
-      title: {
-        type: String
-      },
-      isVisible: {
-        type: Boolean,
-        default: true
-      },
-      isDeleted: {
-        type: Boolean,
-        default: false
-      }
+  images: {
+    originalName: {
+      type: String
+    },
+    title: {
+      type: String
+    },
+    isVisible: {
+      type: Boolean,
+      default: true
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false
     }
-  ],
-
+  },
   isVisible: {
     type: Boolean,
     default: true

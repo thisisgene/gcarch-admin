@@ -19,9 +19,13 @@ const SortableItem = SortableElement(({ item, index }) => (
 const SortableList = SortableContainer(({ items, category }) => {
   return (
     <ul>
-      {items.map((item, index) => (
-        <SortableItem key={`item-${index}`} index={index} item={item} />
-      ))}
+      {items && !items.noteam ? (
+        items.map((item, index) => (
+          <SortableItem key={`item-${index}`} index={index} item={item} />
+        ))
+      ) : (
+        <p>Noch keine Einträge</p>
+      )}
     </ul>
   )
 })
@@ -63,19 +67,23 @@ class TeamList extends Component {
   render() {
     const team = this.state.teamList
     return (
-      <div className={styles['team-list-container']}>
-        <TeamInput />
+      <div>
         {team && (
-          <div className={styles['team-list']}>
-            <SortableList
-              lockAxis={'y'}
-              pressDelay={200}
-              helperClass={styles['dragged']}
-              items={team}
-              onSortEnd={this.onSortEnd}
-            />
-            {/* {team &&
+          <div className={styles['team-list-container']}>
+            <TeamInput />
+            {team && (
+              <div className={styles['team-list']}>
+                <SortableList
+                  lockAxis={'y'}
+                  pressDelay={200}
+                  helperClass={styles['dragged']}
+                  items={team}
+                  onSortEnd={this.onSortEnd}
+                />
+                {/* {team &&
             team.map((item, index) => <TeamListItem key={index} item={item} />)} */}
+              </div>
+            )}
           </div>
         )}
       </div>

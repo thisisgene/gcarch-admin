@@ -35,6 +35,7 @@ export const createTeamMember = title => dispatch => {
   axios
     .post('/api/team', data)
     .then(res => {
+      console.log(res.data)
       dispatch({
         type: CREATE_TEAM_MEMBER,
         payload: res.data

@@ -69,8 +69,8 @@ router.post(
       }
       const newMember = new Team(memberFields)
       newMember.save(async () => {
-        const member = await Team.find({ isDeleted: false })
-        res.json(member)
+        const team = await Team.find({ isDeleted: false })
+        res.json(team)
       })
     }
   }
@@ -185,7 +185,7 @@ router.post(
       }
       Team.findOneAndUpdate(
         { _id: body.id },
-        { $push: { images: newImage } },
+        { images: newImage },
         { safe: true, new: true }
       )
         .then(teamMember => {

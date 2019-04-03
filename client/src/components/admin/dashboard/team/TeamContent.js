@@ -167,32 +167,33 @@ class TeamContent extends Component {
             <div className={styles['news-content--image']}>
               <ImageUpload id={this.props.match.params.id} category={'team'} />
               <div>
-                {teamMember.images &&
-                  teamMember.images
-                    .filter(image => !image.isDeleted)
-                    .map((image, index) => (
-                      <div key={index}>
-                        {!image.isDeleted && (
-                          <div className={styles['news-content--image__item']}>
-                            <button
-                              className={cx(
-                                globalStyles['btn'],
-                                globalStyles['btn-link']
-                              )}
-                              onClick={this.onClickDelete.bind(this, image._id)}
-                            >
-                              <i className="fa fa-minus-circle" />
-                            </button>
-                            <img
-                              src={`/assets/team/${this.state.id}/${
-                                image.originalName
-                              }`}
-                              alt=""
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                {teamMember.images && (
+                  <div>
+                    {!teamMember.images.isDeleted &&
+                      teamMember.images.originalName && (
+                        <div className={styles['news-content--image__item']}>
+                          <button
+                            className={cx(
+                              globalStyles['btn'],
+                              globalStyles['btn-link']
+                            )}
+                            onClick={this.onClickDelete.bind(
+                              this,
+                              teamMember.images._id
+                            )}
+                          >
+                            <i className="fa fa-minus-circle" />
+                          </button>
+                          <img
+                            src={`/assets/team/${this.state.id}/${
+                              teamMember.images.originalName
+                            }`}
+                            alt=""
+                          />
+                        </div>
+                      )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
