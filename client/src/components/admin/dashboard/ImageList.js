@@ -107,8 +107,10 @@ class ImageList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.project != this.props.project && this.props.project.images) {
-      this.setState({ imageList: this.props.project.images })
+    if (prevProps.project != this.props.project) {
+      console.log(this.state.imageList)
+      this.setState({ imageList: this.props.project.project.images })
+      console.log(this.state.imageList)
     }
   }
 
