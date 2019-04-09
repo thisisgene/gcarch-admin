@@ -255,69 +255,8 @@ router.post(
           res.send(err)
         })
     })
-    // const file = req.files.file
-    // const body = req.body
-    // const imgName = body.name.replace(/ /g, '_')
-    // const newImage = {
-    //   originalName: imgName
-    // }
-    // Project.findOneAndUpdate(
-    //   // FIXME: If project has no background image, make first image to upload the background image!
-    //   { _id: body.id },
-    //   { $push: { images: newImage } },
-    //   { safe: true, new: true }
-    // )
-    //   .then(project => {
-    //     file.mv(`public/${body.id}/${imgName}`, function(err) {
-    //       if (err) {
-    //         return res.status(500).send(err)
-    //       }
-    //       Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
-    //         if (err) throw err
-    //         img
-    //           .resize(600, Jimp.AUTO) // resize
-    //           .quality(88) // set JPEG quality
-    //           .write(`public/${body.id}/med/${imgName}`) // save
-    //       })
-    //       Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
-    //         if (err) throw err
-    //         img
-    //           .resize(100, Jimp.AUTO) // resize
-    //           .quality(60) // set JPEG quality
-    //           .blur(3) // set blur
-    //           .write(`public/${body.id}/min/${imgName}`) // save
-    //       })
-    //     })
-    //     res.json(project)
-    //   })
-    //   .catch(err => {
-    //     // errors.project = 'Projekt nicht gefunden.'
-    //     return res.status(404).json(err)
-    //   })
   }
 )
-/// OLD upload
-
-//     // file.mv(`public/${body.id}/${imgName}`, function(err) {
-//     //   if (err) {
-//     //     return res.status(500).send(err)
-//     //   }
-//     //   Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
-//     //     if (err) throw err
-//     //     img
-//     //       .resize(600, Jimp.AUTO) // resize
-//     //       .quality(88) // set JPEG quality
-//     //       .write(`public/${body.id}/med/${imgName}`) // save
-//     //   })
-//     //   Jimp.read(`public/${body.id}/${imgName}`, (err, img) => {
-//     //     if (err) throw err
-//     //     img
-//     //       .resize(100, Jimp.AUTO) // resize
-//     //       .quality(60) // set JPEG quality
-//     //       .blur(3) // set blur
-//     //       .write(`public/${body.id}/min/${imgName}`) // save
-//     //   })
-//     // })
 
 // @route   GET api/projects/get_home_project/:id
 // @desc    Get project to be displayed on home screen
