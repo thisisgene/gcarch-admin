@@ -367,11 +367,14 @@ router.get(
     Project.findById(projectId)
       .then(project => {
         let topTenOnGrid = false
+        project.images = project.images.filter(img => img._id != imgId)
         project.images.forEach(img => {
-          if (img._id == imgId) {
-            img.isDeleted = true
-            img.gridPosition = '-'
-          }
+          // if (img._id == imgId) {
+          //   // img.isDeleted = true
+          //   // img.position = null
+          //   // img.gridPosition = '-'
+
+          // }
           if (
             img.isDeleted == false &&
             img.gridPosition &&
@@ -401,18 +404,21 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const project = await Project.findById(req.body.projectId)
-    const mapProject = await project.images.map(img => {
+    project.images.map(img => {
       img.position = req.body.imageList[img._id]
 
       console.log(req.body.imageList[img._id])
     })
-    const sortProject = await project.images.sort((a, b) => {
-      return req.body.imageList[a._id] - req.body.imageList[b._id]
+    project.images.sort((a, b) => {
+      if (!a.isDeleted) {
+        if (a.position < b.position) return -1
+        else if (a.position > b.position) return 1
+        else return 0
+      }
+      return
     })
 
-    project.save().then(newproject => {
-      res.json(newproject)
-    })
+    project.save(() => res.send('success'))
   }
 )
 

@@ -106,11 +106,11 @@ class ImageList extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.project != this.props.project && this.props.project.images) {
-  //     this.setState({ imageList: this.props.project.images })
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.project != this.props.project && this.props.project.images) {
+      this.setState({ imageList: this.props.project.images })
+    }
+  }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     const imgArray = {}
@@ -200,7 +200,7 @@ class ImageList extends Component {
               pressDelay={200}
               helperClass={styles['dragged']}
               project={project}
-              items={project.images}
+              items={this.state.imageList}
               waiting={waiting}
               onChange={this.onChange}
               updatePosition={this.updatePosition}
