@@ -395,6 +395,27 @@ router.get(
   }
 )
 
+// Sort images
+router.post(
+  '/images/sort',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const project = await Project.findById(req.body.projectId)
+    const mapProject = await project.images.map(img => {
+      img.position = req.body.imageList[img._id]
+
+      console.log(req.body.imageList[img._id])
+    })
+    const sortProject = await project.images.sort((a, b) => {
+      return req.body.imageList[a._id] - req.body.imageList[b._id]
+    })
+
+    project.save().then(newproject => {
+      res.json(newproject)
+    })
+  }
+)
+
 // @route   GET api/projects/get_project_after_ten
 // @desc    Get all projects after rank 10
 // @access  Public

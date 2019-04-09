@@ -101,8 +101,43 @@ class ImageList extends Component {
       name: '',
       values: [],
       value: '',
-      positions: props.positions
+      positions: props.positions,
+      imageList: props.project.project.images
     }
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.project != this.props.project && this.props.project.images) {
+  //     this.setState({ imageList: this.props.project.images })
+  //   }
+  // }
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const imgArray = {}
+    this.setState(
+      ({ imageList }) => ({
+        imageList: arrayMove(imageList, oldIndex, newIndex)
+      }),
+      () => {
+        const promise = this.state.imageList.map((img, index) => {
+          return (imgArray[img._id] = index)
+        })
+        Promise.all(promise).then(list => {
+          console.log(imgArray)
+          axios
+            .post('/api/projects/images/sort', {
+              imageList: imgArray,
+              projectId: this.props.project.project._id
+            })
+            .then(res => {
+              console.log(res)
+            })
+            .catch(err => {
+              if (err) console.log(err)
+            })
+        })
+      }
+    )
   }
 
   onChange = (i, e) => {
