@@ -16,42 +16,81 @@ import ImageListItem from './ImageListItem'
 
 import styles from './projects/Projects.module.sass'
 
-const SortableItem = SortableElement(({ project, img, i, waiting }) => (
-  <ImageListItem key={i} project={project} img={img} i={i} waitin={waiting} />
-))
-
-const SortableList = SortableContainer(({ items, project, waiting }) => {
-  return (
-    <table className={styles['image-table']}>
-      <thead>
-        <tr>
-          <th>Bild</th>
-          <th># auf Raster</th>
-          <th>Hintergrund</th>
-          <th>Wird angezeigt</th>
-          <th>Löschen</th>
-        </tr>
-      </thead>
-      <tbody>
-        {items && !items.noteam ? (
-          items
-            .filter(item => !item.isDeleted)
-            .map((item, index) => (
-              <SortableItem
-                key={`item-${index}`}
-                index={index}
-                project={project}
-                img={item}
-                waiting={waiting}
-              />
-            ))
-        ) : (
-          <p>Noch keine Einträge</p>
-        )}
-      </tbody>
-    </table>
+const SortableItem = SortableElement(
+  ({
+    project,
+    img,
+    i,
+    waiting,
+    onChange,
+    updatePosition,
+    onRadioClick,
+    onCheckboxClick,
+    onClickDelete
+  }) => (
+    <ImageListItem
+      key={i}
+      project={project}
+      img={img}
+      i={i}
+      waitin={waiting}
+      onChange={onChange}
+      updatePosition={updatePosition}
+      onRadioClick={onRadioClick}
+      onCheckboxClick={onCheckboxClick}
+      onClickDelete={onClickDelete}
+    />
   )
-})
+)
+
+const SortableList = SortableContainer(
+  ({
+    items,
+    project,
+    waiting,
+    onChange,
+    updatePosition,
+    onRadioClick,
+    onCheckboxClick,
+    onClickDelete
+  }) => {
+    return (
+      <table className={styles['image-table']}>
+        <thead>
+          <tr>
+            <th>Bild</th>
+            <th># auf Raster</th>
+            <th>Hintergrund</th>
+            <th>Wird angezeigt</th>
+            <th>Löschen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items && !items.noteam ? (
+            items
+              .filter(item => !item.isDeleted)
+              .map((item, index) => (
+                <SortableItem
+                  key={`item-${index}`}
+                  index={index}
+                  project={project}
+                  img={item}
+                  waiting={waiting}
+                  onChange={onChange}
+                  updatePosition={updatePosition}
+                  onRadioClick={onRadioClick}
+                  onCheckboxClick={onCheckboxClick}
+                  onClickDelete={onClickDelete}
+                />
+              ))
+          ) : (
+            <p>Noch keine Einträge</p>
+          )}
+        </tbody>
+      </table>
+    )
+  }
+)
 
 class ImageList extends Component {
   constructor(props) {
@@ -66,38 +105,38 @@ class ImageList extends Component {
     }
   }
 
-  // onChange = (i, e) => {
-  //   const target = e.target
-  //   let values = [...this.state.values]
-  //   const value = target.type === 'checkbox' ? target.checked : target.value
-  //   values[i] = value
-  //   this.setState({ values })
-  // }
+  onChange = (i, e) => {
+    const target = e.target
+    let values = [...this.state.values]
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    values[i] = value
+    this.setState({ values })
+  }
 
-  // updatePosition = (projectId, projectName, imageId, imgName, i, e) => {
-  //   this.props.setGridPosition(
-  //     projectId,
-  //     projectName,
-  //     imageId,
-  //     imgName,
-  //     e.target.value
-  //   )
-  // }
+  updatePosition = (projectId, projectName, imageId, imgName, i, e) => {
+    this.props.setGridPosition(
+      projectId,
+      projectName,
+      imageId,
+      imgName,
+      e.target.value
+    )
+  }
 
-  // onRadioClick = (projectId, imageId) => {
-  //   this.props.setBackgroundImage(projectId, imageId)
-  // }
-  // onCheckboxClick = (projectId, imageId, e) => {
-  //   console.log(e.target.checked)
-  //   this.props.setImageVisibility(projectId, imageId, e.target.checked)
-  // }
+  onRadioClick = (projectId, imageId) => {
+    this.props.setBackgroundImage(projectId, imageId)
+  }
+  onCheckboxClick = (projectId, imageId, e) => {
+    console.log(e.target.checked)
+    this.props.setImageVisibility(projectId, imageId, e.target.checked)
+  }
 
-  // onClickDelete = e => {
-  //   const data = e.currentTarget.dataset
-  //   const imgid = data.img_id
-  //   const projectid = data.project_id
-  //   this.props.deleteImage(projectid, imgid, 'project')
-  // }
+  onClickDelete = e => {
+    const data = e.currentTarget.dataset
+    const imgid = data.img_id
+    const projectid = data.project_id
+    this.props.deleteImage(projectid, imgid, 'project')
+  }
 
   // getAllImages() {
   //   let imageList = []
@@ -128,6 +167,11 @@ class ImageList extends Component {
               project={project}
               items={project.images}
               waiting={waiting}
+              onChange={this.onChange}
+              updatePosition={this.updatePosition}
+              onRadioClick={this.onRadioClick}
+              onCheckboxClick={this.onCheckboxClick}
+              onClickDelete={this.onClickDelete}
               onSortEnd={this.onSortEnd}
             />
           </div>

@@ -7,41 +7,18 @@ import globalStyles from '../common/Bootstrap.module.css'
 import commonStyles from '../common/Common.module.sass'
 
 export default class ImageListItem extends Component {
-  onChange = (i, e) => {
-    const target = e.target
-    let values = [...this.state.values]
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    values[i] = value
-    this.setState({ values })
-  }
-
-  updatePosition = (projectId, projectName, imageId, imgName, i, e) => {
-    this.props.setGridPosition(
-      projectId,
-      projectName,
-      imageId,
-      imgName,
-      e.target.value
-    )
-  }
-
-  onRadioClick = (projectId, imageId) => {
-    this.props.setBackgroundImage(projectId, imageId)
-  }
-  onCheckboxClick = (projectId, imageId, e) => {
-    console.log(e.target.checked)
-    this.props.setImageVisibility(projectId, imageId, e.target.checked)
-  }
-
-  onClickDelete = e => {
-    const data = e.currentTarget.dataset
-    const imgid = data.img_id
-    const projectid = data.project_id
-    this.props.deleteImage(projectid, imgid, 'project')
-  }
-
   render() {
-    const { project, img, i, waiting } = this.props
+    const {
+      project,
+      img,
+      i,
+      waiting,
+      onChange,
+      updatePosition,
+      onRadioClick,
+      onCheckboxClick,
+      onClickDelete
+    } = this.props
     return (
       <tr key={i} style={waiting ? { opacity: '.5' } : { opacity: '1' }}>
         <td>
@@ -55,7 +32,7 @@ export default class ImageListItem extends Component {
         <td>
           <SelectFieldGroup
             name={`placeInGrid_${i}`}
-            onChange={this.updatePosition.bind(
+            onChange={updatePosition.bind(
               this,
               project._id,
               project.name,
@@ -73,8 +50,8 @@ export default class ImageListItem extends Component {
             name={`optcover_${i}`}
             // className={globalStyles['form-control']}
             // style={{ margin: '0 !important' }}
-            onClick={this.onRadioClick.bind(this, project._id, img._id)}
-            onChange={this.onChange.bind(this, `radio_${i}`)}
+            onClick={onRadioClick.bind(this, project._id, img._id)}
+            onChange={onChange.bind(this, `radio_${i}`)}
             checked={
               project.backgroundImage && img._id === project.backgroundImage._id
             }
@@ -85,15 +62,15 @@ export default class ImageListItem extends Component {
             name="visibility"
             type="checkbox"
             // className={globalStyles['form-control']}
-            onClick={this.onCheckboxClick.bind(this, project._id, img._id)}
-            onChange={this.onChange.bind(this, `check_${i}`)}
+            onClick={onCheckboxClick.bind(this, project._id, img._id)}
+            onChange={onChange.bind(this, `check_${i}`)}
             defaultChecked={img.isVisible}
           />
         </td>
         <td>
           <button
             className={cx(globalStyles['btn'], globalStyles['btn-link'])}
-            onClick={this.onClickDelete}
+            onClick={onClickDelete}
             data-img_id={img._id}
             data-project_id={project._id}
           >
