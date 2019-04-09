@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import DatePicker from 'react-datepicker'
 
 import {
   getTeam,
