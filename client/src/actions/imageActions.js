@@ -224,6 +224,29 @@ export const setImageVisibility = (projectId, imageId, state) => dispatch => {
     )
 }
 
+export const setImageHalfSize = (projectId, imageId, state) => dispatch => {
+  dispatch(setWaiting())
+  const data = {
+    projectId: projectId,
+    imageId: imageId,
+    state: state
+  }
+  axios
+    .post('/api/projects/set_image_half_size', data)
+    .then(res => {
+      dispatch({
+        type: SET_IMAGE_VISIBILITY,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    )
+}
+
 export const setWaiting = () => {
   return {
     type: SET_WAITING

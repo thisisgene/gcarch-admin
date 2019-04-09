@@ -5,10 +5,11 @@ import axios from 'axios'
 
 import arrayMove from 'array-move'
 
-import { deleteImage } from '../../../actions/imageActions'
 import {
   setGridPosition,
   setBackgroundImage,
+  deleteImage,
+  setImageHalfSize,
   setImageVisibility
 } from '../../../actions/imageActions'
 
@@ -26,6 +27,7 @@ const SortableItem = SortableElement(
     updatePosition,
     onRadioClick,
     onCheckboxClick,
+    onHalfSizeClick,
     onClickDelete
   }) => (
     <ImageListItem
@@ -38,6 +40,7 @@ const SortableItem = SortableElement(
       updatePosition={updatePosition}
       onRadioClick={onRadioClick}
       onCheckboxClick={onCheckboxClick}
+      onHalfSizeClick={onHalfSizeClick}
       onClickDelete={onClickDelete}
     />
   )
@@ -52,6 +55,7 @@ const SortableList = SortableContainer(
     updatePosition,
     onRadioClick,
     onCheckboxClick,
+    onHalfSizeClick,
     onClickDelete
   }) => {
     return (
@@ -61,6 +65,7 @@ const SortableList = SortableContainer(
             <th>Bild</th>
             <th># auf Raster</th>
             <th>Hintergrund</th>
+            <th>halbe Größe</th>
             <th>Wird angezeigt</th>
             <th>Löschen</th>
           </tr>
@@ -80,6 +85,7 @@ const SortableList = SortableContainer(
                   updatePosition={updatePosition}
                   onRadioClick={onRadioClick}
                   onCheckboxClick={onCheckboxClick}
+                  onHalfSizeClick={onHalfSizeClick}
                   onClickDelete={onClickDelete}
                 />
               ))
@@ -168,28 +174,16 @@ class ImageList extends Component {
     this.props.setImageVisibility(projectId, imageId, e.target.checked)
   }
 
+  onHalfSizeClick = (projectId, imageId, e) => {
+    this.props.setImageHalfSize(projectId, imageId, e.target.checked)
+  }
+
   onClickDelete = e => {
     const data = e.currentTarget.dataset
     const imgid = data.img_id
     const projectid = data.project_id
     this.props.deleteImage(projectid, imgid, 'project')
   }
-
-  // getAllImages() {
-  //   let imageList = []
-  //   if (this.props.project.project) {
-  //     const { project, waiting } = this.props.project
-  //     let options = ['-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-
-  //     for (let [i, img] of project.images.entries()) {
-  //       if (!img.isDeleted) {
-  //         let imgSrc = `/assets/projekte/${project._id}/${img.originalName}`
-  //         imageList.push()
-  //       }
-  //     }
-  //   }
-  //   return imageList
-  // }
 
   render() {
     const { project, waiting } = this.props.project
@@ -208,6 +202,7 @@ class ImageList extends Component {
               updatePosition={this.updatePosition}
               onRadioClick={this.onRadioClick}
               onCheckboxClick={this.onCheckboxClick}
+              onHalfSizeClick={this.onHalfSizeClick}
               onClickDelete={this.onClickDelete}
               onSortEnd={this.onSortEnd}
             />
@@ -227,5 +222,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deleteImage, setGridPosition, setBackgroundImage, setImageVisibility }
+  {
+    deleteImage,
+    setGridPosition,
+    setBackgroundImage,
+    setImageVisibility,
+    setImageHalfSize
+  }
 )(ImageList)

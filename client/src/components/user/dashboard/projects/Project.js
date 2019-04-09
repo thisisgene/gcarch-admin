@@ -153,7 +153,9 @@ class Project extends Component {
                     .filter(image => image.isVisible)
                     .map(image => (
                       <img
-                        className={styles['project-img']}
+                        className={cx(styles['project-img'], {
+                          [styles['half-sized']]: image.isHalfSize
+                        })}
                         key={image._id}
                         src={`/assets/projekte/${project._id}/${
                           image.originalName

@@ -54,6 +54,10 @@ const ProjectSchema = new Schema({
         // Positioning inside project view.
         type: Number
       },
+      isHalfSize: {
+        type: Boolean,
+        default: false
+      },
       isBackground: {
         // If 'true', will show up as Project page background. (Only one image per project.)
         type: Boolean

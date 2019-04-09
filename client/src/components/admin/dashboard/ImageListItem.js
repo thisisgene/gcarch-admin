@@ -17,6 +17,7 @@ export default class ImageListItem extends Component {
       updatePosition,
       onRadioClick,
       onCheckboxClick,
+      onHalfSizeClick,
       onClickDelete
     } = this.props
     return (
@@ -55,6 +56,16 @@ export default class ImageListItem extends Component {
             checked={
               project.backgroundImage && img._id === project.backgroundImage._id
             }
+          />
+        </td>
+        <td>
+          <input
+            name="halfSize"
+            type="checkbox"
+            // className={globalStyles['form-control']}
+            onClick={onHalfSizeClick.bind(this, project._id, img._id)}
+            onChange={onChange.bind(this, `check2_${i}`)}
+            defaultChecked={img.isHalfSize}
           />
         </td>
         <td>
