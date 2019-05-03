@@ -131,8 +131,7 @@ router.post(
     Project.findByIdAndUpdate(body.id, { $set: projectFields }, { new: true })
       .then(project => res.json(project))
       .catch(err => {
-        errors.project = 'Projekt nicht gefunden.'
-        return res.status(404).json(errors)
+        return res.status(404).json(err)
       })
   }
 )
@@ -184,8 +183,7 @@ router.get(
         res.json(projects)
       })
       .catch(err => {
-        errors.project = 'Projekt nicht gefunden.'
-        return res.status(404).json(errors)
+        return res.status(404).json(err)
       })
   }
 )
