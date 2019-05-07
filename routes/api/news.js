@@ -166,7 +166,7 @@ router.post(
           res.send(news)
         })
         .catch(err => {
-          res.send(err)
+          console.log(err)
         })
     })
   }
