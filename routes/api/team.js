@@ -172,7 +172,7 @@ router.post(
     }).array('file', 1)
     upload(req, res, function(error) {
       if (error) {
-        res.send(err)
+        res.send(error)
       }
       // const body = req.body
       // const imgName = body.name.replace(/ /g, '_')

@@ -97,8 +97,7 @@ router.post(
     News.findByIdAndUpdate(body.id, { $set: updateItem }, { new: true })
       .then(newsItem => res.json(newsItem))
       .catch(err => {
-        errors.project = 'Projekt nicht gefunden.'
-        return res.status(404).json(errors)
+        console.log(err)
       })
   }
 )
@@ -114,8 +113,7 @@ router.get(
         res.json(news)
       })
       .catch(err => {
-        errors.news = 'Beitrag nicht gefunden.'
-        return res.status(404).json(errors)
+        console.log(err)
       })
   }
 )
@@ -152,7 +150,7 @@ router.post(
 
     upload(req, res, function(error) {
       if (error) {
-        res.send(err)
+        res.send(error)
       }
       const body = req.body
       // const imgName = body.name.replace(/ /g, '_')
@@ -168,7 +166,6 @@ router.post(
           res.send(news)
         })
         .catch(err => {
-          console.log('noo fail')
           res.send(err)
         })
     })
