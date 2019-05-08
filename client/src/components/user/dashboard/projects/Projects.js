@@ -103,14 +103,14 @@ class Projects extends Component {
             <p>{projects.noprojects}</p>
           </div>
         )
-      } else if (afterTenProjects.length > 1) {
-        this.fillRemainingRanks(top10, afterTenProjects, projectList)
-        console.log('hallo')
       } else {
-        console.log('now')
+        // if (afterTenProjects.length > 1) {
+        //   this.fillRemainingRanks(top10, afterTenProjects, projectList)
+        // }
         for (let i = 0; i < toptenProjects.length; i++) {
           if (toptenProjects[i].images.length > 0) {
             for (let image of toptenProjects[i].images) {
+              console.log('image: ', image)
               if (
                 image.gridPosition &&
                 image.isDeleted === false &&
