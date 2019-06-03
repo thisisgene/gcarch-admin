@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+
 import { connect } from 'react-redux'
 import store from '../../../store'
 import {
@@ -7,6 +7,8 @@ import {
   setUserBackground,
   hasBackgroundImage
 } from '../../../actions/projectActions'
+
+import Spinner from '../common/Spinner'
 
 import cx from 'classnames'
 import styles from './Landing.module.sass'
@@ -70,7 +72,9 @@ class Landing extends Component {
           className={cx(styles['pre-load'], {
             [styles.loading]: this.state.isLoading
           })}
-        />
+        >
+          <Spinner />
+        </div>
         {backgroundImage}
       </div>
     )

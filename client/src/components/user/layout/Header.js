@@ -99,8 +99,11 @@ class Header extends Component {
               Kontakt
             </NavLink>
           </div>
-          <div className={styles['mobile-menu-button']}>
-            <div onClick={this.onMobileNavClick}>
+          <div
+            className={styles['mobile-menu-button']}
+            onClick={this.onMobileNavClick}
+          >
+            <div>
               <span
                 className={cx(styles['nav-burger'], {
                   [styles['burger-expand']]: this.state.mobileExpand
