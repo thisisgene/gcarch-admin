@@ -37,7 +37,7 @@ class Projects extends Component {
     let past10rank = 11
     let rank
     // if (afterTenProjects)
-    for (let i = 0; i < afterTenProjects.length; i++) {
+    for (let i = 0; i < 13; i++) {
       let project = afterTenProjects[i]
       if (project.images.length > 0) {
         let imageIndex = 0
