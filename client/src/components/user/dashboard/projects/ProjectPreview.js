@@ -62,7 +62,7 @@ class ProjectPreview extends Component {
         <div className={gridStyles['img-tag-container']}>
           <div className={gridStyles['img-tag']}>
             <p className={gridStyles['img-name']}>{project.name}</p>
-            <p className={gridStyles['img-location']}>Wien Simmering</p>
+            <p className={gridStyles['img-location']}>{project.location}</p>
           </div>
         </div>
       </div>
