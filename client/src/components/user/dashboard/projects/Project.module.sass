@@ -26,6 +26,7 @@
   
   .placeholder
     opacity: 0
+    // height: 100px
   .arrow-down
     position: absolute
     top: 90vh
@@ -67,7 +68,13 @@
       
   .project-content
     margin-top: 100vh
-    
+    &::before
+      display: block 
+      content: " " 
+      margin-top: -85px 
+      height: 85px 
+      visibility: hidden 
+      pointer-events: none
     .mobile-title
       display: none
       
