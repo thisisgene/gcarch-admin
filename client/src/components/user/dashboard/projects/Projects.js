@@ -115,7 +115,7 @@ class Projects extends Component {
               if (
                 image.gridPosition &&
                 image.isDeleted === false &&
-                image.isVisible &&
+                // image.isVisible &&
                 image.gridPosition !== '-' &&
                 image.gridPosition !== null
               ) {

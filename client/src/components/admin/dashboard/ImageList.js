@@ -66,7 +66,7 @@ const SortableList = SortableContainer(
             <th># auf Raster</th>
             <th>Hintergrund</th>
             <th>halbe Größe</th>
-            <th>Wird angezeigt</th>
+            <th>In 'mehr Info'</th>
             <th>Löschen</th>
           </tr>
         </thead>
