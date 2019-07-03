@@ -70,6 +70,7 @@ const ProjectSchema = new Schema({
         type: Boolean,
         default: true
       },
+
       isDeleted: {
         type: Boolean,
         default: false
@@ -103,6 +104,10 @@ const ProjectSchema = new Schema({
     type: Number
   },
   isVisible: {
+    type: Boolean,
+    default: true
+  },
+  fontColorBlack: {
     type: Boolean,
     default: true
   },

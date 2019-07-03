@@ -124,6 +124,8 @@ router.post(
       projectFields.importanceOnGrid = body.importanceOnGrid
     if (body.sizeOnGrid) projectFields.sizeOnGrid = body.sizeOnGrid
     if (body.isVisible !== undefined) projectFields.isVisible = body.isVisible
+    if (body.fontColorBlack !== undefined)
+      projectFields.fontColorBlack = body.fontColorBlack
     projectFields.lastEdited = {
       user: req.user,
       date: new Date()

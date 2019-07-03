@@ -24,8 +24,12 @@ class Sidebar extends Component {
     this.setState({ [e.target.name]: e.target.checked })
   }
 
-  onCheckboxClick(projectId, e) {
+  onVisibilityClick(projectId, e) {
     this.props.updateProject(projectId, e.target.checked, 'isVisible')
+  }
+  onFontColorClick(projectId, e) {
+    this.props.updateProject(projectId, e.target.checked, 'fontColorBlack')
+    // console.log(projectId)
   }
 
   render() {
@@ -40,12 +44,27 @@ class Sidebar extends Component {
             name="isVisible"
             type="checkbox"
             className={globalStyles['form-control']}
-            onClick={this.onCheckboxClick.bind(this, project._id)}
+            onClick={this.onVisibilityClick.bind(this, project._id)}
             onChange={this.onChange}
             defaultChecked={project.isVisible}
           />
           <label htmlFor="isVisible">
             <i className="fa fa-eye" />
+          </label>
+        </div>
+        <div className={styles['sidebar-p-fontcolor']}>
+          <input
+            id="fontColor"
+            name="fontColor"
+            type="checkbox"
+            className={globalStyles['form-control']}
+            onClick={this.onFontColorClick.bind(this, project._id)}
+            onChange={this.onChange}
+            defaultChecked={project.fontColorBlack}
+          />
+          <label htmlFor="fontColor">
+            Schrift schwarz
+            {/* <i className="fa fa-eye" /> */}
           </label>
         </div>
       </div>

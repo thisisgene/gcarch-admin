@@ -21,6 +21,7 @@ class Project extends Component {
       titlePosition: 0,
       offset: 20,
       titleColor: 255,
+      titleColorBlack: false,
       fixed: true,
       beyond100: false,
       mobile: false
@@ -39,6 +40,21 @@ class Project extends Component {
     }
     window.addEventListener('scroll', this.listenScrollEvent)
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.project != this.props.project) {
+      if (
+        this.props.project.project &&
+        this.props.project.project.fontColorBlack
+      ) {
+        this.setState({
+          titleColor: 5,
+          titleColorBlack: true
+        })
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.props.clearCurrentProject()
   }
@@ -91,7 +107,12 @@ class Project extends Component {
             <div
               className={styles['project-info']}
               style={
-                this.state.mobile === false
+                this.state.titleColorBlack
+                  ? {
+                      top: this.state.titlePosition + this.state.offset,
+                      color: 'rgb(5, 5, 5)'
+                    }
+                  : this.state.mobile === false
                   ? {
                       // zIndex: this.state.mobile ? -1 : 1,
                       top: this.state.titlePosition + this.state.offset,
@@ -115,6 +136,9 @@ class Project extends Component {
                 className={cx(styles['more-info'], {
                   [styles['hidden']]: this.state.beyond100
                 })}
+                style={{
+                  color: this.state.titleColorBlack && '#050505'
+                }}
               >
                 Mehr Info
               </a>
