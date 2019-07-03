@@ -109,7 +109,7 @@ const ProjectSchema = new Schema({
   },
   fontColorBlack: {
     type: Boolean,
-    default: true
+    default: false
   },
   position: {
     type: Number

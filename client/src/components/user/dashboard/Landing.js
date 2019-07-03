@@ -25,7 +25,14 @@ class Landing extends Component {
     store.dispatch(clearCurrentProject())
     this.props.hasBackgroundImage(true)
     this.props.getHomeProject()
-    // this.props.getAllProjects()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.project.homeProject != this.props.project.homeProject) {
+      this.props.hasBackgroundImage(
+        !this.props.project.homeProject.fontColorBlack
+      )
+    }
   }
 
   onLoad = () => {

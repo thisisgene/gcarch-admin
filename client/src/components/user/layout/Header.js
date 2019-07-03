@@ -26,14 +26,16 @@ class Header extends Component {
     // ) : (
     //   ''
     // )
-    const { hasBackgroundImage } = this.props
+    const { hasBackgroundImage, currentProject } = this.props
     // if (hasBackgroundImage) {
     //   console.log('hello')
     // }
     return (
       <div
         className={cx(styles.header, {
-          [styles['black-header']]: !hasBackgroundImage
+          [styles['black-header']]:
+            !hasBackgroundImage ||
+            (currentProject && currentProject.fontColorBlack)
         })}
       >
         <div className={styles.logo}>
@@ -42,7 +44,12 @@ class Header extends Component {
             to="/"
           >
             <img
-              src={hasBackgroundImage ? LogoW : LogoS}
+              src={
+                !hasBackgroundImage ||
+                (currentProject && currentProject.fontColorBlack)
+                  ? LogoS
+                  : LogoW
+              }
               height="30"
               className="d-inline-block align-top"
               alt=""

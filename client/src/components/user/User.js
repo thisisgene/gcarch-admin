@@ -14,10 +14,24 @@ class User extends Component {
   constructor() {
     super()
     this.state = {
-      auth: false
+      auth: false,
+      currentProject: null
     }
   }
-  componentDidMount() {}
+  componentDidUpdate(prevProps) {
+    if (prevProps.project != this.props.project) {
+      if (this.props.project.project) {
+        this.setState({
+          currentProject: this.props.project.project
+        })
+      } else {
+        this.setState({
+          currentProject: null
+        })
+      }
+    }
+  }
+
   render() {
     const { project, hasBackgroundImage } = this.props.project
     let backgroundImg = ''
@@ -37,7 +51,10 @@ class User extends Component {
               backgroundImg != '' ? `url(${backgroundImg}` : 'none'
           }}
         />
-        <Header hasBackgroundImage={hasBackgroundImage} />
+        <Header
+          hasBackgroundImage={hasBackgroundImage}
+          currentProject={this.state.currentProject}
+        />
         <Switch>
           <Route exact path="/" component={Landing} />
           <MainContent />
