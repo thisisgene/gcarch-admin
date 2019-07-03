@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 import setAuthToken from './utils/setAuthToken'
 import { setCurrentUser } from './actions/authActions'
@@ -41,12 +41,14 @@ class App extends Component {
         <Router>
           <div className="App">
             {/* <Route exact path="/" component={NotFound} /> */}
-            <div>
-              <Route path="/admin/" component={Admin} />
-            </div>
-            <div className="User">
-              <Route path="/" component={User} />
-            </div>
+            <Switch>
+              <Route exact path="/admin" component={Admin} />
+              <Route exact path="/admin/*" component={Admin} />
+
+              <div className="User">
+                <Route path="/*" component={User} />
+              </div>
+            </Switch>
           </div>
         </Router>
       </Provider>

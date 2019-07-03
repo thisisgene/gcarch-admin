@@ -27,9 +27,9 @@ class Header extends Component {
     //   ''
     // )
     const { hasBackgroundImage } = this.props
-    if (hasBackgroundImage) {
-      console.log('hello')
-    }
+    // if (hasBackgroundImage) {
+    //   console.log('hello')
+    // }
     return (
       <div
         className={cx(styles.header, {
