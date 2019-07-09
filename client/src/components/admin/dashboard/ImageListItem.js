@@ -7,6 +7,20 @@ import globalStyles from '../common/Bootstrap.module.css'
 import commonStyles from '../common/Common.module.sass'
 
 export default class ImageListItem extends Component {
+  state = {
+    imgLoaded: false,
+    imgWidth: '',
+    imgHeight: ''
+  }
+  getImgDimensions = img => {
+    console.log('img load:', img.target.naturalWidth)
+    this.setState({
+      imgLoaded: true,
+      imgWidth: img.target.naturalWidth,
+      imgHeight: img.target.naturalHeight
+    })
+  }
+
   render() {
     const {
       project,
@@ -23,11 +37,24 @@ export default class ImageListItem extends Component {
     return (
       <tr key={i} style={waiting ? { opacity: '.5' } : { opacity: '1' }}>
         <td>
-          <img
-            src={`/assets/projekte/${project._id}/${img.originalName}`}
-            alt=""
-            style={{ width: '60px' }}
-          />
+          <div>
+            <img
+              onLoad={this.getImgDimensions.bind(this)}
+              src={`/assets/projekte/${project._id}/${img.originalName}`}
+              alt=""
+              style={{ width: '60px' }}
+            />
+
+            <div style={{ fontSize: '.8rem' }}>
+              {this.state.imgLoaded ? (
+                <div>
+                  {this.state.imgWidth}x{this.state.imgHeight}
+                </div>
+              ) : (
+                <div> Loading... </div>
+              )}
+            </div>
+          </div>
         </td>
 
         <td>
