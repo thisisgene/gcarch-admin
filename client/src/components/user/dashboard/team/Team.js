@@ -50,44 +50,52 @@ class Team extends Component {
   render() {
     const { team } = this.props.team
     return (
-      <div className={styles['team-container']}>
-        {team &&
-          team.map((item, index) => (
-            <div key={index} className={styles['team-member']}>
-              <div className={styles['team-member--image']}>
-                {item.images.originalName && !item.images.isDeleted ? (
-                  <img
-                    src={`/assets/team/${item._id}/${item.images.originalName}`}
-                    alt=""
-                  />
-                ) : (
-                  <img src={`/assets/team/placeholder2.jpg`} alt="" />
-                )}
-              </div>
-              <div className={styles['team-member-info']}>
-                <div className={styles['team-member-name']}>{item.title}</div>
-                <div className={styles['team-member-email']}>{item.email}</div>
-                {item.descriptionHtml && (
-                  <div className={styles['biographie']}>
-                    <button
-                      className={styles['biographie--link']}
-                      onClick={this.onBioClick}
-                      name={item.title}
-                    >
-                      Kurzbiographie
-                    </button>
-                    <div
-                      className={cx(styles['team-member-description'], {
-                        [styles['visible']]: this.state.showBio[item.title]
-                      })}
-                      dangerouslySetInnerHTML={{ __html: item.descriptionHtml }}
+      <noindex>
+        <div className={styles['team-container']}>
+          {team &&
+            team.map((item, index) => (
+              <div key={index} className={styles['team-member']}>
+                <div className={styles['team-member--image']}>
+                  {item.images.originalName && !item.images.isDeleted ? (
+                    <img
+                      src={`/assets/team/${item._id}/${
+                        item.images.originalName
+                      }`}
+                      alt=""
                     />
+                  ) : (
+                    <img src={`/assets/team/placeholder2.jpg`} alt="" />
+                  )}
+                </div>
+                <div className={styles['team-member-info']}>
+                  <div className={styles['team-member-name']}>{item.title}</div>
+                  <div className={styles['team-member-email']}>
+                    {item.email}
                   </div>
-                )}
+                  {item.descriptionHtml && (
+                    <div className={styles['biographie']}>
+                      <button
+                        className={styles['biographie--link']}
+                        onClick={this.onBioClick}
+                        name={item.title}
+                      >
+                        Kurzbiographie
+                      </button>
+                      <div
+                        className={cx(styles['team-member-description'], {
+                          [styles['visible']]: this.state.showBio[item.title]
+                        })}
+                        dangerouslySetInnerHTML={{
+                          __html: item.descriptionHtml
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
+      </noindex>
     )
   }
 }
