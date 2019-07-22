@@ -10,7 +10,15 @@ import styles from './Header.module.sass'
 
 class Header extends Component {
   state = {
-    mobileExpand: false
+    mobileExpand: false,
+    isMobile: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMobile: window.innerWidth < 768,
+      loaded: true
+    })
   }
 
   onMobileNavClick = () => {
@@ -35,7 +43,12 @@ class Header extends Component {
         className={cx(styles.header, {
           [styles['black-header']]:
             !hasBackgroundImage ||
-            (currentProject && currentProject.fontColorBlack)
+            (!this.state.isMobile &&
+              currentProject &&
+              currentProject.fontColorBlack) ||
+            (this.state.isMobile &&
+              currentProject &&
+              currentProject.fontColorBlackMobile)
         })}
       >
         <div className={styles.logo}>
@@ -46,7 +59,12 @@ class Header extends Component {
             <img
               src={
                 !hasBackgroundImage ||
-                (currentProject && currentProject.fontColorBlack)
+                (!this.state.isMobile &&
+                  currentProject &&
+                  currentProject.fontColorBlack) ||
+                (this.state.isMobile &&
+                  currentProject &&
+                  currentProject.fontColorBlackMobile)
                   ? LogoS
                   : LogoW
               }

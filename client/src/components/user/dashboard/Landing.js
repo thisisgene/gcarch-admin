@@ -29,9 +29,15 @@ class Landing extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.project.homeProject != this.props.project.homeProject) {
-      this.props.hasBackgroundImage(
-        !this.props.project.homeProject.fontColorBlack
-      )
+      if (window.innerHeight < 768) {
+        this.props.hasBackgroundImage(
+          !this.props.project.homeProject.fontColorBlackMobile
+        )
+      } else {
+        this.props.hasBackgroundImage(
+          !this.props.project.homeProject.fontColorBlack
+        )
+      }
     }
   }
 

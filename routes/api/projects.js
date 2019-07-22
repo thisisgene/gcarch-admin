@@ -126,6 +126,8 @@ router.post(
     if (body.isVisible !== undefined) projectFields.isVisible = body.isVisible
     if (body.fontColorBlack !== undefined)
       projectFields.fontColorBlack = body.fontColorBlack
+    if (body.fontColorBlackMobile !== undefined)
+      projectFields.fontColorBlackMobile = body.fontColorBlackMobile
     projectFields.lastEdited = {
       user: req.user,
       date: new Date()

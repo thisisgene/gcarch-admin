@@ -27,8 +27,9 @@ class Sidebar extends Component {
   onVisibilityClick(projectId, e) {
     this.props.updateProject(projectId, e.target.checked, 'isVisible')
   }
-  onFontColorClick(projectId, e) {
-    this.props.updateProject(projectId, e.target.checked, 'fontColorBlack')
+  onFontColorClick(projectId, key, e) {
+    // console.log(key)
+    this.props.updateProject(projectId, e.target.checked, key)
     // console.log(projectId)
   }
 
@@ -58,12 +59,33 @@ class Sidebar extends Component {
             name="fontColor"
             type="checkbox"
             className={globalStyles['form-control']}
-            onClick={this.onFontColorClick.bind(this, project._id)}
+            onClick={this.onFontColorClick.bind(
+              this,
+              project._id,
+              'fontColorBlack'
+            )}
             onChange={this.onChange}
             defaultChecked={project.fontColorBlack}
           />
           <label htmlFor="fontColor">
-            Schrift schwarz
+            Schrift schwarz (desktop)
+            {/* <i className="fa fa-eye" /> */}
+          </label>
+          <input
+            id="fontColorMobile"
+            name="fontColorMobile"
+            type="checkbox"
+            className={globalStyles['form-control']}
+            onClick={this.onFontColorClick.bind(
+              this,
+              project._id,
+              'fontColorBlackMobile'
+            )}
+            onChange={this.onChange}
+            defaultChecked={project.fontColorBlackMobile}
+          />
+          <label htmlFor="fontColorMobile">
+            Schrift schwarz (mobil)
             {/* <i className="fa fa-eye" /> */}
           </label>
         </div>

@@ -22,6 +22,7 @@ class Project extends Component {
       offset: 20,
       titleColor: 255,
       titleColorBlack: false,
+      // titleColorBlackMobile: false,
       fixed: true,
       beyond100: false,
       mobile: false
@@ -43,14 +44,26 @@ class Project extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.project != this.props.project) {
-      if (
-        this.props.project.project &&
-        this.props.project.project.fontColorBlack
-      ) {
-        this.setState({
-          titleColor: 5,
-          titleColorBlack: true
-        })
+      if (!this.state.mobile) {
+        if (
+          this.props.project.project &&
+          this.props.project.project.fontColorBlack
+        ) {
+          this.setState({
+            titleColor: 5,
+            titleColorBlack: true
+          })
+        }
+      } else {
+        if (
+          this.props.project.project &&
+          this.props.project.project.fontColorBlackMobile
+        ) {
+          this.setState({
+            titleColor: 5,
+            titleColorBlack: true
+          })
+        }
       }
     }
   }
@@ -101,13 +114,21 @@ class Project extends Component {
             }}
           >
             <div className={styles['placeholder']}>platzhalter</div>
-            <a href="#info" className={styles['arrow-down']}>
+            <a
+              href="#info"
+              className={cx(styles['arrow-down'], {
+                [styles['black']]: this.state.titleColorBlack
+              })}
+              style={{
+                opacity: `calc(1 - ${this.state.scrollDistance})`
+              }}
+            >
               <img src={ArrowDown} alt="Pfeil nach unten" />
             </a>
             <div
               className={styles['project-info']}
               style={
-                this.state.titleColorBlack
+                this.state.titleColorBlack && this.state.mobile === false
                   ? {
                       top: this.state.titlePosition + this.state.offset,
                       color: 'rgb(5, 5, 5)'
@@ -121,6 +142,11 @@ class Project extends Component {
                 ${this.state.titleColor},
                 ${this.state.titleColor}
               )`
+                    }
+                  : this.state.titleColorBlack
+                  ? {
+                      color: 'rgb(5, 5, 5)',
+                      opacity: `calc(1 - ${this.state.scrollDistance} * 5)`
                     }
                   : {
                       opacity: `calc(1 - ${this.state.scrollDistance} * 5)`
@@ -148,18 +174,25 @@ class Project extends Component {
                 className={cx(styles['project-info'], styles['mobile-title'])}
                 style={
                   this.state.mobile
-                    ? {
-                        color: `rgba(calc(${this.state.titleColor}/1.4),
+                    ? this.state.titleColorBlack
+                      ? {
+                          color: 'rgb(5, 5, 5)',
+                          opacity: `calc(${this.state.scrollDistance} * 5)`
+                        }
+                      : {
+                          color: `rgba(calc(${this.state.titleColor}/1.4),
                         calc(${this.state.titleColor}/1.4),
                         calc(${this.state.titleColor}/1.4), calc(-.5 + ${
-                          this.state.scrollDistance
-                        } * 8))`
-                      }
+                            this.state.scrollDistance
+                          } * 8))`
+                        }
                     : {}
                 }
               >
                 <h1 className={styles['project-title']}>{project.name}</h1>
-                <div className={styles['project-location']}>Wien Simmering</div>
+                <div className={styles['project-location']}>
+                  {project.location}
+                </div>
               </div>
               <div
                 className={styles['project-lead-description']}

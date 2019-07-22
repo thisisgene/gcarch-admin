@@ -111,6 +111,10 @@ const ProjectSchema = new Schema({
     type: Boolean,
     default: false
   },
+  fontColorBlackMobile: {
+    type: Boolean,
+    default: false
+  },
   position: {
     type: Number
   },
