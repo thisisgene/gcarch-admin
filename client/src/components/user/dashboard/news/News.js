@@ -32,47 +32,45 @@ class News extends Component {
         {news &&
           news.map(newsItem => (
             <div key={newsItem._id} className={styles['news-item']}>
-              <CustomLink
-                isExternal={newsItem.linkExternal}
-                className={styles['link']}
-                text={'test'}
-                to={`${newsItem.link}`}
-                inside={
+              <div>
+                {newsItem.images[0] && (
                   <div>
-                    {newsItem.images[0] && (
-                      <div>
-                        {newsItem.images
-                          .filter(img => !img.isDeleted)
-                          .map(
-                            (img, index) =>
-                              index == 0 && (
-                                <img
-                                  key={index}
-                                  src={`/assets/news/${newsItem._id}/${
-                                    img.originalName
-                                  }`}
-                                  alt=""
-                                />
-                              )
-                          )}
-                      </div>
-                    )}
-                    <div className={styles['news-info']}>
-                      <div className={styles['news-info-name']}>
-                        {newsItem.title}
-                      </div>
-                      <div
-                        className={styles['news-info-description']}
-                        dangerouslySetInnerHTML={{
-                          __html: newsItem.descriptionHtml
-                        }}
-                      >
-                        {/* Das ist unser neues Projekt. */}
-                      </div>
-                    </div>
+                    {newsItem.images
+                      .filter(img => !img.isDeleted)
+                      .map(
+                        (img, index) =>
+                          index == 0 && (
+                            <img
+                              key={index}
+                              src={`/assets/news/${newsItem._id}/${
+                                img.originalName
+                              }`}
+                              alt=""
+                            />
+                          )
+                      )}
                   </div>
-                }
-              />
+                )}
+                <div className={styles['news-info']}>
+                  <div className={styles['news-info-name']}>
+                    {newsItem.title}
+                  </div>
+                  <div
+                    className={styles['news-info-description']}
+                    dangerouslySetInnerHTML={{
+                      __html: newsItem.descriptionHtml
+                    }}
+                  />
+                  {newsItem.linkToProject && (
+                    <Link
+                      className={styles['link']}
+                      to={`/projekte/${newsItem.link}`}
+                    >
+                      Zum Projekt
+                    </Link>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
       </div>

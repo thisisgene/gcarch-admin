@@ -80,12 +80,12 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const body = req.body
-    console.log('linkExternal', body.linkExternal)
+    console.log('linkToProject', body.linkToProject)
     const updateItem = {}
     if (body.title) updateItem.title = body.title
     if (body.link) updateItem.link = body.link
-    if (body.linkExternal !== undefined)
-      updateItem.linkExternal = body.linkExternal
+    if (body.linkToProject !== undefined)
+      updateItem.linkToProject = body.linkToProject
     if (body.date) updateItem.date = body.date
     if (body.descriptionMarkdown) {
       updateItem.descriptionMarkdown = body.descriptionMarkdown

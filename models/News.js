@@ -18,7 +18,7 @@ const NewsSchema = new Schema({
   link: {
     type: String
   },
-  linkExternal: {
+  linkToProject: {
     type: Boolean
   },
   images: [

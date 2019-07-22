@@ -12,6 +12,7 @@ import { deleteImage } from '../../../../actions/imageActions'
 import TextFieldGroup from '../../common/TextFieldGroup'
 import TextareaFieldGroup from '../../common/TextareaFieldGroup'
 import ImageUpload from '../ImageUpload'
+import CustomSelectBox from '../../common/CustomSelectBox'
 
 import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
@@ -29,7 +30,7 @@ class NewsContent extends Component {
       description: '',
       title: '',
       link: '',
-      linkExternal: false,
+      linkToProject: false,
       errors: {}
     }
   }
@@ -41,7 +42,7 @@ class NewsContent extends Component {
       description: '',
       title: '',
       link: '',
-      linkExternal: false,
+      linkToProject: false,
       errors: {}
     })
     const id = this.props.match.params.id
@@ -63,7 +64,7 @@ class NewsContent extends Component {
         description: '',
         title: '',
         link: '',
-        linkExternal: false,
+        linkToProject: false,
         errors: {}
       })
       this.props.getNewsById(this.props.match.params.id)
@@ -79,7 +80,7 @@ class NewsContent extends Component {
         this.setState({
           title: news.title ? news.title : '',
           link: news.link ? news.link : '',
-          linkExternal: news.linkExternal ? news.linkExternal : false,
+          linkToProject: news.linkToProject ? news.linkToProject : false,
           file: news.file ? news.file : null,
           date: new Date(news.date ? news.date : ''),
           description: news.descriptionMarkdown ? news.descriptionMarkdown : ''
@@ -100,7 +101,7 @@ class NewsContent extends Component {
     this.setState({ date: date })
   }
   onChange = e => {
-    if (e.target.name !== 'linkExternal') {
+    if (e.target.name !== 'linkToProject') {
       this.setState({ [e.target.name]: e.target.value })
     } else {
       console.log(e.target.checked)
@@ -113,14 +114,21 @@ class NewsContent extends Component {
     })
   }
 
+  selectProject = id => {
+    this.setState({
+      link: id
+    })
+    console.log('here: ', id)
+  }
+
   onSubmit = e => {
     e.preventDefault()
-    console.log(this.state.linkExternal)
+    console.log(this.state.linkToProject)
     const newsData = {
       id: this.state.id,
       title: this.state.title,
       link: this.state.link,
-      linkExternal: this.state.linkExternal,
+      linkToProject: this.state.linkToProject,
       file: this.state.file,
       descriptionMarkdown: this.state.description,
       date: this.state.date
@@ -169,22 +177,28 @@ class NewsContent extends Component {
                 />
                 <br />
                 <input
-                  id="linkExternal"
+                  id="linkToProject"
                   type="checkbox"
-                  name="linkExternal"
-                  checked={this.state.linkExternal}
-                  defaultChecked={newsItem && newsItem.linkExternal}
+                  name="linkToProject"
+                  checked={this.state.linkToProject}
+                  defaultChecked={newsItem && newsItem.linkToProject}
                   onChange={this.onChange}
                 />{' '}
-                <label htmlFor="linkExternal">externer Link</label>
-                <TextFieldGroup
-                  type="text"
-                  name="link"
-                  value={this.state.link}
-                  placeholder="Link"
-                  onChange={this.onChange}
-                  error={this.state.errors.link}
-                />
+                <label htmlFor="linkToProject">Link zum Projekt</label>
+                {this.state.linkToProject && (
+                  // <TextFieldGroup
+                  //   type="text"
+                  //   name="link"
+                  //   value={this.state.link}
+                  //   placeholder="Projekt ID"
+                  //   onChange={this.onChange}
+                  //   error={this.state.errors.link}
+                  // />
+                  <CustomSelectBox
+                    selected={this.state.link}
+                    selectProject={this.selectProject}
+                  />
+                )}
                 <br />
                 <input
                   className={commonStyles['submit-button']}
