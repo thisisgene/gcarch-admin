@@ -1,0 +1,4 @@
+User-Agent: *
+Disallow: /team
+Disallow: /admin
+Disallow: /admin/
