@@ -50,7 +50,8 @@ class Team extends Component {
   render() {
     const { team } = this.props.team
     return (
-      <noindex>
+      <div>
+        <span dangerouslySetInnerHTML={{ __html: '<!--noindex-->' }} />
         <div className={styles['team-container']}>
           {team &&
             team.map((item, index) => (
@@ -95,7 +96,8 @@ class Team extends Component {
               </div>
             ))}
         </div>
-      </noindex>
+        <span dangerouslySetInnerHTML={{ __html: '<!--/noindex-->' }} />
+      </div>
     )
   }
 }
