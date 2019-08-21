@@ -49,10 +49,16 @@ class Team extends Component {
 
   render() {
     const { team } = this.props.team
+    const isIE11 = !!window.MSInputMethodContext && !!document.documentMode
+
     return (
       <div>
         <span dangerouslySetInnerHTML={{ __html: '<!--noindex-->' }} />
-        <div className={styles['team-container']}>
+        <div
+          className={cx(styles['team-container'], {
+            [styles['ie11']]: isIE11
+          })}
+        >
           {team &&
             team.map((item, index) => (
               <div key={index} className={styles['team-member']}>

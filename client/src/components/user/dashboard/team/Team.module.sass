@@ -14,6 +14,17 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
   justify-content: center
   @media(max-width: 1400px)
     grid-template-columns: 1fr 1fr
+  &.ie11
+    display: flex
+    justify-content: center
+    align-items: flex-start
+    flex-wrap: wrap
+    .team-member
+      width: calc(100% / 3 - 10px)
+      @media(max-width: 1400px)
+        width: calc(100% / 2 - 10px)
+      @media(max-width: 1080px)
+        width: calc(100% - 10px)
   .team-member
     // width: 100%
     padding: 0
