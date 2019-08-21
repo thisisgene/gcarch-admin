@@ -171,7 +171,7 @@ class Projects extends Component {
           <div className={styles['grid-container']}>
             <div
               className={cx(gridStyles['grid'], {
-                [gridStyles['ie11']]: !isIE11
+                [gridStyles['ie11']]: isIE11
               })}
             >
               {projectList}
