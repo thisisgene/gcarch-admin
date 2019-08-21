@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
@@ -54,6 +54,7 @@ class Projects extends Component {
             }
             projectList.push(
               <div
+                index={rank}
                 className={cx(
                   gridStyles['grid-item'],
                   gridStyles[`grid-item--${rank}`]
@@ -91,6 +92,7 @@ class Projects extends Component {
     let top10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     let projectContent
     let projectList = []
+    const isIE11 = !!window.MSInputMethodContext && !!document.documentMode
     if (
       projects === null ||
       toptenProjects === undefined ||
@@ -108,6 +110,7 @@ class Projects extends Component {
         // if (afterTenProjects.length > 1) {
         //   this.fillRemainingRanks(top10, afterTenProjects, projectList)
         // }
+
         for (let i = 0; i < toptenProjects.length; i++) {
           if (toptenProjects[i].images.length > 0) {
             for (let image of toptenProjects[i].images) {
@@ -121,6 +124,7 @@ class Projects extends Component {
               ) {
                 projectList.push(
                   <div
+                    index={image.gridPosition}
                     className={cx(
                       gridStyles['grid-item'],
                       gridStyles[`grid-item--${image.gridPosition}`]
@@ -161,9 +165,17 @@ class Projects extends Component {
         if (afterTenProjects !== undefined && afterTenProjects.length > 0) {
           this.fillRemainingRanks(top10, afterTenProjects, projectList)
         }
+        projectList.sort((a, b) => parseInt(a.key) - parseInt(b.key))
+
         projectContent = (
           <div className={styles['grid-container']}>
-            <div className={gridStyles['grid']}>{projectList}</div>
+            <div
+              className={cx(gridStyles['grid'], {
+                [gridStyles['ie11']]: !isIE11
+              })}
+            >
+              {projectList}
+            </div>
           </div>
         )
       }
@@ -171,7 +183,7 @@ class Projects extends Component {
 
     return (
       <div className={styles.projects}>
-        <div className={styles['project-grid']}>{projectContent}</div>
+        <div className={cx(styles['project-grid'])}>{projectContent}</div>
       </div>
     )
   }
