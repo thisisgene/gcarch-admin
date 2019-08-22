@@ -28,9 +28,7 @@ class ProjectPreview extends Component {
   }
 
   render() {
-    const project = this.props.project
-    const image = this.props.image
-    const position = this.props.position
+    const { project, image, isIE11 } = this.props
     // const lowResSrc = `/assets/projekte/${project._id}/min/${
     //   image.originalName
     // }`
@@ -38,19 +36,22 @@ class ProjectPreview extends Component {
 
     return (
       <div
+        style={{ backgroundImage: isIE11 && `url(${imgSrc})` }}
         className={cx(gridStyles['img-container'], {
           [gridStyles['thumb-loaded']]: this.state.thumbLoaded
         })}
         // style={{ backgroundImage: `url(${lowResSrc})` }}
       >
-        <img
-          src={imgSrc}
-          alt={image.originalName}
-          onLoad={this.onImgLoaded}
-          className={cx(gridStyles['img'], {
-            [gridStyles['loaded']]: this.state.imgLoaded
-          })}
-        />
+        {!isIE11 && (
+          <img
+            src={imgSrc}
+            alt={image.originalName}
+            onLoad={this.onImgLoaded}
+            className={cx(gridStyles['img'], {
+              [gridStyles['loaded']]: this.state.imgLoaded
+            })}
+          />
+        )}
         {/* <img
           className={gridStyles['fake-thumb']}
           src={lowResSrc}

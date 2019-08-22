@@ -25,7 +25,14 @@ import {
 
 // import './projects.css'
 class Projects extends Component {
+  state = {
+    isIE11: false
+  }
   componentDidMount() {
+    if (!!window.MSInputMethodContext && !!document.documentMode) {
+      this.setState({ isIE11: true })
+    }
+
     store.dispatch(clearCurrentProject())
     this.props.hasBackgroundImage(false)
     this.props.getAllProjects()
@@ -74,6 +81,7 @@ class Projects extends Component {
                     project={project}
                     image={image}
                     position={rank}
+                    isIE11={this.state.isIE11}
                   />
                 </NavLink>
               </div>
@@ -92,7 +100,7 @@ class Projects extends Component {
     let top10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     let projectContent
     let projectList = []
-    const isIE11 = !!window.MSInputMethodContext && !!document.documentMode
+    const { isIE11 } = this.state
     if (
       projects === null ||
       toptenProjects === undefined ||
@@ -146,6 +154,7 @@ class Projects extends Component {
                         project={toptenProjects[i]}
                         image={image}
                         position={image.gridPosition}
+                        isIE11={this.state.isIE11}
                       />
                     </NavLink>
                   </div>
