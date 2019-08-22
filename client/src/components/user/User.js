@@ -27,14 +27,11 @@ class User extends Component {
           currentProject: project
         })
         if (project && project.backgroundImage) {
-          this.setState(
-            {
-              backgroundImg: `/assets/projekte/${project._id}/${
-                project.backgroundImage.originalName
-              }`
-            },
-            () => console.log('HAS A BACKGOURND', this.state.backgroundImg)
-          )
+          this.setState({
+            backgroundImg: `/assets/projekte/${project._id}/${
+              project.backgroundImage.originalName
+            }`
+          })
         }
       } else {
         this.setState({

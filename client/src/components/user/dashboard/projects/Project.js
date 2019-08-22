@@ -80,15 +80,12 @@ class Project extends Component {
     let scrollDistance
     if (window.pageYOffset > 100) {
       scrollDistance = (window.pageYOffset - 100) / 500
-      this.setState(
-        {
-          scrollDistance,
-          titleColor:
-            255 - scrollDistance * 200 > 0 ? 255 - scrollDistance * 200 : 5,
-          beyond100: true
-        },
-        () => console.log('title color: ', this.state.titleColor)
-      )
+      this.setState({
+        scrollDistance,
+        titleColor:
+          255 - scrollDistance * 200 > 0 ? 255 - scrollDistance * 200 : 5,
+        beyond100: true
+      })
     } else {
       this.setState({
         scrollDistance: 0,
