@@ -114,7 +114,6 @@ class Projects extends Component {
         for (let i = 0; i < toptenProjects.length; i++) {
           if (toptenProjects[i].images.length > 0) {
             for (let image of toptenProjects[i].images) {
-              console.log('image: ', image)
               if (
                 image.gridPosition &&
                 image.isDeleted === false &&
@@ -160,7 +159,6 @@ class Projects extends Component {
             }
           }
         }
-        console.log(top10)
 
         if (afterTenProjects !== undefined && afterTenProjects.length > 0) {
           this.fillRemainingRanks(top10, afterTenProjects, projectList)

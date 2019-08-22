@@ -15,24 +15,15 @@ class User extends Component {
     super()
     this.state = {
       auth: false,
-      currentProject: null,
-      backgroundImg: ''
+      currentProject: null
     }
   }
   componentDidUpdate(prevProps) {
     if (prevProps.project != this.props.project) {
       if (this.props.project.project) {
-        const project = this.props.project.project
         this.setState({
-          currentProject: project
+          currentProject: this.props.project.project
         })
-        if (project && project.backgroundImage) {
-          this.setState({
-            backgroundImg: `/assets/projekte/${project._id}/${
-              project.backgroundImage.originalName
-            }`
-          })
-        }
       } else {
         this.setState({
           currentProject: null
@@ -42,18 +33,24 @@ class User extends Component {
   }
 
   render() {
-    const { hasBackgroundImage } = this.props.project
-
+    const { project, hasBackgroundImage } = this.props.project
+    let backgroundImg = ''
+    if (project && project.backgroundImage) {
+      backgroundImg =
+        project &&
+        `/assets/projekte/${project._id}/${
+          project.backgroundImage.originalName
+        }`
+    }
     return (
       <div className={styles.user}>
-        {this.state.backgroundImg !== '' && (
-          <div
-            className={styles.background}
-            style={{
-              backgroundImage: `url(${this.state.backgroundImg})`
-            }}
-          />
-        )}
+        <div
+          className={styles.background}
+          style={{
+            backgroundImage:
+              backgroundImg != '' ? `url(${backgroundImg})` : 'none'
+          }}
+        />
         <Header
           hasBackgroundImage={hasBackgroundImage}
           currentProject={this.state.currentProject}
