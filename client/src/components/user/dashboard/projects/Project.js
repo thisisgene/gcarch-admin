@@ -39,7 +39,11 @@ class Project extends Component {
         offset: 84
       })
     }
-    window.addEventListener('scroll', this.listenScrollEvent)
+    if (window.addEventListener) {
+      window.addEventListener('scroll', this.listenScrollEvent)
+    } else if (window.attachEvent) {
+      window.attachEvent('scroll', this.listenScrollEvent)
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -74,13 +78,17 @@ class Project extends Component {
 
   listenScrollEvent = e => {
     let scrollDistance
-    if (window.scrollY > 100) {
-      scrollDistance = (window.scrollY - 100) / 500
-      this.setState({
-        scrollDistance,
-        titleColor: 255 - scrollDistance * 200,
-        beyond100: true
-      })
+    if (window.pageYOffset > 100) {
+      scrollDistance = (window.pageYOffset - 100) / 500
+      this.setState(
+        {
+          scrollDistance,
+          titleColor:
+            255 - scrollDistance * 200 > 0 ? 255 - scrollDistance * 200 : 5,
+          beyond100: true
+        },
+        () => console.log('title color: ', this.state.titleColor)
+      )
     } else {
       this.setState({
         scrollDistance: 0,
@@ -88,12 +96,13 @@ class Project extends Component {
         beyond100: false
       })
     }
-    if (window.scrollY > window.innerHeight - this.state.offset) {
+    if (window.pageYOffset > window.innerHeight - this.state.offset) {
       if (this.state.mobile) {
         this.setState({ fixed: false })
       } else {
         this.setState({
-          titlePosition: window.innerHeight - window.scrollY - this.state.offset
+          titlePosition:
+            window.innerHeight - window.pageYOffset - this.state.offset
         })
       }
     } else {
