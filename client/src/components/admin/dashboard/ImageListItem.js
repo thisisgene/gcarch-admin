@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import SelectFieldGroup from '../common/SelectFieldGroup'
 
+import { rankOptions } from '../../config/config'
+
 import cx from 'classnames'
 import globalStyles from '../common/Bootstrap.module.css'
 import commonStyles from '../common/Common.module.sass'
@@ -34,6 +36,12 @@ export default class ImageListItem extends Component {
       onHalfSizeClick,
       onClickDelete
     } = this.props
+
+    const posOptions = ['-']
+    for (let i = 1; i <= rankOptions; i++) {
+      posOptions.push(i.toString())
+    }
+
     return (
       <tr key={i} style={waiting ? { opacity: '.5' } : { opacity: '1' }}>
         <td>
@@ -68,7 +76,7 @@ export default class ImageListItem extends Component {
               img.originalName,
               i
             )}
-            options={['-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
+            options={posOptions}
             value={img.gridPosition}
           />
         </td>

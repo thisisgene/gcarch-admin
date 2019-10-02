@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
+import arrayMove from 'array-move'
+
 import {
   getAllProjects,
   getProjectById,
@@ -33,9 +35,10 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 })
 
 const generateOrderObject = list => {
-  const dataObj = {}
+  const dataObj = []
+  console.log('list: ', list)
   list.forEach((project, i) => {
-    dataObj['position' + project._id] = i
+    dataObj.push({ id: project._id }, { pos: i })
   })
   return dataObj
 }
@@ -92,11 +95,13 @@ class ProjectList extends Component {
       return
     }
 
-    const orderObj = reorder(
+    // arrayMove(list, oldIndex, newIndex)
+    const orderObj = arrayMove(
       this.props.project.projects,
       result.source.index,
       result.destination.index
     )
+    console.log('result', orderObj)
     this.props.sortProjects(orderObj)
   }
 

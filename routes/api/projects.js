@@ -147,30 +147,34 @@ router.post(
   '/sort',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const orderObj = req.body.orderObj
-    const projects = await getProjectsByQuery({ isDeleted: false })
-    let projectPromise = new Promise((resolve, reject) => {
-      projects.forEach((project, index, array) => {
-        console.log(project.id, project.name, req.body['position' + project.id])
-        project.position = req.body['position' + project.id]
-        console.log(project.position)
-        project.save()
-        console.log(index, array.length)
-        if (index == array.length - 1) resolve()
-      })
-    })
-    // FIXME: Project.find() gets the old data (before it gets updated)
-    projectPromise.then(() => {
-      Project.find({
-        isDeleted: false
-      })
-        .sort('position')
-        .exec()
-        .then(projects => {
-          console.log('hu')
-          res.json(projects)
+    const list = req.body.list
+    // console.log(list)
+    let projectPromise = list.map(async (item, index) => {
+      Project.findOneAndUpdate(
+        { _id: item._id, isDeleted: false },
+        { position: index },
+        { safe: true, new: true }
+      )
+        .then(project => {
+          // console.log(project.name, ': ', index)
+        })
+        .catch(err => {
+          if (err) console.log(err)
         })
     })
+    // FIXME: Project.find() gets the old data (before it gets updated)
+    Promise.all(projectPromise)
+      .then(() => {
+        // Project.find({ isDeleted: false })
+        //   .then(projects => {
+        //     res.json(projects)
+        //   })
+        //   .catch(err => console.log(err))
+        res.send('success')
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 )
 

@@ -189,9 +189,9 @@ export const setHomeProject = id => dispatch => {
 }
 
 // Sort projects
-export const sortProjects = orderObj => dispatch => {
+export const sortProjects = list => dispatch => {
   axios
-    .post('/api/projects/sort', orderObj)
+    .post('/api/projects/sort', { list })
     .then(res => {
       console.log(res.data)
       dispatch({

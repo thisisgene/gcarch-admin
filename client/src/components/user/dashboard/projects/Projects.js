@@ -20,6 +20,7 @@ import {
   clearCurrentProject,
   hasBackgroundImage
 } from '../../../../actions/projectActions'
+import { rankOptions } from '../../../config/config'
 
 // if (this.props.project.project) {
 
@@ -97,7 +98,10 @@ class Projects extends Component {
 
   render() {
     const { projects, toptenProjects, afterTenProjects } = this.props.project
-    let top10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    let top10 = []
+    for (let i = 1; i <= rankOptions; i++) {
+      top10.push(i.toString())
+    }
     let projectContent
     let projectList = []
     const { isIE11 } = this.state

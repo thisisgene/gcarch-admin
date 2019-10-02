@@ -121,8 +121,8 @@ export default function(state = initialState, action) {
     case SORT_PROJECTS:
       console.log('update')
       return {
-        ...state,
-        projects: action.payload
+        ...state
+        // projects: action.payload
       }
     case DELETE_PROJECT:
       return {
