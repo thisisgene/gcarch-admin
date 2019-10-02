@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 
-import ProjectList from './ProjectListNew'
+import ProjectList from './ProjectList'
 import ProjectContent from './ProjectContent'
 import ProjectLayoutCheatsheet from './ProjectLayoutCheatsheet'
 

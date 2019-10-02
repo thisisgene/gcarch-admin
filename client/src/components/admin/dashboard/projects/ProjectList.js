@@ -21,8 +21,8 @@ import cx from 'classnames'
 import globalStyles from '../../common/Bootstrap.module.css'
 import commonStyles from '../../common/Common.module.sass'
 import styles from './Projects.module.sass'
+import Spinner from '../../common/Spinner'
 
-const grid = 12
 let projectList = []
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'rgba(255, 255, 255, .1)' : 'transparent'
@@ -34,28 +34,12 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle
 })
 
-const generateOrderObject = list => {
-  const dataObj = []
-  console.log('list: ', list)
-  list.forEach((project, i) => {
-    dataObj.push({ id: project._id }, { pos: i })
-  })
-  return dataObj
-}
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
-
-  return generateOrderObject(result)
-}
-
 class ProjectList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       projectList: [],
+      listLoading: true,
       name: '',
       errors: {}
     }
@@ -67,29 +51,17 @@ class ProjectList extends Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.project.project &&
-      prevProps.project.project != this.props.project.project
+      prevProps.project != this.props.project &&
+      this.props.project.projects != prevProps.project.projects
     ) {
-      console.log(this.props.project.project.isVisible)
+      this.setState({
+        projectList: this.props.project.projects,
+        listLoading: false
+      })
     }
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      console.log(nextProps.errors)
-      this.setState({ errors: nextProps.errors })
-    }
-  }
-  // Drag and Drop logic
-  onBeforeDragStart = () => {
-    /*...*/
   }
 
-  onDragStart = () => {
-    /*...*/
-  }
-  onDragUpdate = () => {
-    /*...*/
-  }
+  // Drag and Drop logic
   onDragEnd = result => {
     if (!result.destination) {
       return
@@ -97,12 +69,12 @@ class ProjectList extends Component {
 
     // arrayMove(list, oldIndex, newIndex)
     const orderObj = arrayMove(
-      this.props.project.projects,
+      this.state.projectList,
       result.source.index,
       result.destination.index
     )
-    console.log('result', orderObj)
     this.props.sortProjects(orderObj)
+    this.setState({ projectList: orderObj })
   }
 
   // Other logic
@@ -123,100 +95,17 @@ class ProjectList extends Component {
   render() {
     // const { user } = this.props.auth
     const { errors } = this.state
-    const { projects } = this.props.project
+    const projects = this.state.projectList
     let projectListContent
     // let projectContent
 
     if (projects === null) {
       projectListContent = <p>Noch keine Projekte.</p>
     } else {
-      if (projects.noprojects) {
+      if (this.state.listLoading) {
         projectListContent = (
           <div>
-            <p>{projects.noprojects}</p>
-          </div>
-        )
-      } else {
-        projectList = []
-        for (let i = 0; i < projects.length; i++) {
-          let project = projects[i]
-          if (!project.isDeleted) {
-            projectList.push(
-              <Draggable key={i} draggableId={`item-${i}`} index={i}>
-                {(provided, snapshot) => (
-                  <li
-                    className={cx(styles['list-item'], {
-                      [styles['semi-opaque']]: !project.isVisible
-                    })}
-                    key={i}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
-                  >
-                    <div className={cx(styles['list-child'])}>
-                      <button
-                        className={cx(
-                          globalStyles['btn'],
-                          globalStyles['btn-link']
-                        )}
-                        onClick={this.onClickDelete.bind(this, project._id)}
-                        // data-img_id={img._id}
-                        // data-project_id={project._id}
-                      >
-                        <i className="fa fa-minus-circle" />
-                      </button>
-                    </div>
-                    <div className={styles['list-child']}>
-                      <input
-                        type="radio"
-                        name={`optHomepage`}
-                        // className={globalStyles['form-control']}
-                        onClick={this.onRadioClick.bind(this, project._id)}
-                        // onChange={this.onChange.bind(this, `radio_${i}`)}
-                        defaultChecked={project.isHomePage}
-                      />
-                      {/* <input type="radio" name="opt" /> */}
-                    </div>
-                    <div className={styles['list-child']}>
-                      <NavLink
-                        to={{
-                          pathname: '/admin/projects/' + project._id
-                        }}
-                        params={{ id: project._id }}
-                        activeClassName={styles['active']}
-                        onClick={() => this.props.getProjectById(project._id)}
-                      >
-                        {project.name}
-                      </NavLink>
-                    </div>
-                  </li>
-                )}
-              </Draggable>
-            )
-          }
-        }
-        // if (this.state.projectList == '') {
-        //   this.setState({ projectList: projectList })
-        // }
-        projectListContent = (
-          <div className={styles['list-container']}>
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <Droppable droppableId="droppable">
-                {(provided, snapshot) => (
-                  <ul
-                    className={styles['table-body']}
-                    ref={provided.innerRef}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                  >
-                    {projectList}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <Spinner></Spinner>
           </div>
         )
       }
@@ -226,17 +115,6 @@ class ProjectList extends Component {
       <div className={cx(styles['project-list'], globalStyles.container)}>
         <div className={globalStyles['row']}>
           <div className={globalStyles['col-md-12']}>
-            {/* <select
-              className={cx(
-                globalStyles['custom-select'],
-                commonStyles['custom-select'],
-                commonStyles['dark-input']
-              )}
-            >
-              <option value="1">Training</option>
-              <option value="2">Paining</option>
-            </select> */}
-
             <TextInputButtonGroup
               type="text"
               name="name"
@@ -261,7 +139,86 @@ class ProjectList extends Component {
               <tbody />
             </table>
             <div className={styles['project-list-container']}>
-              {projectListContent}
+              <div className={styles['list-container']}>
+                {!this.state.listLoading && (
+                  <DragDropContext onDragEnd={this.onDragEnd}>
+                    <Droppable droppableId="droppable">
+                      {(provided, snapshot) => (
+                        <ul
+                          className={styles['table-body']}
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}
+                        >
+                          {projects.map((project, i) => (
+                            <Draggable
+                              key={i}
+                              draggableId={`item-${i}`}
+                              index={i}
+                            >
+                              {(provided, snapshot) => (
+                                <li
+                                  className={cx(styles['list-item'], {
+                                    [styles['semi-opaque']]: !project.isVisible
+                                  })}
+                                  key={i}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  style={getItemStyle(
+                                    snapshot.isDragging,
+                                    provided.draggableProps.style
+                                  )}
+                                >
+                                  <div className={cx(styles['list-child'])}>
+                                    <button
+                                      className={cx(
+                                        globalStyles['btn'],
+                                        globalStyles['btn-link']
+                                      )}
+                                      onClick={this.onClickDelete.bind(
+                                        this,
+                                        project._id
+                                      )}
+                                    >
+                                      <i className="fa fa-minus-circle" />
+                                    </button>
+                                  </div>
+                                  <div className={styles['list-child']}>
+                                    <input
+                                      type="radio"
+                                      name={`optHomepage`}
+                                      onClick={this.onRadioClick.bind(
+                                        this,
+                                        project._id
+                                      )}
+                                      defaultChecked={project.isHomePage}
+                                    />
+                                  </div>
+                                  <div className={styles['list-child']}>
+                                    <NavLink
+                                      to={{
+                                        pathname:
+                                          '/admin/projects/' + project._id
+                                      }}
+                                      params={{ id: project._id }}
+                                      activeClassName={styles['active']}
+                                      onClick={() =>
+                                        this.props.getProjectById(project._id)
+                                      }
+                                    >
+                                      {project.name}
+                                    </NavLink>
+                                  </div>
+                                </li>
+                              )}
+                            </Draggable>
+                          ))}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                )}
+              </div>
             </div>
           </div>
         </div>
