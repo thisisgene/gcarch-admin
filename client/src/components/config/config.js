@@ -1,1 +1,1 @@
-export const rankOptions = 20 //numberOfDefinableRanks
+export const rankOptions = 60 //numberOfDefinableRanks

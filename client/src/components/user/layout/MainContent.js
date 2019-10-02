@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { getAllProjects, getProjectById } from '../../../actions/projectActions'
 
 import News from '../dashboard/news/News'
-import Projects from '../dashboard/projects/Projects'
+import ProjectGrid from '../dashboard/projects/ProjectGrid'
 import Project from '../dashboard/projects/Project'
 import Team from '../dashboard/team/Team'
 import Contact from '../dashboard/contact/Contact'
@@ -30,7 +30,7 @@ class MainContent extends Component {
     return (
       <div className={styles['main-content']}>
         <Route exact path="/aktuell" component={News} />
-        <Route exact path="/projekte" component={Projects} />
+        <Route exact path="/projekte" component={ProjectGrid} />
         <Route
           exact
           path="/projekte/:id"
