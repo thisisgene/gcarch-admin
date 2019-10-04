@@ -32,44 +32,38 @@ class News extends Component {
         {news &&
           news.map(newsItem => (
             <div key={newsItem._id} className={styles['news-item']}>
-              <div>
-                {newsItem.images[0] && (
-                  <div>
-                    {newsItem.images
-                      .filter(img => !img.isDeleted)
-                      .map(
-                        (img, index) =>
-                          index == 0 && (
-                            <img
-                              key={index}
-                              src={`/assets/news/${newsItem._id}/${
-                                img.originalName
-                              }`}
-                              alt=""
-                            />
-                          )
-                      )}
-                  </div>
+              {newsItem.images[0] && (
+                <>
+                  {newsItem.images
+                    .filter(img => !img.isDeleted)
+                    .map(
+                      (img, index) =>
+                        index == 0 && (
+                          <img
+                            key={index}
+                            src={`/assets/news/${newsItem._id}/${img.originalName}`}
+                            alt=""
+                          />
+                        )
+                    )}
+                </>
+              )}
+              <div className={styles['news-info']}>
+                <div className={styles['news-info-name']}>{newsItem.title}</div>
+                <div
+                  className={styles['news-info-description']}
+                  dangerouslySetInnerHTML={{
+                    __html: newsItem.descriptionHtml
+                  }}
+                />
+                {newsItem.linkToProject && (
+                  <Link
+                    className={styles['link']}
+                    to={`/projekte/${newsItem.link}`}
+                  >
+                    Zum Projekt
+                  </Link>
                 )}
-                <div className={styles['news-info']}>
-                  <div className={styles['news-info-name']}>
-                    {newsItem.title}
-                  </div>
-                  <div
-                    className={styles['news-info-description']}
-                    dangerouslySetInnerHTML={{
-                      __html: newsItem.descriptionHtml
-                    }}
-                  />
-                  {newsItem.linkToProject && (
-                    <Link
-                      className={styles['link']}
-                      to={`/projekte/${newsItem.link}`}
-                    >
-                      Zum Projekt
-                    </Link>
-                  )}
-                </div>
               </div>
             </div>
           ))}

@@ -5,7 +5,7 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
   width: $gridWidth
   max-width: 1500px
   min-height: 90vh
-  margin: 0 0 0 0 
+  margin: 0 0 3rem 0 
   padding: 0
   display: grid
   grid-template-columns: 1fr 1fr 1fr
@@ -16,9 +16,11 @@ $itemBaseHeight: calc(720px / 6 / 1.5)
     grid-template-columns: 1fr 1fr
   &.ie11
     display: flex
-    justify-content: center
+    flex-direction: row
+    justify-content: space-between
     align-items: flex-start
     flex-wrap: wrap
+    
     .team-member
       width: calc(100% / 3 - 10px)
       @media(max-width: 1400px)

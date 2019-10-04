@@ -65,13 +65,11 @@ class Team extends Component {
                 <div className={styles['team-member--image']}>
                   {item.images.originalName && !item.images.isDeleted ? (
                     <img
-                      src={`/assets/team/${item._id}/${
-                        item.images.originalName
-                      }`}
+                      src={`/assets/team/${item._id}/${item.images.originalName}`}
                       alt=""
                     />
                   ) : (
-                    <img src={`/assets/team/placeholder2.jpg`} alt="" />
+                    <img src={`/assets/team/avatar.jpg`} alt="" />
                   )}
                 </div>
                 <div className={styles['team-member-info']}>
