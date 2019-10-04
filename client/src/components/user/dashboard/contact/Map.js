@@ -1,17 +1,49 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { compose, withProps } from 'recompose'
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker
+} from 'react-google-maps'
+
+import mapStyle from './mapStyle.json'
+
+import MarkerIcon from '../../common/img/marker.png'
 
 import styles from './Contact.module.sass'
 
-export default class Map extends Component {
-  render() {
-    return (
-      <div className={styles.map}>
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2659.4042511444227!2d16.3477149512022!3d48.19882895477005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476d078c0df7ae59%3A0x1d53b4f5f9ad84f6!2sNeubaugasse+6%2C+1070+Wien!5e0!3m2!1sen!2sat!4v1543329859062"
-          frameBorder="0"
-          allowFullScreen
-        />
-      </div>
-    )
-  }
+const defaultMapOptions = {
+  styles: mapStyle,
+  disableDefaultUI: true
 }
+
+const Map = compose(
+  withProps({
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`,
+    loadingElement: <div className={styles['map-loading-element']} />,
+    containerElement: <div className={styles['map-container-element']} />,
+    mapElement: <div className={styles['map-map-element']} />,
+    isMarkerShown: true
+  }),
+  withScriptjs,
+  withGoogleMap
+)(props => (
+  <GoogleMap
+    defaultZoom={16}
+    defaultCenter={{ lat: 48.19883, lng: 16.34991 }}
+    defaultOptions={defaultMapOptions}
+  >
+    {props.isMarkerShown && (
+      <Marker
+        position={{ lat: 48.19883, lng: 16.34991 }}
+        icon={{
+          url: MarkerIcon,
+          scaledSize: new window.google.maps.Size(25, 25)
+        }}
+      />
+    )}
+  </GoogleMap>
+))
+
+export default Map
