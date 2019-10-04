@@ -117,8 +117,7 @@ class ProjectGrid extends Component {
                           ))}
                     </>
                   ))}
-              {topRankCount &&
-                projects &&
+              {projects &&
                 projects
                   .filter(project => !project.topTenOnGrid)
                   .map((project, pIndex) => (
