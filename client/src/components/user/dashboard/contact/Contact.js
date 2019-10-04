@@ -19,17 +19,25 @@ class Contact extends Component {
   render() {
     return (
       <div className={styles['contact-container']}>
+        <Map />
         <h3>GC Architektur</h3>
-        <p>DDI Roman Gecse & DI Bertram Chiba</p>
-        <p>Neubaugasse 6/17, A-1070 Wien</p>
-        <p>NÖ: Max Kahrer-Gasse 19, 3400 Klosterneuburg</p>
+        <p>
+          Neubaugasse 6/17<p></p>A-1070 Wien
+        </p>
         <br />
         <p>t +43 1 9971383-0</p>
-        <p>f +43 1 9971383-11</p>
         <p>
-          <a href="">office@gc-architektur.at</a>
+          <span>office</span>
+          <span>@</span>
+          <span>gc-architektur</span>
+          <span>.</span>
+          <span>at</span>
         </p>
-        <Map />
+        <br />
+        <p>Arch. DDI Roman Gecse & Arch. DI Bertram Chiba</p>
+        <p>Mitglieder der Kammer der Architekten und IK f. Wien, NÖ u. Bgld.</p>
+        <p>Berufsrecht: Ziviltechnikergesetz i.d.g.F.</p>
+        <p>UID: ATU66452046</p>
       </div>
     )
   }
